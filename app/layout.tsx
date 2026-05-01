@@ -45,7 +45,7 @@ export default function RootLayout({
       lang="en"
       className="h-full antialiased"
     >
-      <body className={`min-h-full flex flex-col  ${sfPro.className}`}>{children}</body>
+      <body className={`min-h-full flex flex-col overflow-x-hidden w-full ${sfPro.className}`}>{children}</body>
     </html>
   );
 }

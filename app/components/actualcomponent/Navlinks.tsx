@@ -10,7 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+} from "@/app/components/ui/navigation-menu";
 const Ourservices=[
  { label: "Dental Implants & TMJ", href: "/services/dental-implants",
     description: "High-quality bristles for sensitive gums.", },
@@ -60,11 +60,11 @@ export default function NavLinks() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuLink href="/">Home</NavigationMenuLink>
+              <NavigationMenuLink href="/" className="bodyPrimary">Home</NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="bodyPrimary">Services</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2">
                   {Ourservices.map((service) => (
@@ -81,7 +81,7 @@ export default function NavLinks() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Our Products</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="bodyPrimary">Our Products</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2">
                   {Ourproducts.map((product) => (
@@ -100,7 +100,7 @@ export default function NavLinks() {
 
             {plainLinks.map((link) => (
               <NavigationMenuItem key={link.href}>
-                <NavigationMenuLink href={link.href}>
+                <NavigationMenuLink href={link.href} className="bodyPrimary">
                   {link.label}
                 </NavigationMenuLink>
               </NavigationMenuItem>
@@ -123,7 +123,7 @@ export default function NavLinks() {
       {/* ── Mobile Sidebar Overlay ───────────────────────────────── */}
       <div
         onClick={() => setSidebarOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
           sidebarOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -131,7 +131,7 @@ export default function NavLinks() {
       />
 
       <aside
-        className={`fixed top-0 right-0 z-50 h-full w-72 bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 right-0 z-[101] h-full w-72 bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out md:hidden ${
           sidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -164,7 +164,7 @@ export default function NavLinks() {
           <Link
             href="/"
             onClick={() => setSidebarOpen(false)}
-            className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors"
+            className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
           >
             Home
           </Link>
@@ -173,7 +173,7 @@ export default function NavLinks() {
           <div>
             <button
               onClick={() => setServicesOpen((v) => !v)}
-              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors"
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
             >
               Services
               <svg
@@ -213,11 +213,10 @@ export default function NavLinks() {
             </div>
           </div>
 
-          {/* Products accordion */}
           <div>
             <button
               onClick={() => setProductsOpen((v) => !v)}
-              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors"
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
             >
               Our Products
               <svg
@@ -247,7 +246,7 @@ export default function NavLinks() {
                     <Link
                       href={p.href}
                       onClick={() => setSidebarOpen(false)}
-                      className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                      className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
                     >
                       {p.title}
                     </Link>
@@ -262,7 +261,7 @@ export default function NavLinks() {
               key={link.href}
               href={link.href}
               onClick={() => setSidebarOpen(false)}
-              className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors"
+              className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
             >
               {link.label}
             </Link>

@@ -18,7 +18,7 @@ const NavLinks = dynamic(() => import("./Navlinks"), {
 
 export default function Navbar() {
   return (
-    <nav className="flex justify-between items-center px-5 lg:px-15 py-3 min-h-[80px]">
+    <nav className="relative z-[100] flex justify-between items-center px-5 lg:px-16 py-3 min-h-[80px] w-full bg-white">
       {/* Logo Container - fixed width to prevent shift */}
       <div className="w-[120px] flex-shrink-0">
         <Image
@@ -40,10 +40,10 @@ export default function Navbar() {
 
       {/* Book an Appointment CTA area - fixed width to match logo side for balance */}
       <div className="w-[180px] hidden md:flex justify-end flex-shrink-0">
-        <button className="bg-black text-white px-5 py-2.5 rounded-full font-semibold hover:bg-gray-800 transition-all active:scale-95 text-sm whitespace-nowrap">
-          Book an Appointment
-        </button>
-      </div>
+  <button className="px-2 py-2 h-auto w-full rounded-lg bg-[#006A7F] text-white font-medium transition-shadow duration-200 shadow-[-4px_-4px_10px_0px_#ffffff,4px_4px_10px_0px_#E5DFC9] active:shadow-[inset_4px_4px_10px_0px_#005566,inset_-4px_-4px_10px_0px_#007F98] buttoncss ">
+    Book an Appointment
+  </button>
+</div>
     </nav>
   );
 }

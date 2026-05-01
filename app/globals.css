@@ -53,15 +53,21 @@
 .animate-enter {
   animation: fade-in 0.5s ease-out forwards;
 }
+.smalltext{
+  font-size:14px;
+  font-weight:400;
+  line-height:1.33;
+  letter-spacing:-0.08px;
+}
 .bodyPrimary {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.47;
   letter-spacing: -0.0374px;
 }
 .heroDisplayL {
   font-size: 56px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.07;
   letter-spacing: -0.28px;
 }
@@ -76,7 +82,16 @@
   line-height: 1.14;
   letter-spacing: 0.196px;
 }
+.buttoncss{
+ font-size: 17px;
+ font-weight:500;
+ line-height:1.40;
+ line-spacing:-0.224px;
+ box-shadow: 
+    -4px -4px 10px 0px rgba(255, 249, 240, 1), /* TOP-LEFT HIGHLIGHT */
+     4px 4px 10px 0px rgba(229, 223, 201, 1);  /* BOTTOM-RIGHT SHADOW */
 
+}
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
@@ -199,4 +214,14 @@
   html {
     @apply font-sans;
   }
+}
+
+.glasseffect{
+  /* From https://css.glass */
+background: rgba(255, 255, 255, 0.76);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(7.4px);
+-webkit-backdrop-filter: blur(7.4px);
+border: 1px solid rgba(255, 255, 255, 1);
 }

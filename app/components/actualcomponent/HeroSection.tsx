@@ -68,38 +68,54 @@ export default function HeroSection() {
   }, [isLowBandwidth]);
 
   return (
-    <div className="w-full h-screen p-3 md:p-5 bg-white">
-      <section className="relative w-full h-full overflow-hidden bg-black rounded-[24px] md:rounded-[40px] shadow-2xl">
-        {/* Poster Image - Always rendered, fades out when video plays */}
-        <Image
-          src={POSTER_IMAGE}
-          alt="Hero Background"
-          fill
-          priority
-          quality={100}
-          sizes="100vw"
-          className={`object-cover transition-opacity duration-1000 ${
-            isPlaying ? 'opacity-0' : 'opacity-100'
-          }`}
-        />
+    <section className="bg-white pt-[60px] md:pt-[100px] pb-12">
+      <div className="apple-container-narrow text-center mb-12">
+        <p className="apple-eyebrow mb-4">Expert Dental Care — 2026</p>
+        <h1 className="apple-hero-title mb-6 ">
+          Your Smile.<br/><span className="pl-4">Our Passion.</span>
+        </h1>
+        <p className="apple-subtitle mb-8">
+          Experience advanced dental treatments in a comfortable and modern environment.
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <button className="apple-btn-primary">Book Appointment</button>
+          <button className="apple-btn-secondary">Learn more ›</button>
+        </div>
+      </div>
 
-        {/* Hero Video - Always rendered if not low bandwidth to ensure Ref attachment */}
-        {!isLowBandwidth && (
-          <video
-            ref={videoRef}
-            src={VIDEO_URL}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-              isPlaying ? 'opacity-100' : 'opacity-0'
+      <div className="apple-container-wide">
+        <div className="relative aspect-video w-full overflow-hidden bg-black rounded-[24px] md:rounded-[40px] shadow-2xl">
+          {/* Poster Image - Always rendered, fades out when video plays */}
+          <Image
+            src={POSTER_IMAGE}
+            alt="Hero Background"
+            fill
+            priority
+            quality={100}
+            sizes="100vw"
+            className={`object-cover transition-opacity duration-1000 ${
+              isPlaying ? 'opacity-0' : 'opacity-100'
             }`}
-            muted
-            autoPlay
-            playsInline
-            preload="auto"
-            onPlay={() => setIsPlaying(true)}
-            onEnded={() => setIsPlaying(false)}
           />
-        )}
-      </section>
-    </div>
+
+          {/* Hero Video - Always rendered if not low bandwidth to ensure Ref attachment */}
+          {!isLowBandwidth && (
+            <video
+              ref={videoRef}
+              src={VIDEO_URL}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                isPlaying ? 'opacity-100' : 'opacity-0'
+              }`}
+              muted
+              autoPlay
+              playsInline
+              preload="auto"
+              onPlay={() => setIsPlaying(true)}
+              onEnded={() => setIsPlaying(false)}
+            />
+          )}
+        </div>
+      </div>
+    </section>
   );
 }

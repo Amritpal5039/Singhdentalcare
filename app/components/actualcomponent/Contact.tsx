@@ -2,11 +2,11 @@ import Image from "next/image";
 import ChatButton from "../ui/button";
 export default function ContactUs() {
   return (
-    <div className="grid grid-cols-3 grid-rows-1 gap-0 mx-16 mt-10 mb-8">
+    <div className="max-w-[1050px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 px-6 sm:px-4 mt-20 mb-16">
       <div className="col-span-1 flex flex-col">
-        <h3 className="text-3xl heroDisplayL">
+        <h3 className="text-2xl heroDisplayL">
           Let’s Design Your Healthy Smile <br />
-          <span className="italic text-[#006A7F] text-sm">
+          <span className="italic text-[#006A7F] text-xs">
             – Connect with Us
           </span>
         </h3>

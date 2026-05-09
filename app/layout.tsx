@@ -35,6 +35,9 @@ const sfPro = localFont({
   variable: '--font-sfpro', // Optional: for use with Tailwind
   display: 'swap',
 })
+import Navbar from "./components/actualcomponent/Navbar";
+import Footer from "./components/actualcomponent/Footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -45,7 +48,11 @@ export default function RootLayout({
       lang="en"
       className="h-full antialiased"
     >
-      <body className={`min-h-full flex flex-col overflow-x-hidden w-full ${sfPro.className}`}>{children}</body>
+      <body className={`min-h-full flex flex-col overflow-x-hidden w-full ${sfPro.className}`}>
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

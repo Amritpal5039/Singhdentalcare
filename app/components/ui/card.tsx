@@ -36,34 +36,26 @@ const Card: React.FC<CardProps> = ({ title, description, buttonText, imageUrl })
   const altText = `get treatment of ${title} from best dentist near me`;
 
   return (
-    // Scaled max-width to ~250px (approx 65% of the original 384px) and reduced border radius slightly
-    <div className="max-w-[250px] w-full rounded-2xl overflow-hidden shadow-xl border border-neutral-200 bg-white/80 backdrop-blur-xl transition-all flex flex-col group">
-      
-      {/* Reduced outer padding from p-4 to p-3 */}
-      <div className="p-3 text-center flex flex-col items-center flex-grow">
-        
-        {/* Title: Scaled from 24px down to 16px */}
-        <h2 className="text-[16px] font-medium leading-tight text-black mb-2">
+    <div className="flex flex-col bg-[#f5f5f7] rounded-[20px] overflow-hidden transition-all duration-300 hover:scale-[1.02] h-full">
+      <div className="p-8 pb-4 flex flex-col flex-grow">
+        <h3 className="apple-title-md mb-2 leading-tight">
           {title}
-        </h2>
-        
-        {/* Description: Scaled from 14px to 11px (going below 11px harms readability) */}
-        <p className="text-[11px] font-normal leading-relaxed text-black/70">
+        </h3>
+        <p className="apple-caption text-[#6e6e73] mb-6 line-clamp-3">
           {description}
         </p>
-        
-        {/* Button: Reduced margin top (mt-4), smaller padding, and scaled text (text-xs) */}
-        <button className="w-full mt-4 bg-neutral-800 hover:bg-neutral-700 text-white font-medium py-2 px-2 rounded-full transition-all duration-300 ease-in-out text-xs shadow-inner hover:shadow-lg transform hover:-translate-y-0.5 active:scale-95">
-          {buttonText}
-        </button>
+        <div className="mt-auto">
+          <button className="apple-btn-secondary !text-[14px]">
+            {buttonText} ›
+          </button>
+        </div>
       </div>
 
-      {/* Image Section: Maintained aspect ratio */}
-      <div className="w-full aspect-[4/3] mt-auto overflow-hidden bg-neutral-100">
+      <div className="w-full aspect-[4/3] overflow-hidden">
         <img
           src={imageUrl}
           alt={altText}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
       </div>
     </div>

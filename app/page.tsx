@@ -1,28 +1,24 @@
-import Image from "next/image";
-import Navbar from "./components/actualcomponent/Navbar";
 import SharkTank from "./components/actualcomponent/SharkTank";
-import Midsec from "./components/actualcomponent/midsec";
-import Footer from "./components/actualcomponent/Footer";
 import OurTreatments from "./components/actualcomponent/OurTreatments";
 import About from "./components/actualcomponent/Aboutus";
 import ContactUs from "./components/actualcomponent/Contact";
 import HereWeAre from "./components/actualcomponent/HereWeAre";
 import HeroSection from "./components/actualcomponent/HeroSection";
+import Midsec from "./components/actualcomponent/midsec";
+import MeetTheDentists from "./components/actualcomponent/MeetTheDentist";
+import Search from "./components/actualcomponent/search";
 export default function Home() {
   return (
     <div className="overflow-x-hidden">
-      <Navbar />
+      <Search/>
       <HeroSection/>
-      {/* <div className="bodyPrimary font-sfpro font-bold">Hello</div>
-      <div className="heroDisplayL font-sfpro">Hello</div> */}
-
       <About />
+      <MeetTheDentists/>
       {/* <Midsec/> */}
-      <OurTreatments />
+      {/* <OurTreatments /> */}
       <SharkTank />
       <ContactUs />
       <HereWeAre/>
-      <Footer />
     </div>
   );
 }

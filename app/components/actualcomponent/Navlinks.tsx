@@ -42,6 +42,7 @@ const plainLinks = [
   { label: "Our Expert", href: "/expert" },
   { label: "Our Locations", href: "/locations" },
   { label: "Blog", href: "/blog" },
+  { label: "SDC League", href: "/sdc-league" },
   { label: "Franchise", href: "/franchise" },
   { label: "Become A Member", href: "/become-a-member" },
   { label: "About", href: "/about" },
@@ -50,48 +51,53 @@ const plainLinks = [
 
 export default function NavLinks() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
 
   return (
-    <div className="animate-enter">
+    <>
       {/* ── Desktop Nav ─────────────────────────────────────────── */}
-      <div className="hidden md:block ">
+      <div className="hidden md:block">
         <NavigationMenu>
-          <NavigationMenuList>
+          <NavigationMenuList className="flex items-center gap-0">
             <NavigationMenuItem>
-              <NavigationMenuLink href="/" className="bodyPrimary">Home</NavigationMenuLink>
+              <Link href="/" legacyBehavior passHref>
+                <NavigationMenuLink className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3">Home</NavigationMenuLink>
+              </Link>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bodyPrimary">Services</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3">Services</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2">
+                <ul className="grid w-[400px] gap-1 p-3 md:w-[500px] md:grid-cols-2">
                   {Ourservices.map((service) => (
                     <li key={service.href}>
-                      <NavigationMenuLink href={service.href} className="block select-none space-y-2 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                        <div className="text-sm font-medium leading-none">{service.label}</div>
-                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          {service.description}
-                        </p>
-                      </NavigationMenuLink>
+                      <Link href={service.href} legacyBehavior passHref>
+                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <div className="text-[13px] font-medium leading-none whitespace-nowrap">{service.label}</div>
+                          <p className="line-clamp-1 text-[11px] leading-snug text-muted-foreground">
+                            {service.description}
+                          </p>
+                        </NavigationMenuLink>
+                      </Link>
                     </li>
                   ))}
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
+
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bodyPrimary">Our Products</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3">Products</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2">
+                <ul className="grid w-[400px] gap-1 p-3 md:w-[500px] md:grid-cols-2">
                   {Ourproducts.map((product) => (
                     <li key={product.href}>
-                      <NavigationMenuLink href={product.href} className="block select-none space-y-2 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                        <div className="text-sm font-medium leading-none">{product.title}</div>
-                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          {product.description}
-                        </p>
-                      </NavigationMenuLink>
+                      <Link href={product.href} legacyBehavior passHref>
+                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <div className="text-[13px] font-medium leading-none whitespace-nowrap">{product.title}</div>
+                          <p className="line-clamp-1 text-[11px] leading-snug text-muted-foreground">
+                            {product.description}
+                          </p>
+                        </NavigationMenuLink>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -100,9 +106,11 @@ export default function NavLinks() {
 
             {plainLinks.map((link) => (
               <NavigationMenuItem key={link.href}>
-                <NavigationMenuLink href={link.href} className="bodyPrimary">
-                  {link.label}
-                </NavigationMenuLink>
+                <Link href={link.href} legacyBehavior passHref>
+                  <NavigationMenuLink className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3">
+                    {link.label}
+                  </NavigationMenuLink>
+                </Link>
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
@@ -110,175 +118,73 @@ export default function NavLinks() {
       </div>
 
       {/* ── Hamburger Button (mobile only) ──────────────────────── */}
-      <button
-        onClick={() => setSidebarOpen(true)}
-        aria-label="Open menu"
-        className="md:hidden flex flex-col justify-center items-center gap-[5px] w-9 h-9 rounded-md hover:bg-gray-100 transition-colors"
-      >
-        <span className="block w-5 h-[2px] bg-gray-800 rounded-full" />
-        <span className="block w-5 h-[2px] bg-gray-800 rounded-full" />
-        <span className="block w-5 h-[2px] bg-gray-800 rounded-full" />
-      </button>
+      <div className="md:hidden flex items-center">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+          className="relative z-[1100] w-8 h-8 flex flex-col justify-center items-center group bg-transparent border-none outline-none"
+        >
+          <div className="w-5 h-[1.2px] bg-black transition-all duration-300 ease-apple" 
+            style={{ 
+              transform: sidebarOpen ? 'rotate(45deg) translateY(0)' : 'translateY(-3px)' 
+            }} 
+          />
+          <div className="w-5 h-[1.2px] bg-black transition-all duration-300 ease-apple" 
+            style={{ 
+              transform: sidebarOpen ? 'rotate(-45deg) translateY(0)' : 'translateY(3px)' 
+            }} 
+          />
+        </button>
+      </div>
 
-      {/* ── Mobile Sidebar Overlay ───────────────────────────────── */}
+      {/* ── Mobile Sidebar Overlay (Apple Style) ───────────────────────────────── */}
       <div
-        onClick={() => setSidebarOpen(false)}
-        className={`fixed inset-0 z-[100] bg-black/40 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
-          sidebarOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-      />
-
-      <aside
-        className={`fixed top-0 right-0 z-[101] h-full w-72 bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out md:hidden ${
-          sidebarOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed inset-0 z-[1000] bg-white transition-all duration-500 ease-apple md:hidden ${
+          sidebarOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         }`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <span className="text-lg font-semibold text-gray-800">Menu</span>
-          <button
-            onClick={() => setSidebarOpen(false)}
-            aria-label="Close menu"
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
-          >
-            <svg
-              className="w-5 h-5 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Links */}
-        <nav className="flex-1 overflow-y-auto py-4 px-4 space-y-1">
-          <Link
-            href="/"
-            onClick={() => setSidebarOpen(false)}
-            className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
-          >
-            Home
-          </Link>
-
-          {/* Services accordion */}
-          <div>
-            <button
-              onClick={() => setServicesOpen((v) => !v)}
-              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
-            >
-              Services
-              <svg
-                className={`w-4 h-4 transition-transform duration-200 ${
-                  servicesOpen ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+        <div className="flex flex-col h-full">
+          <nav className="flex-1 px-10 pt-24 overflow-y-auto">
+            <ul className="flex flex-col gap-6">
+              {[
+                { label: "Home", href: "/" },
+                ...Ourservices,
+                ...Ourproducts.map(p => ({ label: p.title, href: p.href })),
+                ...plainLinks
+              ].map((link, i) => (
+                <li 
+                  key={link.href + i}
+                  className={`transition-all duration-700 ease-apple ${
+                    sidebarOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                  }`}
+                  style={{ transitionDelay: `${sidebarOpen ? i * 40 : 0}ms` }}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setSidebarOpen(false)}
+                    className="text-[26px] font-semibold text-black hover:text-gray-500 transition-colors block py-1 whitespace-nowrap tracking-tight"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            
+            <div className={`mt-12 mb-20 transition-all duration-700 ease-apple ${
+              sidebarOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+            style={{ transitionDelay: '500ms' }}>
+               <Link
+                href="/appointment"
+                onClick={() => setSidebarOpen(false)}
+                className="inline-block bg-[#006A7F] text-white px-8 py-3.5 rounded-full font-medium text-lg hover:bg-[#005566] transition-all whitespace-nowrap shadow-lg shadow-[#006A7F]/20"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                servicesOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-              }`}
-            >
-              <ul className="ml-4 mt-1 space-y-1 border-l-2 border-blue-100 pl-3">
-                {Ourservices.map((s) => (
-                  <li key={s.href}>
-                    <Link
-                      href={s.href}
-                      onClick={() => setSidebarOpen(false)}
-                      className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                    >
-                      {s.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+                Book an Appointment
+              </Link>
             </div>
-          </div>
-
-          <div>
-            <button
-              onClick={() => setProductsOpen((v) => !v)}
-              className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
-            >
-              Our Products
-              <svg
-                className={`w-4 h-4 transition-transform duration-200 ${
-                  productsOpen ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                productsOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-              }`}
-            >
-              <ul className="ml-4 mt-1 space-y-1 border-l-2 border-blue-100 pl-3">
-                {Ourproducts.map((p) => (
-                  <li key={p.href}>
-                    <Link
-                      href={p.href}
-                      onClick={() => setSidebarOpen(false)}
-                      className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
-                    >
-                      {p.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {plainLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setSidebarOpen(false)}
-              className="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors bodyPrimary"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Footer CTA */}
-        <div className="px-4 pb-6 pt-3 border-t border-gray-100">
-          <Link
-            href="/appointment"
-            onClick={() => setSidebarOpen(false)}
-            className="block w-full text-center bg-black text-white px-4 py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors"
-          >
-            Book an Appointment
-          </Link>
+          </nav>
         </div>
-      </aside>
-    </div>
+      </div>
+    </>
   );
 }

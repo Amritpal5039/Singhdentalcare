@@ -12,27 +12,29 @@ export default function OurTreatments() {
     ]
 
     return (
-        <section className="py-16 px-5 lg:px-16 bg-white font-sfpro">
-            <div className="mb-12 flex flex-col items-center text-center">
-                <h2 className="text-5xl font-medium text-black mb-3 heroDisplayL">
-                    Our Treatments
+        <section className="apple-section bg-white">
+            <div className="apple-container">
+                <div className="mb-16 flex flex-col items-center text-center">
+                <p className="apple-eyebrow mb-4">Our Services.</p>
+                <h2 className="apple-title-xl mb-4">
+                    Specialized Care for Every Smile.
                 </h2>
-                <p className="text-sm text-black/60 leading-relaxed max-w-[65ch]">
-                    At our clinic, we provide comprehensive dental care for all ages, ranging from routine check-ups to advanced cosmetic and restorative procedures. Our goal is to deliver personalized treatments that keep your teeth healthy and your smile confident.
+                <p className="apple-subtitle max-w-[60ch]">
+                    At our clinic, we provide comprehensive dental care for all ages, ranging from routine check-ups to advanced cosmetic and restorative procedures.
                 </p>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[12px]">
                 {cardvalues.map((card, index) => (
-                    <div key={index} className="p-0 flex justify-center">
-                        <Card 
-                            title={card.title} 
-                            description={card.description} 
-                            buttonText={card.buttonText} 
-                            imageUrl={card.imageUrl} 
-                        />
-                    </div>
+                    <Card 
+                        key={index}
+                        title={card.title} 
+                        description={card.description} 
+                        buttonText={card.buttonText} 
+                        imageUrl={card.imageUrl} 
+                    />
                 ))}
+            </div>
             </div>
         </section>
     );

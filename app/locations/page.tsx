@@ -15,7 +15,7 @@ export default function LocationsPage() {
       images: [
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778238808/Untitled-1_sbf7hz.webp",
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778238808/loc_1.2_xooxsz.webp",
-        "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?q=80&w=400&auto=format&fit=crop"
+        "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778238808/loc_1.2_xooxsz.webp"
       ]
     },
     {
@@ -29,7 +29,7 @@ export default function LocationsPage() {
       images: [
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239149/l2_jusdzp.webp",
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239149/loc_2.2_wzwsgy.webp",
-        "https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=400&auto=format&fit=crop"
+        "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239149/loc_2.2_wzwsgy.webp"
       ]
     },
     {
@@ -43,7 +43,7 @@ export default function LocationsPage() {
       images: [
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239528/loc_3_lmsljy.webp",
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239408/loc_3.2-1_fp2rze.webp",
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=400&auto=format&fit=crop"
+        "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239408/loc_3.2-1_fp2rze.webp"
       ]
     }
   ];

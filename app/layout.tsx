@@ -37,6 +37,7 @@ const sfPro = localFont({
 })
 import Navbar from "./components/actualcomponent/Navbar";
 import Footer from "./components/actualcomponent/Footer";
+import AppointmentModal from "./components/actualcomponent/AppointmentModal";
 
 export default function RootLayout({
   children,
@@ -52,6 +53,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <AppointmentModal />
       </body>
     </html>
   );

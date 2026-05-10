@@ -45,7 +45,7 @@ export default function Aboutus() {
           {/* Group Photo Section */}
           <div className="aspect-video w-full rounded-[32px] overflow-hidden bg-[#f5f5f7] relative">
             <Image 
-              src="https://images.unsplash.com/photo-1559839734-2b71f1536783?q=80&w=2070&auto=format&fit=crop" 
+              src="https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778407682/chnage_the_background_to_this_202605101535_v6v5fd.webp" 
               alt="Singh Dental Care Team"
               fill
               className="object-cover"

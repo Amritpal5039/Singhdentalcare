@@ -44,6 +44,7 @@ const plainLinks = [
   { label: "Blog", href: "/blog" },
   { label: "SDC League", href: "/sdc-league" },
   { label: "Franchise", href: "/franchise" },
+  { label: "Podcast", href: "/podcast" },
   { label: "Become A Member", href: "/become-a-member" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
@@ -59,9 +60,9 @@ export default function NavLinks() {
         <NavigationMenu>
           <NavigationMenuList className="flex items-center gap-0">
             <NavigationMenuItem>
-              <Link href="/" legacyBehavior passHref>
-                <NavigationMenuLink className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3">Home</NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink asChild className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3 cursor-pointer">
+                <Link href="/">Home</Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
@@ -70,14 +71,14 @@ export default function NavLinks() {
                 <ul className="grid w-[400px] gap-1 p-3 md:w-[500px] md:grid-cols-2">
                   {Ourservices.map((service) => (
                     <li key={service.href}>
-                      <Link href={service.href} legacyBehavior passHref>
-                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      <NavigationMenuLink asChild>
+                        <Link href={service.href} className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                           <div className="text-[13px] font-medium leading-none whitespace-nowrap">{service.label}</div>
                           <p className="line-clamp-1 text-[11px] leading-snug text-muted-foreground">
                             {service.description}
                           </p>
-                        </NavigationMenuLink>
-                      </Link>
+                        </Link>
+                      </NavigationMenuLink>
                     </li>
                   ))}
                 </ul>
@@ -90,14 +91,14 @@ export default function NavLinks() {
                 <ul className="grid w-[400px] gap-1 p-3 md:w-[500px] md:grid-cols-2">
                   {Ourproducts.map((product) => (
                     <li key={product.href}>
-                      <Link href={product.href} legacyBehavior passHref>
-                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      <NavigationMenuLink asChild>
+                        <Link href={product.href} className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                           <div className="text-[13px] font-medium leading-none whitespace-nowrap">{product.title}</div>
                           <p className="line-clamp-1 text-[11px] leading-snug text-muted-foreground">
                             {product.description}
                           </p>
-                        </NavigationMenuLink>
-                      </Link>
+                        </Link>
+                      </NavigationMenuLink>
                     </li>
                   ))}
                 </ul>
@@ -106,11 +107,11 @@ export default function NavLinks() {
 
             {plainLinks.map((link) => (
               <NavigationMenuItem key={link.href}>
-                <Link href={link.href} legacyBehavior passHref>
-                  <NavigationMenuLink className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3">
+                <NavigationMenuLink asChild className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3 cursor-pointer">
+                  <Link href={link.href}>
                     {link.label}
-                  </NavigationMenuLink>
-                </Link>
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>

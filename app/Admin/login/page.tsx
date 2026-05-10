@@ -19,19 +19,20 @@ export default function AdminLoginPage() {
 
     try {
       const { data, error: authError } = await authClient.signIn.email({
-        email,
+        email: email.trim(),
         password,
         callbackURL: "/Admin/dashboard",
         rememberMe: true,
       });
 
       if (authError) {
-        console.error("Login Error Details:", authError);
+        console.error("Full Login Error:", authError);
         setError(authError.message || "Invalid email or password");
       } else {
-        router.push("/admin/dashboard");
+        router.push("/Admin/dashboard");
       }
-    } catch (err) {
+    } catch (err: any) {
+      console.error("Unexpected Login Error:", err);
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -64,7 +65,7 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@singhdentalcare.com"
+              placeholder="ceo@singhdentalcare.in"
               className="w-full h-[50px] px-4 rounded-xl border border-[#d2d2d7] bg-[#f5f5f7] focus:bg-white focus:border-[#0071e3] focus:ring-1 focus:ring-[#0071e3] outline-none transition-all apple-body !text-[15px]"
             />
           </div>

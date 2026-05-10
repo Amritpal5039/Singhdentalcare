@@ -41,11 +41,12 @@ export default function Navbar() {
 
       {/* Book an Appointment CTA area */}
       <div className="hidden md:flex justify-end flex-shrink-0">
-        <Link href="/appointment">
-          <button className="apple-btn-primary !text-[12px] !py-[4px] !px-[12px]">
-            Book Appointment
-          </button>
-        </Link>
+        <button 
+          onClick={() => window.dispatchEvent(new CustomEvent('open-appointment-modal'))}
+          className="apple-btn-primary !text-[12px] !py-[4px] !px-[12px]"
+        >
+          Book Appointment
+        </button>
       </div>
       </div>
     </nav>

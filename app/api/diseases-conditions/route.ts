@@ -1,6 +1,7 @@
 import connectDB from "@/app/lib/db";
 import Disease from "@/app/lib/models/Disease";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/app/lib/auth";
 
 function slugify(text: string) {
   return text
@@ -14,10 +15,24 @@ function slugify(text: string) {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
-    const { name, description, pictureLink } = await request.json();
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
 
-    if (!name || !description || !pictureLink) {
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Permission check
+    const userPerms = (session.user as any).permissions || "all";
+    if (userPerms !== "all" && !userPerms.split(",").includes("diseases")) {
+      return NextResponse.json({ error: "Forbidden: You don't have permission to manage diseases" }, { status: 403 });
+    }
+
+    await connectDB();
+    const { name, description, pictureLink, cloudinaryId } = await request.json();
+
+    if (!name || !description || !pictureLink || !cloudinaryId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -33,6 +48,7 @@ export async function POST(request: NextRequest) {
       name,
       description,
       pictureLink,
+      cloudinaryId,
       slug,
       startsWithLetter,
     });
@@ -53,6 +69,9 @@ export async function GET(request: NextRequest) {
     await connectDB();
     const searchParams = request.nextUrl.searchParams;
     const letter = searchParams.get("letter");
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "12"); // Default to 12 per page
+    const skip = (page - 1) * limit;
 
     let query = {};
     if (letter) {
@@ -63,9 +82,22 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const diseases = await Disease.find(query).sort({ name: 1 }).select("name slug");
+    const total = await Disease.countDocuments(query);
+    const diseases = await Disease.find(query)
+      .sort({ name: 1 })
+      .skip(skip)
+      .limit(limit)
+      .select("name slug pictureLink"); // Include pictureLink for management view
     
-    return NextResponse.json({ diseases }, { status: 200 });
+    return NextResponse.json({ 
+      diseases,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      }
+    }, { status: 200 });
   } catch (error: any) {
     console.error("Error fetching diseases:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

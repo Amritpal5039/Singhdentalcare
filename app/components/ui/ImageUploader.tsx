@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { UploadCloud, CheckCircle, Loader2 } from "lucide-react";
 
 interface ImageUploaderProps {
-  onUploadSuccess: (url: string) => void;
+  onUploadSuccess: (url: string, publicId: string) => void;
 }
 
 export default function ImageUploader({ onUploadSuccess }: ImageUploaderProps) {
@@ -83,7 +83,7 @@ export default function ImageUploader({ onUploadSuccess }: ImageUploaderProps) {
 
       if (data.secure_url) {
         setUploadedUrl(data.secure_url);
-        onUploadSuccess(data.secure_url);
+        onUploadSuccess(data.secure_url, data.public_id);
       } else {
         setError(data.error?.message || "Upload failed. Please check Cloudinary configuration.");
       }
@@ -129,7 +129,7 @@ export default function ImageUploader({ onUploadSuccess }: ImageUploaderProps) {
               onClick={(e) => {
                 e.stopPropagation();
                 setUploadedUrl(null);
-                onUploadSuccess("");
+                onUploadSuccess("", "");
                 if (fileInputRef.current) fileInputRef.current.value = "";
               }}
               className="text-xs text-red-500 hover:underline mt-1"

@@ -23,7 +23,7 @@ export default function SDCLeaguePage() {
           
           <h1 className="apple-hero-title mb-6 leading-[1.05]">
             Singh Dental Care<br />
-            <span className="text-[#1d1d1f]">Cricket League.</span>
+            <span className="text-[#1d1d1f]">Super League.</span>
           </h1>
           
           <p className="apple-subtitle mb-10 max-w-[600px] mx-auto text-[#6e6e73]">

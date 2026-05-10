@@ -18,7 +18,7 @@ const VIDEO_URL =
   'https://res.cloudinary.com/ddrhe6ojc/video/upload/q_auto:best,vc_h264,so_0/v1777625310/output2_kkrlhv.mp4';
 
 const POSTER_IMAGE =
-  'https://res.cloudinary.com/ddrhe6ojc/image/upload/v1777627548/edited_banner_of_21_size_afwbz7.png';
+  'https://res.cloudinary.com/ddrhe6ojc/image/upload/f_auto,q_auto/v1777627548/edited_banner_of_21_size_afwbz7.png';
 
 const STABLE_CONNECTIONS = ['4g', '5g', 'wifi'];
 
@@ -78,7 +78,12 @@ export default function HeroSection() {
           Experience advanced dental treatments in a comfortable and modern environment.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <button className="apple-btn-primary">Book Appointment</button>
+          <button 
+            onClick={() => window.dispatchEvent(new CustomEvent('open-appointment-modal'))}
+            className="apple-btn-primary"
+          >
+            Book Appointment
+          </button>
           <button className="apple-btn-secondary">Learn more ›</button>
         </div>
       </div>
@@ -91,7 +96,6 @@ export default function HeroSection() {
             alt="Hero Background"
             fill
             priority
-            quality={100}
             sizes="100vw"
             className={`object-cover transition-opacity duration-1000 ${
               isPlaying ? 'opacity-0' : 'opacity-100'

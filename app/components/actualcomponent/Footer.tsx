@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -74,6 +74,11 @@ function NietzscheLogo() {
 export default function Footer() {
   const [email, setEmail] = useState<string>("");
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [currentYear, setCurrentYear] = useState<number>(2026);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   const handleSubmit = () => {
     if (!email.trim() || !email.includes("@")) return;
@@ -131,7 +136,7 @@ export default function Footer() {
 
         <div className="border-t border-[#d2d2d7] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="apple-caption !text-[#86868b]">
-            © {new Date().getFullYear()} Singh Dental Care. All rights reserved.
+            © {currentYear} Singh Dental Care. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="apple-caption !text-[#86868b] hover:underline">Privacy Policy</a>

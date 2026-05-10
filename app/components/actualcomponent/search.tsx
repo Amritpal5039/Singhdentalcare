@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { SearchIcon, Loader2 } from "lucide-react";
+import { SearchIcon, Loader2, X } from "lucide-react";
 import Link from "next/link";
 import { useDebounce } from "use-debounce";
 
@@ -27,17 +27,46 @@ export default function Search() {
   const [isLetterLoading, setIsLetterLoading] = useState(false);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
 
+  // Pagination for Letter Results
+  const [letterPage, setLetterPage] = useState(1);
+  const [hasMoreLetters, setHasMoreLetters] = useState(false);
+
   const handleLetterClick = (letter: string) => {
     if (selectedLetter === letter) {
       setSelectedLetter(null);
       setLetterResults([]);
+      setLetterPage(1);
     } else {
       setSelectedLetter(letter);
+      setLetterResults([]);
+      setLetterPage(1);
     }
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
+  };
+
+  const fetchByLetter = async (letter: string, page: number, isLoadMore: boolean = false) => {
+    setIsLetterLoading(true);
+    try {
+      const res = await fetch(`/api/diseases-conditions?letter=${encodeURIComponent(letter)}&page=${page}&limit=12`);
+      const data = await res.json();
+      if (res.ok) {
+        if (isLoadMore) {
+          setLetterResults(prev => [...prev, ...(data.diseases || [])]);
+        } else {
+          setLetterResults(data.diseases || []);
+        }
+        setHasMoreLetters(data.pagination.page < data.pagination.totalPages);
+      } else {
+        if (!isLoadMore) setLetterResults([]);
+      }
+    } catch (error) {
+      console.error("Error fetching by letter:", error);
+    } finally {
+      setIsLetterLoading(false);
+    }
   };
 
   // Fetch alphabetical results
@@ -46,26 +75,16 @@ export default function Search() {
       setLetterResults([]);
       return;
     }
-
-    const fetchByLetter = async () => {
-      setIsLetterLoading(true);
-      try {
-        const res = await fetch(`/api/diseases-conditions?letter=${encodeURIComponent(selectedLetter)}`);
-        const data = await res.json();
-        if (res.ok) {
-          setLetterResults(data.diseases || []);
-        } else {
-          setLetterResults([]);
-        }
-      } catch (error) {
-        console.error("Error fetching by letter:", error);
-      } finally {
-        setIsLetterLoading(false);
-      }
-    };
-
-    fetchByLetter();
+    fetchByLetter(selectedLetter, 1, false);
   }, [selectedLetter]);
+
+  const loadMoreLetters = () => {
+    if (selectedLetter && hasMoreLetters && !isLetterLoading) {
+      const nextPage = letterPage + 1;
+      setLetterPage(nextPage);
+      fetchByLetter(selectedLetter, nextPage, true);
+    }
+  };
 
   // Fetch search query results
   useEffect(() => {
@@ -97,7 +116,7 @@ export default function Search() {
   return (
     <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 gap-12 lg:gap-20 items-start font-sans justify-center">
       {/* Left Section (Alphabetical Search) */}
-      <div className="flex-1 w-full max-w-[600px]">
+      <div className="flex-1 w-full max-w-[600px] relative">
         <h2 className="text-[17px] font-bold text-gray-900 mb-4 tracking-tight">
           Find diseases & conditions by first letter
         </h2>
@@ -117,36 +136,55 @@ export default function Search() {
           ))}
         </div>
 
-        {/* Results for Alphabet */}
+        {/* Results for Alphabet - Now Absolute to prevent layout shift */}
         {selectedLetter && (
-          <div className="bg-white rounded-2xl border border-[#d2d2d7] p-4 shadow-sm min-h-[100px]">
+          <div className="bg-white rounded-2xl border border-[#d2d2d7] p-4 shadow-xl min-h-[100px] absolute w-full z-40 top-full -mt-2 animate-in fade-in slide-in-from-top-2 duration-200">
             <div className="flex items-center justify-between mb-3 border-b pb-2">
               <h3 className="font-semibold text-gray-800">Results for "{selectedLetter}"</h3>
-              {isLetterLoading && <Loader2 className="w-4 h-4 text-[#005acc] animate-spin" />}
+              <div className="flex items-center gap-3">
+                {isLetterLoading && <Loader2 className="w-4 h-4 text-[#005acc] animate-spin" />}
+                <button onClick={() => setSelectedLetter(null)} className="text-gray-400 hover:text-gray-600">
+                  <X size={18} />
+                </button>
+              </div>
             </div>
             
             {!isLetterLoading && letterResults.length === 0 ? (
               <p className="text-gray-500 text-sm py-4 text-center">No diseases found starting with "{selectedLetter}".</p>
             ) : (
-              <ul className="space-y-1">
-                {letterResults.map((disease) => (
-                  <li key={disease.slug}>
-                    <Link 
-                      href={`/disease/${disease.slug}`}
-                      className="block px-3 py-2 rounded-lg text-[#0071e3] hover:bg-[#f5f5f7] transition-colors text-[15px]"
+              <div className="max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                <ul className="space-y-1">
+                  {letterResults.map((disease) => (
+                    <li key={disease.slug}>
+                      <Link 
+                        href={`/disease/${disease.slug}`}
+                        className="block px-3 py-2 rounded-lg text-[#0071e3] hover:bg-[#f5f5f7] transition-colors text-[15px]"
+                      >
+                        {disease.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                {hasMoreLetters && (
+                  <div className="mt-4 text-center border-t pt-3">
+                    <button 
+                      onClick={loadMoreLetters}
+                      disabled={isLetterLoading}
+                      className="text-[14px] text-[#0071e3] font-semibold hover:underline flex items-center justify-center w-full gap-2 py-2"
                     >
-                      {disease.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+                      {isLetterLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : "Load more results ↓"}
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         )}
       </div>
 
       {/* Right Section (Text Search) */}
-      <div className="flex-1 w-full lg:max-w-[500px]">
+      <div className="flex-1 w-full lg:max-w-[500px] relative">
         <h2 className="text-[17px] font-medium text-gray-800 mb-4 tracking-tight">
           Search diseases & conditions
         </h2>

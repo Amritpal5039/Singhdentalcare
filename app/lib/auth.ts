@@ -43,7 +43,7 @@ export const auth = betterAuth({
   // Added for better debugging of the 500 error
   logger: {
     level: "debug",
-    handler: (level, message, ...args) => {
+    handler: (level: string, message: string, ...args: any[]) => {
         console.log(`[Better-Auth] [${level}]`, message, ...args);
     }
   }

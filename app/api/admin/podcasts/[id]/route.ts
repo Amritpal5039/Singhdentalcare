@@ -11,7 +11,7 @@ function getYouTubeId(url: string) {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth.api.getSession({
@@ -27,6 +27,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Forbidden: You don't have permission to manage podcasts" }, { status: 403 });
     }
 
+    const { id } = await params;
     const { title, videoUrl, order } = await request.json();
     const updateData: any = {};
 
@@ -44,7 +45,7 @@ export async function PATCH(
 
     await connectDB();
     const podcast = await Podcast.findByIdAndUpdate(
-      params.id,
+      id,
       updateData,
       { new: true }
     );
@@ -62,7 +63,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth.api.getSession({
@@ -78,8 +79,9 @@ export async function DELETE(
       return NextResponse.json({ error: "Forbidden: You don't have permission to manage podcasts" }, { status: 403 });
     }
 
+    const { id } = await params;
     await connectDB();
-    const podcast = await Podcast.findByIdAndDelete(params.id);
+    const podcast = await Podcast.findByIdAndDelete(id);
 
     if (!podcast) {
       return NextResponse.json({ error: "Podcast not found" }, { status: 404 });

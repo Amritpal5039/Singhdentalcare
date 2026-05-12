@@ -11,30 +11,37 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/app/components/ui/navigation-menu";
-const Ourservices=[
- { label: "Dental Implants & TMJ", href: "/services/dental-implants",
-    description: "High-quality bristles for sensitive gums.", },
-  { label: "Orthodontic Treatment", href: "/services/orthodontic",
-    description: "High-quality bristles for sensitive gums.", },
-  { label: "Oral Cancer Screening", href: "/services/oral-cancer",
-    description: "High-quality bristles for sensitive gums.", },
-  { label: "Dental Crown", href: "/services/dental-crown",
-    description: "High-quality bristles for sensitive gums.", },
-  { label: "Root Canal Treatment", href: "/services/root-canal",
-    description: "High-quality bristles for sensitive gums.", },
-  { label: "Teeth Whitening", href: "/services/teeth-whitening",
-    description: "High-quality bristles for sensitive gums.", },
-];
-const Ourproducts = [
-  {
-    title: "Singh Dental Care Toothbrush",
-    href: "/products/tooth-brush",
-    description: "High-quality bristles for sensitive gums.",
+
+const Ourservices = [
+  { 
+    label: "Dental Implants & TMJ", 
+    href: "/services/dental-implants",
+    description: "", 
   },
-  {
-    title: "Singh Dental Care Mouthwash",
-    href: "/products/mouthwash",
-    description: "Alcohol-free formula for long-lasting freshness.",
+  { 
+    label: "Orthodontic Treatment", 
+    href: "/services/orthodontic",
+    description: "", 
+  },
+  { 
+    label: "Oral Cancer Screening", 
+    href: "/services/oral-cancer",
+    description: "", 
+  },
+  { 
+    label: "Dental Crown", 
+    href: "/services/dental-crown",
+    description: "", 
+  },
+  { 
+    label: "Root Canal Treatment", 
+    href: "/services/root-canal",
+    description: "", 
+  },
+  { 
+    label: "Teeth Whitening", 
+    href: "/services/teeth-whitening",
+    description: "", 
   },
 ];
 
@@ -47,7 +54,6 @@ const plainLinks = [
   { label: "Podcast", href: "/podcast" },
   { label: "Become A Member", href: "/become-a-member" },
   { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export default function NavLinks() {
@@ -76,26 +82,6 @@ export default function NavLinks() {
                           <div className="text-[13px] font-medium leading-none whitespace-nowrap">{service.label}</div>
                           <p className="line-clamp-1 text-[11px] leading-snug text-muted-foreground">
                             {service.description}
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3">Products</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-1 p-3 md:w-[500px] md:grid-cols-2">
-                  {Ourproducts.map((product) => (
-                    <li key={product.href}>
-                      <NavigationMenuLink asChild>
-                        <Link href={product.href} className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-[13px] font-medium leading-none whitespace-nowrap">{product.title}</div>
-                          <p className="line-clamp-1 text-[11px] leading-snug text-muted-foreground">
-                            {product.description}
                           </p>
                         </Link>
                       </NavigationMenuLink>
@@ -150,7 +136,6 @@ export default function NavLinks() {
               {[
                 { label: "Home", href: "/" },
                 ...Ourservices,
-                ...Ourproducts.map(p => ({ label: p.title, href: p.href })),
                 ...plainLinks
               ].map((link, i) => (
                 <li 

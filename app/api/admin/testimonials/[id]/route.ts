@@ -11,7 +11,7 @@ function getYouTubeId(url: string) {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth.api.getSession({
@@ -28,6 +28,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Forbidden: You don't have permission to manage testimonials" }, { status: 403 });
     }
 
+    const { id } = await params;
     const { title, videoUrl, order, isActive } = await request.json();
     const updateData: any = {};
 
@@ -46,7 +47,7 @@ export async function PATCH(
 
     await connectDB();
     const testimonial = await Testimonial.findByIdAndUpdate(
-      params.id,
+      id,
       updateData,
       { new: true }
     );
@@ -64,7 +65,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth.api.getSession({
@@ -81,8 +82,9 @@ export async function DELETE(
       return NextResponse.json({ error: "Forbidden: You don't have permission to manage testimonials" }, { status: 403 });
     }
 
+    const { id } = await params;
     await connectDB();
-    const testimonial = await Testimonial.findByIdAndDelete(params.id);
+    const testimonial = await Testimonial.findByIdAndDelete(id);
 
     if (!testimonial) {
       return NextResponse.json({ error: "Testimonial not found" }, { status: 404 });

@@ -16,7 +16,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function DiseasePage({ params }: { params: { slug: string } }) {
+export default async function DiseasePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   await connectDB();
   const disease = await Disease.findOne({ slug });

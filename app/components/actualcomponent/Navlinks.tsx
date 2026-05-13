@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 // Single static import — all exports share one chunk, not 6 separate dynamic tasks
 import {
@@ -56,8 +57,29 @@ const plainLinks = [
   { label: "About", href: "/about" },
 ];
 
+// Apple easing curve
+const APPLE_EASE = "cubic-bezier(0.28, 0.11, 0.32, 1)";
+
+// All mobile links — grouped for the sidebar
+const mobileLinks = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services", isHeader: true },
+  ...Ourservices.map(s => ({ label: s.label, href: s.href })),
+  ...plainLinks,
+];
+
 export default function NavLinks() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Prevent body scroll when sidebar is open
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [sidebarOpen]);
 
   return (
     <>
@@ -104,73 +126,189 @@ export default function NavLinks() {
         </NavigationMenu>
       </div>
 
-      {/* ── Hamburger Button (mobile only) ──────────────────────── */}
+      {/* ── Hamburger Button (mobile only) — 3 lines ──────────────────────── */}
       <div className="md:hidden flex items-center">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label={sidebarOpen ? "Close menu" : "Open menu"}
-          className="relative z-[1100] w-8 h-8 flex flex-col justify-center items-center group bg-transparent border-none outline-none"
+          aria-label="Open menu"
+          className="relative z-[1100] w-9 h-9 flex flex-col justify-center items-center bg-transparent border-none outline-none"
+          style={{
+            opacity: sidebarOpen ? 0 : 1,
+            pointerEvents: sidebarOpen ? "none" : "auto",
+            transition: `opacity 0.2s ${APPLE_EASE}`,
+          }}
         >
-          <div className="w-5 h-[1.2px] bg-black transition-all duration-300 ease-apple" 
-            style={{ 
-              transform: sidebarOpen ? 'rotate(45deg) translateY(0)' : 'translateY(-3px)' 
-            }} 
+          {/* Top line */}
+          <span
+            className="block w-[20px] bg-black rounded-full"
+            style={{
+              height: "1.5px",
+              transform: "translateY(-4px)",
+            }}
           />
-          <div className="w-5 h-[1.2px] bg-black transition-all duration-300 ease-apple" 
-            style={{ 
-              transform: sidebarOpen ? 'rotate(-45deg) translateY(0)' : 'translateY(3px)' 
-            }} 
+          {/* Middle line */}
+          <span
+            className="block w-[20px] bg-black rounded-full"
+            style={{
+              height: "1.5px",
+            }}
+          />
+          {/* Bottom line */}
+          <span
+            className="block w-[20px] bg-black rounded-full"
+            style={{
+              height: "1.5px",
+              transform: "translateY(4px)",
+            }}
           />
         </button>
       </div>
 
-      {/* ── Mobile Sidebar Overlay (Apple Style) ───────────────────────────────── */}
-      <div
-        className={`fixed inset-0 z-[1000] bg-white transition-all duration-500 ease-apple md:hidden ${
-          sidebarOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
-        }`}
-      >
-        <div className="flex flex-col h-full">
-          <nav className="flex-1 px-10 pt-24 overflow-y-auto">
-            <ul className="flex flex-col gap-6">
-              {[
-                { label: "Home", href: "/" },
-                ...Ourservices,
-                ...plainLinks
-              ].map((link, i) => (
-                <li 
-                  key={link.href + i}
-                  className={`transition-all duration-700 ease-apple ${
-                    sidebarOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                  }`}
-                  style={{ transitionDelay: `${sidebarOpen ? i * 40 : 0}ms` }}
-                >
-                  <Link
-                    href={link.href}
-                    onClick={() => setSidebarOpen(false)}
-                    className="text-[26px] font-semibold text-black hover:text-gray-500 transition-colors block py-1 whitespace-nowrap tracking-tight"
+      {/* ── Mobile Sidebar Overlay (Apple Style) — rendered via Portal to escape navbar stacking context ── */}
+      {typeof document !== "undefined" && createPortal(
+        <div
+          className="md:hidden"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 999,
+            pointerEvents: sidebarOpen ? "auto" : "none",
+          }}
+        >
+          {/* Solid white background */}
+          <div
+            onClick={() => setSidebarOpen(false)}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "#ffffff",
+              transition: `opacity 0.4s ${APPLE_EASE}`,
+              opacity: sidebarOpen ? 1 : 0,
+              cursor: "pointer",
+            }}
+          />
+
+          {/* Dedicated Close Button */}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close menu"
+            style={{
+              position: "absolute",
+              top: "16px",
+              right: "18px",
+              zIndex: 10,
+              width: "40px",
+              height: "40px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "50%",
+              backgroundColor: "rgba(0, 0, 0, 0.05)",
+              border: "none",
+              cursor: "pointer",
+              transition: `opacity 0.3s ${APPLE_EASE}, transform 0.3s ${APPLE_EASE}`,
+              opacity: sidebarOpen ? 1 : 0,
+              transform: sidebarOpen ? "scale(1)" : "scale(0.8)",
+            }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1d1d1f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+
+          {/* Scrollable nav content */}
+          <div
+            onClick={() => setSidebarOpen(false)}
+            style={{
+              position: "relative",
+              zIndex: 1,
+              height: "100%",
+              overflowY: "auto",
+              WebkitOverflowScrolling: "touch",
+              paddingTop: "90px",
+              paddingBottom: "40px",
+              transition: `opacity 0.4s ${APPLE_EASE}, transform 0.5s ${APPLE_EASE}`,
+              opacity: sidebarOpen ? 1 : 0,
+              transform: sidebarOpen ? "translateY(0)" : "translateY(-20px)",
+            }}
+          >
+            <nav className="px-8 sm:px-12">
+              <ul className="flex flex-col">
+                {mobileLinks.map((link, i) => (
+                  <li
+                    key={link.href + i}
+                    style={{
+                      borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
+                      transition: `opacity 0.5s ${APPLE_EASE}, transform 0.5s ${APPLE_EASE}`,
+                      transitionDelay: sidebarOpen ? `${i * 50}ms` : "0ms",
+                      opacity: sidebarOpen ? 1 : 0,
+                      transform: sidebarOpen ? "translateY(0)" : "translateY(12px)",
+                    }}
                   >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            
-            <div className={`mt-12 mb-20 transition-all duration-700 ease-apple ${
-              sidebarOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-            style={{ transitionDelay: '500ms' }}>
-               <Link
-                href="/appointment"
-                onClick={() => setSidebarOpen(false)}
-                className="inline-block bg-[#006A7F] text-white px-8 py-3.5 rounded-full font-medium text-lg hover:bg-[#005566] transition-all whitespace-nowrap shadow-lg shadow-[#006A7F]/20"
+                    <Link
+                      href={link.href}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSidebarOpen(false);
+                      }}
+                      className="inline-block py-[12px] w-fit"
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: 500,
+                        letterSpacing: "-0.01em",
+                        color: "#1d1d1f",
+                        textDecoration: "none",
+                        transition: `color 0.2s ${APPLE_EASE}`,
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "#6e6e73")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "#1d1d1f")}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA Button */}
+              <div
+                style={{
+                  marginTop: "32px",
+                  transition: `opacity 0.6s ${APPLE_EASE}, transform 0.6s ${APPLE_EASE}`,
+                  transitionDelay: sidebarOpen ? `${mobileLinks.length * 50 + 100}ms` : "0ms",
+                  opacity: sidebarOpen ? 1 : 0,
+                  transform: sidebarOpen ? "translateY(0)" : "translateY(12px)",
+                }}
               >
-                Book an Appointment
-              </Link>
-            </div>
-          </nav>
-        </div>
-      </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSidebarOpen(false);
+                    window.dispatchEvent(new CustomEvent('open-appointment-modal'));
+                  }}
+                  className="w-full text-center py-4 rounded-xl font-medium text-lg text-white"
+                  style={{
+                    backgroundColor: "#006A7F",
+                    transition: `background-color 0.2s ${APPLE_EASE}`,
+                    boxShadow: "0 4px 14px rgba(0, 106, 127, 0.25)",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#005566")}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#006A7F")}
+                >
+                  Book an Appointment
+                </button>
+              </div>
+            </nav>
+          </div>
+        </div>,
+        document.body
+      )}
     </>
   );
 }

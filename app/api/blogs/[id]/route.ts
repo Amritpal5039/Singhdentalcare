@@ -56,6 +56,7 @@ export async function PUT(
       body.slug = slugify(body.title);
     }
 
+    // Ensure coverImageAlt is handled if provided in body
     const blog = await Blog.findByIdAndUpdate(id, body, { new: true });
     
     if (!blog) {

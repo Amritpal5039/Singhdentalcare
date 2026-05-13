@@ -19,6 +19,7 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
   const [blogExcerpt, setBlogExcerpt] = useState("");
   const [blogContent, setBlogContent] = useState<any>(null);
   const [blogCoverImage, setBlogCoverImage] = useState("");
+  const [blogCoverImageAlt, setBlogCoverImageAlt] = useState("");
   const [blogCloudinaryId, setBlogCloudinaryId] = useState("");
   const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
   const [deleteBlogId, setDeleteBlogId] = useState<string | null>(null);
@@ -53,6 +54,7 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
     setBlogExcerpt("");
     setBlogContent(null);
     setBlogCoverImage("");
+    setBlogCoverImageAlt("");
     setBlogCloudinaryId("");
     setEditingBlogId(null);
   };
@@ -73,6 +75,7 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
           content: blogContent,
           excerpt: blogExcerpt,
           coverImage: blogCoverImage,
+          coverImageAlt: blogCoverImageAlt,
           cloudinaryId: blogCloudinaryId,
         }),
       });
@@ -94,6 +97,7 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
     setBlogExcerpt(blog.excerpt);
     setBlogContent(blog.content);
     setBlogCoverImage(blog.coverImage);
+    setBlogCoverImageAlt(blog.coverImageAlt || "");
     setBlogCloudinaryId(blog.cloudinaryId);
     onViewChange("EDIT_BLOG");
   };
@@ -135,6 +139,17 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
                 ) : (
                   <ImageUploader onUploadSuccess={(url, id) => { setBlogCoverImage(url); setBlogCloudinaryId(id); }} />
                 )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Cover Image Alt Text (SEO)</label>
+                <input 
+                  type="text" 
+                  value={blogCoverImageAlt} 
+                  onChange={(e) => setBlogCoverImageAlt(e.target.value)} 
+                  className="w-full px-5 py-3 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] transition-all" 
+                  placeholder="Describe this image for Google..." 
+                />
+                <p className="mt-1 text-xs text-[#6e6e73]">Helps images show up in Google Image search results.</p>
               </div>
             </div>
           </div>

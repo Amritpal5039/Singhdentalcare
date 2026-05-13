@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     await connectDB();
-    const { title, content, excerpt, coverImage, cloudinaryId, author, tags } = await request.json();
+    const { title, content, excerpt, coverImage, coverImageAlt, cloudinaryId, author, tags } = await request.json();
 
     if (!title || !content || !excerpt || !coverImage || !cloudinaryId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
       content,
       excerpt,
       coverImage,
+      coverImageAlt: coverImageAlt || '',
       cloudinaryId,
       author: author || 'Singh Dental Care',
       tags: tags || [],

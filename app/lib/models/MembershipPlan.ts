@@ -18,10 +18,4 @@ const MembershipPlanSchema: Schema = new Schema(
   },
   { timestamps: true }
 );
-
-// Force clear cache for dev
-if (mongoose.models.MembershipPlan) {
-  delete mongoose.models.MembershipPlan;
-}
-
 export const MembershipPlan = mongoose.model<IMembershipPlan>('MembershipPlan', MembershipPlanSchema);

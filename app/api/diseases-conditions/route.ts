@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     }
 
     await connectDB();
-    const { name, description, pictureLink, cloudinaryId } = await request.json();
+    const { name, description, pictureLink, coverImageAlt, seoDescription, cloudinaryId } = await request.json();
 
     if (!name || !description || !pictureLink || !cloudinaryId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -48,6 +48,8 @@ export async function POST(request: NextRequest) {
       name,
       description,
       pictureLink,
+      coverImageAlt: coverImageAlt || '',
+      seoDescription: seoDescription || '',
       cloudinaryId,
       slug,
       startsWithLetter,

@@ -60,7 +60,7 @@ export async function PUT(
 
     await connectDB();
     const { id } = await params;
-    const { name, description, pictureLink, cloudinaryId } = await request.json();
+    const { name, description, pictureLink, coverImageAlt, seoDescription, cloudinaryId } = await request.json();
 
     const existingDisease = await Disease.findById(id);
     if (!existingDisease) {
@@ -71,6 +71,8 @@ export async function PUT(
       name,
       description,
       pictureLink,
+      coverImageAlt: coverImageAlt || '',
+      seoDescription: seoDescription || '',
       cloudinaryId,
       startsWithLetter: name.charAt(0).toUpperCase(),
       slug: slugify(name),

@@ -191,7 +191,8 @@ export default function TiptapEditor({ value, onChange, placeholder }: TiptapEdi
       const data = await response.json();
 
       if (data.secure_url) {
-        editor.chain().focus().setImage({ src: data.secure_url }).run();
+        const alt = window.prompt("Enter image description for SEO (Alt Text):") || "";
+        editor.chain().focus().setImage({ src: data.secure_url, alt }).run();
       }
     } catch (err) {
       console.error("Upload failed", err);

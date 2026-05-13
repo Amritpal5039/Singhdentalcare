@@ -26,6 +26,8 @@ export function DiseasesManager({ currentView, onViewChange }: DiseasesManagerPr
   const [diseaseName, setDiseaseName] = useState("");
   const [diseaseDescription, setDiseaseDescription] = useState<any>(null);
   const [diseasePictureLink, setDiseasePictureLink] = useState("");
+  const [diseaseCoverImageAlt, setDiseaseCoverImageAlt] = useState("");
+  const [diseaseSeoDescription, setDiseaseSeoDescription] = useState("");
   const [diseaseCloudinaryId, setDiseaseCloudinaryId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
@@ -65,6 +67,8 @@ export function DiseasesManager({ currentView, onViewChange }: DiseasesManagerPr
     setDiseaseName("");
     setDiseaseDescription(null);
     setDiseasePictureLink("");
+    setDiseaseCoverImageAlt("");
+    setDiseaseSeoDescription("");
     setDiseaseCloudinaryId("");
     setEditingDiseaseId(null);
     setSubmitMessage("");
@@ -100,6 +104,8 @@ export function DiseasesManager({ currentView, onViewChange }: DiseasesManagerPr
           name: diseaseName,
           description: diseaseDescription,
           pictureLink: diseasePictureLink,
+          coverImageAlt: diseaseCoverImageAlt,
+          seoDescription: diseaseSeoDescription,
           cloudinaryId: diseaseCloudinaryId,
         }),
       });
@@ -131,6 +137,8 @@ export function DiseasesManager({ currentView, onViewChange }: DiseasesManagerPr
         setDiseaseName(d.name);
         setDiseaseDescription(d.description);
         setDiseasePictureLink(d.pictureLink);
+        setDiseaseCoverImageAlt(d.coverImageAlt || "");
+        setDiseaseSeoDescription(d.seoDescription || "");
         setDiseaseCloudinaryId(d.cloudinaryId);
         onViewChange("EDIT_DISEASE");
       }
@@ -186,8 +194,27 @@ export function DiseasesManager({ currentView, onViewChange }: DiseasesManagerPr
                   <ImageUploader onUploadSuccess={(url, id) => { setDiseasePictureLink(url); setDiseaseCloudinaryId(id); }} />
                 )}
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Cover Image Alt Text (SEO)</label>
+                <input 
+                  type="text" 
+                  value={diseaseCoverImageAlt} 
+                  onChange={(e) => setDiseaseCoverImageAlt(e.target.value)} 
+                  className="w-full px-5 py-3 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] transition-all" 
+                  placeholder="Describe this image for Google..." 
+                />
+              </div>
             </div>
             <div className="space-y-6">
+               <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Meta Description (SEO)</label>
+                <textarea 
+                  value={diseaseSeoDescription} 
+                  onChange={(e) => setDiseaseSeoDescription(e.target.value)} 
+                  className="w-full px-5 py-3 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] transition-all h-24 resize-none" 
+                  placeholder="Brief summary for Google search results..." 
+                />
+              </div>
                <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100">
                   <h4 className="text-blue-800 font-semibold mb-2 flex items-center"><Plus className="w-4 h-4 mr-2" /> Pro Tip: Inline Images</h4>
                   <p className="text-blue-700 text-sm leading-relaxed">You can add more images inside the description area using the image icon in the editor toolbar. You can even resize them!</p>
@@ -265,7 +292,7 @@ export function DiseasesManager({ currentView, onViewChange }: DiseasesManagerPr
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredDiseases.map((d) => (
+              {diseases.map((d) => (
                 <div key={d._id} className="bg-white rounded-[24px] border border-[#d2d2d7] overflow-hidden group hover:shadow-md transition-all">
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
@@ -289,7 +316,7 @@ export function DiseasesManager({ currentView, onViewChange }: DiseasesManagerPr
               ))}
             </div>
 
-            {filteredDiseases.length === 0 && (
+            {diseases.length === 0 && (
               <div className="col-span-full py-20 text-center bg-white rounded-[24px] border border-dashed border-[#d2d2d7]">
                 <p className="apple-body text-[#6e6e73]">{searchQuery ? "No matching entries found." : "No entries found for this filter."}</p>
               </div>

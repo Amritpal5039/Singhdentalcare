@@ -3,7 +3,7 @@ import Blog from "@/app/lib/models/Blog";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Clock, User, Calendar } from "lucide-react";
+import { ArrowLeft, Clock, User, Calendar, ChevronRight } from "lucide-react";
 import { generateHTML } from "@tiptap/html";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
@@ -25,6 +25,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${blog.title} | Singh Dental Care Blogs`,
     description: blog.excerpt,
+    alternates: {
+      canonical: `https://singhdentalcare.com/blog/${slug}`,
+    },
     openGraph: {
       title: blog.title,
       description: blog.excerpt,
@@ -76,15 +79,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <main className="min-h-screen bg-white">
       {/* Blog Hero Section */}
-      <section className="pt-[100px] pb-[40px] bg-[#f5f5f7]">
+      <section className="pt-[160px] pb-[40px] bg-[#f5f5f7]">
         <div className="apple-container">
-          <Link 
-            href="/blog"
-            className="inline-flex items-center text-[#0071e3] hover:underline mb-10 font-medium apple-body"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Journal
-          </Link>
+          {/* Breadcrumbs */}
+          <nav className="flex items-center gap-2 text-sm text-[#86868b] mb-12 apple-body overflow-x-auto whitespace-nowrap pb-2">
+            <Link href="/" className="hover:text-[#0071e3] transition-colors">Home</Link>
+            <ChevronRight className="w-3 h-3 shrink-0" />
+            <Link href="/blog" className="hover:text-[#0071e3] transition-colors">Journal</Link>
+            <ChevronRight className="w-3 h-3 shrink-0" />
+            <span className="text-[#1d1d1f] font-medium truncate">{blog.title}</span>
+          </nav>
           
           <div className="max-w-[900px]">
             <h1 className="apple-display mb-8 tracking-tight !leading-[1.1]">{blog.title}</h1>
@@ -119,16 +123,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="apple-container">
           <div className="max-w-[800px] mx-auto">
             {/* Featured Image */}
-            <div className="relative aspect-[16/9] rounded-[40px] overflow-hidden mb-16 shadow-2xl shadow-black/5 bg-[#f5f5f7]">
+            <div className="relative aspect-[16/9] rounded-[40px] overflow-hidden mb-8 shadow-2xl shadow-black/5 bg-[#f5f5f7]">
               <Image 
                 src={blog.coverImage} 
-                alt={blog.title} 
+                alt={blog.coverImageAlt || blog.title} 
                 fill 
                 className="object-cover"
                 priority
                 unoptimized
               />
             </div>
+            {blog.coverImageAlt && (
+              <p className="text-center text-sm text-[#86868b] apple-body italic mb-16">
+                {blog.coverImageAlt}
+              </p>
+            )}
 
             {/* Rich Text Content */}
             <div 
@@ -168,6 +177,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             "headline": blog.title,
+            "description": blog.excerpt,
             "image": [blog.coverImage],
             "datePublished": blog.createdAt.toISOString(),
             "dateModified": blog.updatedAt.toISOString(),
@@ -175,7 +185,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               "@type": "Organization",
               "name": "Singh Dental Care",
               "url": "https://singhdentalcare.com"
-            }]
+            }],
+            "publisher": {
+              "@type": "Organization",
+              "name": "Singh Dental Care",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://singhdentalcare.com/next.svg"
+              }
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://singhdentalcare.com/blog/${slug}`
+            }
           })
         }}
       />

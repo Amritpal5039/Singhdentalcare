@@ -3,10 +3,46 @@ import Disease from "@/app/lib/models/Disease";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronRight, Calendar, Clock } from "lucide-react";
 import { generateHTML } from "@tiptap/html";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  await connectDB();
+  const disease = await Disease.findOne({ slug });
+
+  if (!disease) {
+    return {
+      title: "Condition Not Found | Singh Dental Care",
+    };
+  }
+
+  const title = `${disease.name} | Dental Conditions & Treatments | Singh Dental Care`;
+  const description = disease.seoDescription || `Learn about ${disease.name}, its symptoms, causes, and professional dental treatment options available at Singh Dental Care.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `https://singhdentalcare.com/disease/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      images: [disease.pictureLink],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [disease.pictureLink],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   await connectDB();
@@ -45,22 +81,39 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
     }
   }
 
+  const lastUpdated = new Date(disease.updatedAt || disease.createdAt).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
+
   return (
     <main className="min-h-screen bg-white">
       {/* Premium Hero Section for Disease */}
       <section className="pt-[160px] pb-[80px] bg-[#f5f5f7]">
         <div className="apple-container">
-          <Link 
-            href="/"
-            className="inline-flex items-center text-[#0071e3] hover:underline mb-12 font-medium apple-body"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to search
-          </Link>
+          {/* Breadcrumbs */}
+          <nav className="flex items-center gap-2 text-sm text-[#86868b] mb-12 apple-body overflow-x-auto whitespace-nowrap pb-2">
+            <Link href="/" className="hover:text-[#0071e3] transition-colors">Home</Link>
+            <ChevronRight className="w-3 h-3 shrink-0" />
+            <Link href="/" className="hover:text-[#0071e3] transition-colors">Conditions</Link>
+            <ChevronRight className="w-3 h-3 shrink-0" />
+            <span className="text-[#1d1d1f] font-medium truncate">{disease.name}</span>
+          </nav>
           
           <div className="max-w-[800px]">
             <p className="apple-eyebrow mb-4 text-[#86868b] uppercase tracking-widest">Disease & Condition Directory</p>
             <h1 className="apple-display mb-6 tracking-tight">{disease.name}</h1>
+            <div className="flex items-center gap-4 text-[#86868b] text-sm apple-body">
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-4 h-4" />
+                <span>Last updated: {lastUpdated}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-4 h-4" />
+                <span>5 min read</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -76,7 +129,7 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
                 {disease.pictureLink ? (
                   <Image 
                     src={disease.pictureLink} 
-                    alt={disease.name} 
+                    alt={disease.coverImageAlt || disease.name} 
                     fill
                     className="object-cover transition-transform duration-1000 hover:scale-105"
                     unoptimized
@@ -87,6 +140,11 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
                   </div>
                 )}
               </div>
+              {disease.coverImageAlt && (
+                <p className="mt-4 text-center text-xs text-[#86868b] apple-body italic">
+                  {disease.coverImageAlt}
+                </p>
+              )}
             </div>
 
             {/* Description Text */}
@@ -129,6 +187,24 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </section>
+
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "MedicalCondition",
+            "name": disease.name,
+            "description": disease.seoDescription || disease.name,
+            "associatedAnatomy": {
+              "@type": "AnatomicalStructure",
+              "name": "Teeth and Gums"
+            },
+            "lastReviewed": (disease.updatedAt || disease.createdAt).toISOString()
+          })
+        }}
+      />
 
       {/* Divider */}
       <div className="apple-container">

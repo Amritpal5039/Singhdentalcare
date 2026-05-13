@@ -6,6 +6,7 @@ export interface IBlog extends Document {
   content: any; // Tiptap JSON
   excerpt: string; // For SEO and listing
   coverImage: string;
+  coverImageAlt: string;
   cloudinaryId: string;
   author: string;
   tags: string[];
@@ -20,6 +21,7 @@ const BlogSchema: Schema = new Schema(
     content: { type: Schema.Types.Mixed, required: true },
     excerpt: { type: String, required: true },
     coverImage: { type: String, required: true },
+    coverImageAlt: { type: String, default: '' },
     cloudinaryId: { type: String, required: true },
     author: { type: String, default: 'Singh Dental Care' },
     tags: [{ type: String }],

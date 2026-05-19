@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ChatButton from "../ui/button";
+import ChatButton from "../ui/button"; 
 export default function ContactUs() {
   return (
     <div className="max-w-[1050px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 px-6 sm:px-4 mt-20 mb-16">

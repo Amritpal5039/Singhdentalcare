@@ -127,8 +127,8 @@ export default function Search() {
               onClick={() => handleLetterClick(letter)}
               className={`flex items-center justify-center w-[46px] h-[46px] rounded-full border transition-all duration-200 ${
                 selectedLetter === letter
-                  ? "bg-[#005acc] text-white border-[#005acc] shadow-sm"
-                  : "bg-white text-[#005acc] border-[#a1c9ff] hover:bg-[#f0f6ff] hover:border-[#005acc]"
+                  ? "bg-[#006A7F] text-white border-[#006A7F] shadow-sm"
+                  : "bg-white text-[#006A7F] border-[#b2d3d9] hover:bg-[#f0f7f8] hover:border-[#006A7F]"
               } text-[15px] font-semibold`}
             >
               {letter}
@@ -142,7 +142,7 @@ export default function Search() {
             <div className="flex items-center justify-between mb-3 border-b pb-2">
               <h3 className="font-semibold text-gray-800">Results for "{selectedLetter}"</h3>
               <div className="flex items-center gap-3">
-                {isLetterLoading && <Loader2 className="w-4 h-4 text-[#005acc] animate-spin" />}
+                {isLetterLoading && <Loader2 className="w-4 h-4 text-[#006A7F] animate-spin" />}
                 <button onClick={() => setSelectedLetter(null)} className="text-gray-400 hover:text-gray-600">
                   <X size={18} />
                 </button>
@@ -158,7 +158,7 @@ export default function Search() {
                     <li key={disease.slug}>
                       <Link 
                         href={`/disease/${disease.slug}`}
-                        className="block px-3 py-2 rounded-lg text-[#0071e3] hover:bg-[#f5f5f7] transition-colors text-[15px]"
+                        className="block px-3 py-2 rounded-lg text-[#006A7F] hover:bg-[#f5f5f7] transition-colors text-[15px]"
                       >
                         {disease.name}
                       </Link>
@@ -171,7 +171,7 @@ export default function Search() {
                     <button 
                       onClick={loadMoreLetters}
                       disabled={isLetterLoading}
-                      className="text-[14px] text-[#0071e3] font-semibold hover:underline flex items-center justify-center w-full gap-2 py-2"
+                      className="text-[14px] text-[#006A7F] font-semibold hover:underline flex items-center justify-center w-full gap-2 py-2"
                     >
                       {isLetterLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : "Load more results ↓"}
                     </button>
@@ -191,9 +191,9 @@ export default function Search() {
         <div className="relative group mb-4">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             {isSearchLoading ? (
-               <Loader2 className="h-5 w-5 text-[#005acc] animate-spin" />
+               <Loader2 className="h-5 w-5 text-[#006A7F] animate-spin" />
             ) : (
-               <SearchIcon className="h-5 w-5 text-gray-600 transition-colors group-focus-within:text-[#005acc]" />
+               <SearchIcon className="h-5 w-5 text-gray-600 transition-colors group-focus-within:text-[#006A7F]" />
             )}
           </div>
           <input
@@ -201,7 +201,7 @@ export default function Search() {
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search"
-            className="w-full pl-12 pr-5 py-3.5 rounded-full border border-gray-600 bg-white focus:outline-none focus:border-[#005acc] focus:ring-1 focus:ring-[#005acc] text-gray-800 placeholder-gray-500 text-[16px] transition-all duration-200 shadow-sm"
+            className="w-full pl-12 pr-5 py-3.5 rounded-full border border-gray-600 bg-white focus:outline-none focus:border-[#006A7F] focus:ring-1 focus:ring-[#006A7F] text-gray-800 placeholder-gray-500 text-[16px] transition-all duration-200 shadow-sm"
           />
         </div>
 
@@ -216,7 +216,7 @@ export default function Search() {
                   <li key={disease.slug} className="border-b last:border-b-0 border-gray-100">
                     <Link 
                       href={`/disease/${disease.slug}`}
-                      className="block px-4 py-3 text-gray-800 hover:bg-[#f5f5f7] hover:text-[#0071e3] transition-colors text-[15px]"
+                      className="block px-4 py-3 text-gray-800 hover:bg-[#f5f5f7] hover:text-[#006A7F] transition-colors text-[15px]"
                     >
                       {disease.name}
                     </Link>

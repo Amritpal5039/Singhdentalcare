@@ -14,6 +14,7 @@ import { PodcastsManager } from "./_components/PodcastsManager";
 import { TestimonialsManager } from "./_components/TestimonialsManager";
 import { MembershipManager } from "./_components/MembershipManager";
 import { BlogsManager } from "./_components/BlogsManager";
+import { HeroManager } from "./_components/HeroManager";
 
 type ViewState = 
   | "OVERVIEW" 
@@ -24,7 +25,8 @@ type ViewState =
   | "MANAGE_APPOINTMENTS" 
   | "MANAGE_PODCASTS" 
   | "MANAGE_MEMBERSHIP" 
-  | "MANAGE_BLOGS" | "CREATE_BLOG" | "EDIT_BLOG";
+  | "MANAGE_BLOGS" | "CREATE_BLOG" | "EDIT_BLOG"
+  | "MANAGE_HERO";
 
 export default function AdminDashboard() {
   const { data: session, isPending } = authClient.useSession();
@@ -107,6 +109,10 @@ export default function AdminDashboard() {
 
         {(currentView === "MANAGE_BLOGS" || currentView === "CREATE_BLOG" || currentView === "EDIT_BLOG") && hasPermission("blogs") && (
           <BlogsManager currentView={currentView} onViewChange={setCurrentView} />
+        )}
+
+        {currentView === "MANAGE_HERO" && hasPermission("all") && (
+          <HeroManager />
         )}
       </div>
     </main>

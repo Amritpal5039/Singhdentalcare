@@ -15,6 +15,7 @@ export function ViewHeader({ currentView, sessionName, onBack }: ViewHeaderProps
       case "MANAGE_USERS": return "User Management";
       case "MANAGE_DOCTORS": return "Medical Team";
       case "MANAGE_APPOINTMENTS": return "Patient Bookings";
+      case "MANAGE_HERO": return "Hero Slider";
       default: return "Diseases & Conditions";
     }
   };
@@ -34,6 +35,7 @@ export function ViewHeader({ currentView, sessionName, onBack }: ViewHeaderProps
       case "MANAGE_BLOGS": return "Blog Posts";
       case "CREATE_BLOG": return "Add Blog Post";
       case "EDIT_BLOG": return "Edit Blog Post";
+      case "MANAGE_HERO": return "Hero Slider Management";
       default: return "Admin Dashboard";
     }
   };

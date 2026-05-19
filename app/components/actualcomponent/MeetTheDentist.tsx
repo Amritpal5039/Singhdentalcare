@@ -37,6 +37,8 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
   const [activeIndex, setActiveIndex] = useState(0);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isInternalScroll = useRef(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (initialDoctors && initialDoctors.length > 0) {
@@ -61,41 +63,54 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
     fetchDoctors();
   }, [initialDoctors]);
 
-  const scrollToCard = useCallback((index: number) => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const inactiveWidth = 180;
-    const gap = 12;
-    const targetScrollLeft = index * (inactiveWidth + gap);
-    container.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
-  }, []);
-
   const snapToNearestCard = useCallback(() => {
     const container = scrollRef.current;
-    if (!container || dentists.length === 0) return;
+    if (!container || dentists.length === 0 || isInternalScroll.current) return;
+    
     const inactiveWidth = 180;
     const gap = 12;
     const scrollPos = container.scrollLeft;
     const closest = Math.round(scrollPos / (inactiveWidth + gap));
-    setActiveIndex(Math.max(0, Math.min(closest, dentists.length - 1)));
-  }, [dentists.length]);
+    const newIndex = Math.max(0, Math.min(closest, dentists.length - 1));
+    
+    if (newIndex !== activeIndex) {
+      setActiveIndex(newIndex);
+    }
+  }, [dentists.length, activeIndex]);
+
+  const scrollToCard = useCallback((index: number) => {
+    const container = scrollRef.current;
+    if (!container) return;
+    
+    isInternalScroll.current = true;
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+
+    const inactiveWidth = 180;
+    const gap = 12;
+    const targetScrollLeft = index * (inactiveWidth + gap);
+
+    container.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
+    
+    // Lock snapping for enough time to complete the smooth scroll
+    scrollTimeout.current = setTimeout(() => {
+      isInternalScroll.current = false;
+    }, 800);
+  }, []);
 
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
-    const supportsScrollEnd = "onscrollend" in window;
-    if (supportsScrollEnd) {
-      container.addEventListener("scrollend", snapToNearestCard);
-      return () => container.removeEventListener("scrollend", snapToNearestCard);
-    }
-    let timer: ReturnType<typeof setTimeout>;
+    
     const onScroll = () => {
-      clearTimeout(timer);
-      timer = setTimeout(snapToNearestCard, 100);
+      if (isInternalScroll.current) return;
+      
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(snapToNearestCard, 150);
     };
+
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      clearTimeout(timer);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
       container.removeEventListener("scroll", onScroll);
     };
   }, [snapToNearestCard]);
@@ -104,19 +119,24 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
     const next = dir === "next"
       ? Math.min(activeIndex + 1, dentists.length - 1)
       : Math.max(activeIndex - 1, 0);
-    setActiveIndex(next);
-    scrollToCard(next);
+    
+    if (next !== activeIndex) {
+      setActiveIndex(next);
+      scrollToCard(next);
+    }
   };
 
   const selectCard = (index: number) => {
-    setActiveIndex(index);
-    scrollToCard(index);
+    if (index !== activeIndex) {
+      setActiveIndex(index);
+      scrollToCard(index);
+    }
   };
 
   if (isLoading) {
     return (
       <div className="py-20 flex justify-center items-center bg-white">
-        <Loader2 className="w-8 h-8 animate-spin text-[#0071e3]" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#006A7F]" />
       </div>
     );
   }
@@ -128,26 +148,25 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
   return (
     <>
       <style>{`
-        .dc-card { transition: width 500ms cubic-bezier(0.28, 0.11, 0.32, 1), height 500ms cubic-bezier(0.28, 0.11, 0.32, 1), border-color 300ms ease; }
-        .dc-img { transition: filter 450ms ease, transform 600ms ease; }
+        .dc-card { transition: width 400ms cubic-bezier(0.28, 0.11, 0.32, 1), height 400ms cubic-bezier(0.28, 0.11, 0.32, 1), border-color 300ms ease; will-change: width, height; }
+        .dc-img { transition: filter 400ms ease, transform 500ms ease; will-change: transform, filter; }
         .dc-card:not([data-active="true"]):hover .dc-img { transform: scale(1.03); }
-        .dc-label { transition: opacity 350ms ease, transform 350ms ease; }
+        .dc-label { transition: opacity 300ms ease, transform 300ms ease; }
         .dc-track { scrollbar-width: none; -ms-overflow-style: none; -webkit-overflow-scrolling: touch; scroll-snap-type: none; padding: 0; scroll-padding: 0; }
         .dc-track::-webkit-scrollbar { display: none; }
         @media (max-width: 768px) {
-          .dc-track { scroll-snap-type: x proximity; padding: 0 calc(50% - 130px); scroll-padding: 0 calc(50% - 130px); }
-          .dc-track > button { scroll-snap-align: center; }
+          .dc-track { padding: 0 calc(50% - 130px); }
         }
-        .dc-info { transition: opacity 250ms ease; }
+        .dc-info { transition: opacity 200ms ease; }
       `}</style>
 
-      <section className="apple-section bg-white overflow-hidden">
+      <section className="apple-section !pt-12 !pb-12 bg-white overflow-hidden">
         <div className="apple-container">
           <div className="flex items-center justify-between mb-10">
             <h2 className="apple-title-lg">Meet The Dentists</h2>
             <div className="hidden md:flex items-center gap-2">
-              <button onClick={() => navigate("prev")} disabled={activeIndex === 0} className="w-9 h-9 rounded-full border border-[#d2d2d7] flex items-center justify-center hover:bg-[#f5f5f7] disabled:opacity-25"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M15 19l-7-7 7-7" /></svg></button>
-              <button onClick={() => navigate("next")} disabled={activeIndex === dentists.length - 1} className="w-9 h-9 rounded-full border border-[#d2d2d7] flex items-center justify-center hover:bg-[#f5f5f7] disabled:opacity-25"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M9 5l7 7-7 7" /></svg></button>
+              <button onClick={() => navigate("prev")} disabled={activeIndex === 0} className="w-9 h-9 rounded-full border border-[#d2d2d7] flex items-center justify-center hover:bg-[#f5f5f7] disabled:opacity-25 transition-opacity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M15 19l-7-7 7-7" /></svg></button>
+              <button onClick={() => navigate("next")} disabled={activeIndex === dentists.length - 1} className="w-9 h-9 rounded-full border border-[#d2d2d7] flex items-center justify-center hover:bg-[#f5f5f7] disabled:opacity-25 transition-opacity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M9 5l7 7-7 7" /></svg></button>
             </div>
           </div>
 
@@ -168,7 +187,14 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
                   </div>
                   <div className="absolute inset-x-0 bottom-0 overflow-hidden rounded-2xl" style={{ top: isActive ? "60px" : "0", transition: "top 500ms cubic-bezier(0.28, 0.11, 0.32, 1)" }}>
                     {imgErrors[dentist._id] ? <DentistPlaceholder active={isActive} /> : (
-                      <img src={dentist.image} alt={dentist.name} draggable={false} className="dc-img w-full h-full object-cover object-top select-none" style={{ filter: isActive ? "grayscale(0%)" : "grayscale(100%)" }} onError={() => setImgErrors(p => ({ ...p, [dentist._id]: true }))} />
+                      <img 
+                        src={dentist.image} 
+                        alt={dentist.name} 
+                        draggable={false} 
+                        className="dc-img w-full h-full object-cover object-top select-none" 
+                        style={{ filter: isActive ? "grayscale(0%)" : "grayscale(100%)" }}
+                        onError={() => setImgErrors(p => ({ ...p, [dentist._id]: true }))} 
+                      />
                     )}
                   </div>
                 </button>
@@ -187,10 +213,13 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
                 <p className="apple-body !font-semibold">{active?.experience || ""}</p>
               </div>
               <div className="ml-auto">
-                <a href="#book" className="apple-btn-secondary !text-[15px] group">
-                  Book with {active?.name?.split(" ").slice(1).join(" ") || "Expert"}
+                <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-appointment-modal'))}
+                  className="apple-btn-secondary !text-[15px] group"
+                >
+                  Book Appointment
                   <span className="inline-block transition-transform duration-150 group-hover:translate-x-1 ml-1">›</span>
-                </a>
+                </button>
               </div>
             </div>
           </div>

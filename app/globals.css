@@ -16,7 +16,7 @@
   --apple-divider: #d2d2d7;
   
   --apple-blue: #0071e3;
-  --apple-blue-hover: #0077ed;
+  --apple-blue-hover: #0088A3;
   --apple-blue-dark: #2997ff;
 
   --apple-tracking-hero: -0.025em;
@@ -157,6 +157,7 @@
   font-weight: 400;
   transition: background-color 0.2s;
   cursor: pointer;
+  background-color:#006A7F;
 }
 
 .apple-btn-primary:hover {
@@ -169,6 +170,7 @@
   font-size: 17px;
   font-weight: 400;
   cursor: pointer;
+  color:#006A7F;
 }
 
 .apple-btn-secondary:hover {

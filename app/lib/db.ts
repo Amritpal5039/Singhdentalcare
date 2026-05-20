@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import dns from "dns";
+import { MongoClient } from "mongodb";
 
 // Use Google DNS to resolve MongoDB Atlas SRV records
-// This fixes the querySrv ECONNREFUSED error in certain network environments
 if (typeof window === "undefined") {
   dns.setServers(["8.8.8.8", "8.8.4.4"]);
 }
@@ -14,41 +14,33 @@ if (!MONGODB_URI) {
 }
 
 /**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections from growing exponentially
- * during API Route usage.
+ * We use a global singleton pattern for the MongoClient promise to share it 
+ * between Better-Auth and Mongoose.
  */
-let cached = (global as any).mongoose;
+let cachedPromise: Promise<typeof mongoose>;
 
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
-}
-
-async function connectDB() {
-  if (cached.conn) {
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
+if (!(global as any)._mongoosePromise) {
     const opts = {
-      bufferCommands: false,
+        bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {
-      console.log("MongoDB connected successfully!");
-      return mongoose;
+    // Using the same URI and logic as auth.ts
+    (global as any)._mongoosePromise = mongoose.connect(MONGODB_URI, opts).then((m) => {
+        console.log("MongoDB (Mongoose) connected successfully!");
+        return m;
     });
-  }
+}
+cachedPromise = (global as any)._mongoosePromise;
 
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    console.error("MongoDB connection error:", e);
-    throw e;
-  }
-
-  return cached.conn;
+async function connectDB() {
+    try {
+        const conn = await cachedPromise;
+        return conn;
+    } catch (e) {
+        (global as any)._mongoosePromise = null;
+        console.error("MongoDB connection error:", e);
+        throw e;
+    }
 }
 
 export default connectDB;

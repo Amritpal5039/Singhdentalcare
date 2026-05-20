@@ -18,8 +18,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Forbidden: You don't have permission to manage users" }, { status: 403 });
     }
 
+    const database = await db;
     // List all users from the "user" collection
-    const users = await db.collection("user").find({}).toArray();
+    const users = await database.collection("user").find({}).toArray();
     
     // Sanitize user objects (remove sensitive data if any)
     const sanitizedUsers = users.map(u => ({
@@ -54,8 +55,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
+    const database = await db;
     // Check if user already exists
-    const existingUser = await db.collection("user").findOne({ email });
+    const existingUser = await database.collection("user").findOne({ email });
     if (existingUser) {
       return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
@@ -67,7 +69,7 @@ export async function POST(request: NextRequest) {
         name,
         role: role || "admin",
         permissions: permissions || "all",
-      },
+      } as any,
     });
 
     return NextResponse.json({ message: "User created successfully", user: newUser.user }, { status: 201 });
@@ -98,7 +100,8 @@ export async function PATCH(request: NextRequest) {
     if (permissions !== undefined) updateData.permissions = permissions;
     if (name !== undefined) updateData.name = name;
 
-    await db.collection("user").updateOne(
+    const database = await db;
+    await database.collection("user").updateOne(
       { _id: new ObjectId(id) },
       { $set: updateData }
     );
@@ -132,10 +135,11 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "You cannot delete your own account" }, { status: 400 });
     }
 
+    const database = await db;
     // Delete user and their associated sessions/accounts
-    await db.collection("user").deleteOne({ _id: new ObjectId(userId) });
-    await db.collection("session").deleteMany({ userId: userId });
-    await db.collection("account").deleteMany({ userId: userId });
+    await database.collection("user").deleteOne({ _id: new ObjectId(userId) });
+    await database.collection("session").deleteMany({ userId: userId });
+    await database.collection("account").deleteMany({ userId: userId });
 
     return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
   } catch (error: any) {

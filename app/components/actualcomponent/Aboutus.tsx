@@ -23,11 +23,11 @@ export default function Aboutus() {
   return (
     <section className="apple-section !pb-8 bg-white">
       <div className="apple-container-narrow">
-        <h2 className="apple-title-xl text-center mb-6">
+        <h2 className="text-3xl md:text-[40px] lg:text-[48px] font-semibold tracking-[-0.015em] lg:tracking-[-0.02em] text-[#1d1d1f] leading-[1.10] text-center mb-6">
           Why Singh Dental Care.
         </h2>
-        <p className="apple-subtitle text-center mb-12">
-          Amritsar’s leading super-specialty dental chain, dedicated to providing high-quality, specialized treatments with full transparency. <br/> <span className="font-bold text-[#006A7F]">“Jo ji aave, so raaji jaave—Aao bhi, Muskuraao bhi!”</span>
+        <p className="text-[19px] md:text-[21px] font-normal text-[#6e6e73] leading-[1.35] text-center mb-12">
+          Amritsar’s leading super-specialty dental chain, dedicated to providing high-quality, specialized treatments with full transparency. <br/> <span className="block mt-4 font-dancing-script text-3xl md:text-[2.2rem] font-semibold text-[#006A7F] leading-normal">“Jo ji aave, so raaji jaave—Aao bhi, Muskuraao bhi!”</span>
         </p>
       </div>
       

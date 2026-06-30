@@ -81,7 +81,7 @@ console.log(`[Auth] Better Auth Base URL: ${baseURL}`);
 console.log(`[Auth] BETTER_AUTH_SECRET present: ${!!process.env.BETTER_AUTH_SECRET}`);
 
 export const auth = betterAuth({
-  baseURL: baseURL,
+ baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   secret: process.env.BETTER_AUTH_SECRET,
   database: mongodbAdapter(db, {
     transaction: false,
@@ -97,16 +97,18 @@ export const auth = betterAuth({
       role: {
         type: "string",
         defaultValue: "admin",
+        input: true, // Allow setting role during creation
       },
       permissions: {
         type: "string", 
         defaultValue: "all",
+        input: true, // Allow setting permissions during creation
       }
     }
   },
-  plugins: [
-    admin()
-  ],
+  // plugins: [
+  //   admin()
+  // ],
   logger: {
     level: "debug",
     handler: (level: string, message: string, ...args: any[]) => {

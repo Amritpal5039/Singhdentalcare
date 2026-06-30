@@ -217,10 +217,10 @@ export default function HeroSection() {
 
       <div className="apple-container-narrow text-center mt-12 mb-12">
         <h1 className="apple-title-lg mb-6 ">
-          Experience advanced dental treatments in a comfortable and modern environment.
+          Experience Advanced Dental Treatments in A Comfortable and Modern Environment.
         </h1>
         <p className="apple-subtitle mb-8">
-          Honest | Transparent | Affordable | World Class Treatment
+          Honest | Transparent | Affordable | World Class Treatments
         </p>
         <div className="flex flex-wrap justify-center items-center gap-4">
           <button 

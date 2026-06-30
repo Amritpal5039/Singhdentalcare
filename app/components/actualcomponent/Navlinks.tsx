@@ -51,7 +51,6 @@ const plainLinks = [
   { label: "Our Locations", href: "/locations" },
   { label: "Blog", href: "/blog" },
   { label: "SDC League", href: "/sdc-league" },
-  { label: "Franchise", href: "/franchise" },
   { label: "Podcast", href: "/podcast" },
   { label: "Become A Member", href: "/become-a-member" },
   { label: "About", href: "/about" },

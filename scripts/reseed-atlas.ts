@@ -1,6 +1,5 @@
 import { MongoClient } from "mongodb";
-import { betterAuth } from "better-auth";
-import { mongodbAdapter } from "@better-auth/mongo-adapter";
+import bcrypt from "bcryptjs";
 import dns from "dns";
 
 dns.setServers(['8.8.8.8']);
@@ -13,45 +12,57 @@ async function reseed() {
     
     const uri = `mongodb+srv://${username}:${encodeURIComponent(password)}@${host}/${dbName}?retryWrites=true&w=majority&appName=SinghDentalCare`;
     
-    console.log("Reseeding admin user to Atlas...");
+    console.log("Reseeding admin user to Atlas (Custom JWT/Bcrypt Setup)...");
     const client = new MongoClient(uri);
     
     try {
         await client.connect();
         const db = client.db(dbName);
         
-        // Delete existing user and accounts
+        // CEO Details
         const email = "ceo@singhdentalcare.in";
-        const user = await db.collection("user").findOne({ email });
-        if (user) {
-            console.log("Deleting existing user...");
-            await db.collection("account").deleteMany({ userId: user._id });
-            await db.collection("session").deleteMany({ userId: user._id });
-            await db.collection("user").deleteOne({ _id: user._id });
-        }
-
-        const auth = betterAuth({
-            baseURL: "http://localhost:3000",
-            database: mongodbAdapter(db, { transaction: false }),
-            emailAndPassword: { enabled: true },
-        });
-
         const adminPassword = "ceo@singhdentalcare";
-        await auth.api.signUpEmail({
-            body: {
-                email,
-                password: adminPassword,
-                name: "CEO",
-            }
-        });
-
-        console.log("Admin user re-created successfully in Atlas");
         
-        // Final Verification
-        const verify = await auth.api.signInEmail({
-            body: { email, password: adminPassword }
+        console.log(`Re-creating user: ${email}...`);
+        await db.collection("user").deleteOne({ email });
+        await db.collection("account").deleteMany({ email });
+        await db.collection("session").deleteMany({ email });
+        
+        const hashedCeoPassword = bcrypt.hashSync(adminPassword, 10);
+        await db.collection("user").insertOne({
+            email,
+            password: hashedCeoPassword,
+            name: "CEO",
+            role: "admin",
+            permissions: "all",
+            createdAt: new Date(),
         });
-        console.log("Server-side verification successful for:", verify.user.email);
+        console.log("CEO user created successfully in Atlas");
+
+        // IT Admin Details
+        const itEmail = "it@singhdentalcare.in";
+        const itPassword = "123456789";
+        console.log(`Re-creating user: ${itEmail}...`);
+        await db.collection("user").deleteOne({ email: itEmail });
+        
+        const hashedItPassword = bcrypt.hashSync(itPassword, 10);
+        await db.collection("user").insertOne({
+            email: itEmail,
+            password: hashedItPassword,
+            name: "IT Admin",
+            role: "admin",
+            permissions: "all",
+            createdAt: new Date(),
+        });
+        console.log("IT Admin user created successfully in Atlas");
+
+        // Verification check
+        const verifyUser = await db.collection("user").findOne({ email });
+        if (verifyUser && bcrypt.compareSync(adminPassword, verifyUser.password)) {
+            console.log("Verification successful: password matches for", verifyUser.email);
+        } else {
+            console.error("Verification failed for CEO!");
+        }
 
     } catch (error: any) {
         console.error("Error during reseed:", error);

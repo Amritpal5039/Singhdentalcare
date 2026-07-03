@@ -1,11 +1,15 @@
-import mongoose from "mongoose";
 import dns from "dns";
-import { MongoClient } from "mongodb";
 
-// Use Google DNS to resolve MongoDB Atlas SRV records
+// Use Google and Cloudflare DNS to resolve MongoDB Atlas SRV records
 if (typeof window === "undefined") {
-  dns.setServers(["8.8.8.8", "8.8.4.4"]);
+  try {
+    dns.setServers(["8.8.8.8", "1.1.1.1", "8.8.4.4", "1.0.0.1"]);
+  } catch (err) {
+    console.warn("Failed to set DNS servers:", err);
+  }
 }
+
+import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -14,27 +18,29 @@ if (!MONGODB_URI) {
 }
 
 /**
- * We use a global singleton pattern for the MongoClient promise to share it 
- * between Better-Auth and Mongoose.
+ * We use a global singleton pattern for the mongoose connection promise to share it
+ * across hot-reloads in development.
  */
-let cachedPromise: Promise<typeof mongoose>;
-
-if (!(global as any)._mongoosePromise) {
-    const opts = {
-        bufferCommands: false,
-    };
-
-    // Using the same URI and logic as auth.ts
-    (global as any)._mongoosePromise = mongoose.connect(MONGODB_URI, opts).then((m) => {
-        console.log("MongoDB (Mongoose) connected successfully!");
-        return m;
-    });
-}
-cachedPromise = (global as any)._mongoosePromise;
-
 async function connectDB() {
+    if (!(global as any)._mongoosePromise) {
+        const opts = {
+            bufferCommands: false,
+        };
+
+        console.log("Connecting to MongoDB...");
+        (global as any)._mongoosePromise = mongoose.connect(MONGODB_URI!, opts)
+            .then((m) => {
+                console.log("MongoDB (Mongoose) connected successfully!");
+                return m;
+            })
+            .catch((err) => {
+                (global as any)._mongoosePromise = null;
+                throw err;
+            });
+    }
+
     try {
-        const conn = await cachedPromise;
+        const conn = await (global as any)._mongoosePromise;
         return conn;
     } catch (e) {
         (global as any)._mongoosePromise = null;

@@ -50,7 +50,7 @@ const plainLinks = [
   { label: "Our Expert", href: "/expert" },
   { label: "Our Locations", href: "/locations" },
   { label: "Blog", href: "/blog" },
-  { label: "SDC League", href: "/sdc-league" },
+  { label: "Culture", href: "/sdc-league" },
   { label: "Podcast", href: "/podcast" },
   { label: "Become A Member", href: "/become-a-member" },
   { label: "About", href: "/about" },
@@ -59,16 +59,17 @@ const plainLinks = [
 // Apple easing curve
 const APPLE_EASE = "cubic-bezier(0.28, 0.11, 0.32, 1)";
 
-// All mobile links — grouped for the sidebar
-const mobileLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services", isHeader: true },
-  ...Ourservices.map(s => ({ label: s.label, href: s.href })),
-  ...plainLinks,
+// Structure of mobile menu (with collapsible dropdown for Services)
+const mobileMenuStructure = [
+  { type: "link", label: "Home", href: "/" },
+  { type: "dropdown", label: "Services", href: "/services" },
+  ...plainLinks.map(link => ({ type: "link", label: link.label, href: link.href })),
 ];
+
 
 export default function NavLinks() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [servicesExpanded, setServicesExpanded] = useState(false);
 
   // Prevent body scroll when sidebar is open
   useEffect(() => {
@@ -76,6 +77,7 @@ export default function NavLinks() {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      setServicesExpanded(false); // Reset dropdown when sidebar closes
     }
     return () => { document.body.style.overflow = ""; };
   }, [sidebarOpen]);
@@ -83,19 +85,19 @@ export default function NavLinks() {
   return (
     <>
       {/* ── Desktop Nav ─────────────────────────────────────────── */}
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <NavigationMenu>
           <NavigationMenuList className="flex items-center gap-0">
             <NavigationMenuItem>
-              <NavigationMenuLink asChild className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3 cursor-pointer">
+              <NavigationMenuLink asChild className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-2 xl:px-3 cursor-pointer">
                 <Link href="/">Home</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3">Services</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-2 xl:px-3">Services</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-1 p-3 md:w-[500px] md:grid-cols-2">
+                <ul className="grid w-[400px] gap-1 p-3 lg:w-[500px] lg:grid-cols-2">
                   {Ourservices.map((service) => (
                     <li key={service.href}>
                       <NavigationMenuLink asChild>
@@ -114,7 +116,7 @@ export default function NavLinks() {
 
             {plainLinks.map((link) => (
               <NavigationMenuItem key={link.href}>
-                <NavigationMenuLink asChild className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-3 cursor-pointer">
+                <NavigationMenuLink asChild className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-2 xl:px-3 cursor-pointer">
                   <Link href={link.href}>
                     {link.label}
                   </Link>
@@ -126,7 +128,7 @@ export default function NavLinks() {
       </div>
 
       {/* ── Hamburger Button (mobile only) — 3 lines ──────────────────────── */}
-      <div className="md:hidden flex items-center">
+      <div className="lg:hidden flex items-center">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Open menu"
@@ -166,7 +168,7 @@ export default function NavLinks() {
       {/* ── Mobile Sidebar Overlay (Apple Style) — rendered via Portal to escape navbar stacking context ── */}
       {typeof document !== "undefined" && createPortal(
         <div
-          className="md:hidden"
+          className="lg:hidden"
           style={{
             position: "fixed",
             top: 0,
@@ -240,39 +242,138 @@ export default function NavLinks() {
           >
             <nav className="px-8 sm:px-12">
               <ul className="flex flex-col">
-                {mobileLinks.map((link, i) => (
-                  <li
-                    key={link.href + i}
-                    style={{
-                      borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
-                      transition: `opacity 0.5s ${APPLE_EASE}, transform 0.5s ${APPLE_EASE}`,
-                      transitionDelay: sidebarOpen ? `${i * 50}ms` : "0ms",
-                      opacity: sidebarOpen ? 1 : 0,
-                      transform: sidebarOpen ? "translateY(0)" : "translateY(12px)",
-                    }}
-                  >
-                    <Link
-                      href={link.href}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSidebarOpen(false);
-                      }}
-                      className="inline-block py-[12px] w-fit"
+                {mobileMenuStructure.map((item, i) => {
+                  if (item.type === "link") {
+                    return (
+                      <li
+                        key={item.href + i}
+                        style={{
+                          borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
+                          transition: `opacity 0.5s ${APPLE_EASE}, transform 0.5s ${APPLE_EASE}`,
+                          transitionDelay: sidebarOpen ? `${i * 50}ms` : "0ms",
+                          opacity: sidebarOpen ? 1 : 0,
+                          transform: sidebarOpen ? "translateY(0)" : "translateY(12px)",
+                        }}
+                      >
+                        <Link
+                          href={item.href}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSidebarOpen(false);
+                          }}
+                          className="inline-block py-[12px] w-fit"
+                          style={{
+                            fontSize: "20px",
+                            fontWeight: 500,
+                            letterSpacing: "-0.01em",
+                            color: "#1d1d1f",
+                            textDecoration: "none",
+                            transition: `color 0.2s ${APPLE_EASE}`,
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = "#6e6e73")}
+                          onMouseLeave={(e) => (e.currentTarget.style.color = "#1d1d1f")}
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    );
+                  }
+
+                  // Dropdown item ("Services")
+                  return (
+                    <li
+                      key="services-dropdown"
                       style={{
-                        fontSize: "20px",
-                        fontWeight: 500,
-                        letterSpacing: "-0.01em",
-                        color: "#1d1d1f",
-                        textDecoration: "none",
-                        transition: `color 0.2s ${APPLE_EASE}`,
+                        borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
+                        transition: `opacity 0.5s ${APPLE_EASE}, transform 0.5s ${APPLE_EASE}`,
+                        transitionDelay: sidebarOpen ? `${i * 50}ms` : "0ms",
+                        opacity: sidebarOpen ? 1 : 0,
+                        transform: sidebarOpen ? "translateY(0)" : "translateY(12px)",
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = "#6e6e73")}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = "#1d1d1f")}
                     >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setServicesExpanded(!servicesExpanded);
+                        }}
+                        className="flex items-center justify-between py-[12px] w-full text-left bg-transparent border-none outline-none"
+                        style={{
+                          fontSize: "20px",
+                          fontWeight: 500,
+                          letterSpacing: "-0.01em",
+                          color: "#1d1d1f",
+                          cursor: "pointer",
+                          padding: "12px 0",
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#6e6e73")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#1d1d1f")}
+                      >
+                        <span>{item.label}</span>
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          style={{
+                            transform: servicesExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                            transition: `transform 0.3s ${APPLE_EASE}`,
+                            color: "#86868b",
+                            marginLeft: "8px",
+                          }}
+                        >
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
+
+                      <div
+                        style={{
+                          maxHeight: servicesExpanded ? `${Ourservices.length * 48}px` : "0px",
+                          opacity: servicesExpanded ? 1 : 0,
+                          overflow: "hidden",
+                          transition: `max-height 0.4s ${APPLE_EASE}, opacity 0.3s ${APPLE_EASE}, padding 0.3s ${APPLE_EASE}`,
+                          paddingLeft: "16px",
+                          paddingBottom: servicesExpanded ? "12px" : "0px",
+                        }}
+                      >
+                        <ul className="flex flex-col border-l border-black/[0.05] pl-4">
+                          {Ourservices.map((service, subIdx) => (
+                            <li
+                              key={service.href}
+                              style={{
+                                opacity: servicesExpanded ? 1 : 0,
+                                transform: servicesExpanded ? "translateY(0)" : "translateY(-8px)",
+                                transition: `opacity 0.3s ${APPLE_EASE}, transform 0.3s ${APPLE_EASE}`,
+                                transitionDelay: servicesExpanded ? `${subIdx * 30}ms` : "0ms",
+                              }}
+                            >
+                              <Link
+                                href={service.href}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSidebarOpen(false);
+                                }}
+                                className="inline-block py-[8px] w-full text-[17px] font-normal"
+                                style={{
+                                  color: "#515154",
+                                  textDecoration: "none",
+                                  transition: `color 0.2s ${APPLE_EASE}`,
+                                }}
+                                onMouseEnter={(e) => (e.currentTarget.style.color = "#006A7F")}
+                                onMouseLeave={(e) => (e.currentTarget.style.color = "#515154")}
+                              >
+                                {service.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
 
               {/* CTA Button */}
@@ -280,7 +381,7 @@ export default function NavLinks() {
                 style={{
                   marginTop: "32px",
                   transition: `opacity 0.6s ${APPLE_EASE}, transform 0.6s ${APPLE_EASE}`,
-                  transitionDelay: sidebarOpen ? `${mobileLinks.length * 50 + 100}ms` : "0ms",
+                  transitionDelay: sidebarOpen ? `${mobileMenuStructure.length * 50 + 100}ms` : "0ms",
                   opacity: sidebarOpen ? 1 : 0,
                   transform: sidebarOpen ? "translateY(0)" : "translateY(12px)",
                 }}

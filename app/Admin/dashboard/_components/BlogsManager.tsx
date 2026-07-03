@@ -21,6 +21,7 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
   const [blogCoverImage, setBlogCoverImage] = useState("");
   const [blogCoverImageAlt, setBlogCoverImageAlt] = useState("");
   const [blogCloudinaryId, setBlogCloudinaryId] = useState("");
+  const [blogFaqs, setBlogFaqs] = useState<{ question: string; answer: string }[]>([]);
   const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
   const [deleteBlogId, setDeleteBlogId] = useState<string | null>(null);
   const [blogSearchQuery, setBlogSearchQuery] = useState("");
@@ -56,6 +57,7 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
     setBlogCoverImage("");
     setBlogCoverImageAlt("");
     setBlogCloudinaryId("");
+    setBlogFaqs([]);
     setEditingBlogId(null);
   };
 
@@ -77,6 +79,7 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
           coverImage: blogCoverImage,
           coverImageAlt: blogCoverImageAlt,
           cloudinaryId: blogCloudinaryId,
+          faqs: blogFaqs,
         }),
       });
       if (res.ok) {
@@ -99,6 +102,7 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
     setBlogCoverImage(blog.coverImage);
     setBlogCoverImageAlt(blog.coverImageAlt || "");
     setBlogCloudinaryId(blog.cloudinaryId);
+    setBlogFaqs(blog.faqs || []);
     onViewChange("EDIT_BLOG");
   };
 
@@ -157,6 +161,74 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
             <label className="block text-sm font-medium text-gray-700 mb-3">Blog Content</label>
             <TiptapEditor value={blogContent} onChange={(val) => setBlogContent(val)} placeholder="Write your blog post here..." />
           </div>
+
+          {/* Blog FAQs Section */}
+          <div className="border-t border-[#d2d2d7] pt-8 space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Blog FAQs</h3>
+                <p className="text-xs text-[#6e6e73]">Add frequently asked questions to make the blog post more SEO friendly (AEO/GEO).</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setBlogFaqs([...blogFaqs, { question: "", answer: "" }])}
+                className="self-start sm:self-auto px-4 py-2 rounded-full border border-[#0071e3] text-[#0071e3] font-semibold hover:bg-[#0071e3]/5 transition-all flex items-center gap-2 text-sm cursor-pointer"
+              >
+                <Plus className="w-4 h-4" /> Add FAQ Item
+              </button>
+            </div>
+
+            {blogFaqs.length > 0 ? (
+              <div className="space-y-4">
+                {blogFaqs.map((faq, index) => (
+                  <div key={index} className="p-5 border border-[#d2d2d7] rounded-2xl bg-gray-50/50 space-y-4 relative group">
+                    <button
+                      type="button"
+                      onClick={() => setBlogFaqs(blogFaqs.filter((_, i) => i !== index))}
+                      className="absolute top-4 right-4 p-1 text-red-500 hover:bg-red-50 rounded-full transition-all cursor-pointer"
+                      title="Remove FAQ"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                    <div className="pr-10">
+                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Question {index + 1}</label>
+                      <input
+                        type="text"
+                        required
+                        value={faq.question}
+                        onChange={(e) => {
+                          const updated = [...blogFaqs];
+                          updated[index] = { ...updated[index], question: e.target.value };
+                          setBlogFaqs(updated);
+                        }}
+                        className="w-full px-4 py-2.5 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] bg-white transition-all text-sm"
+                        placeholder="e.g., What are the main benefits of dental implants?"
+                      />
+                    </div>
+                    <div className="pr-10">
+                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Answer</label>
+                      <textarea
+                        required
+                        value={faq.answer}
+                        onChange={(e) => {
+                          const updated = [...blogFaqs];
+                          updated[index] = { ...updated[index], answer: e.target.value };
+                          setBlogFaqs(updated);
+                        }}
+                        className="w-full px-4 py-2.5 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] bg-white transition-all h-20 resize-none text-sm"
+                        placeholder="e.g., Dental implants provide a permanent, natural-looking solution for missing teeth, restoring full chewing function and preventing bone loss."
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 border border-dashed border-[#d2d2d7] rounded-2xl bg-gray-50/30">
+                <p className="text-sm text-[#6e6e73]">No FAQs added yet. Click 'Add FAQ Item' to add one.</p>
+              </div>
+            )}
+          </div>
+
           <div className="pt-6 border-t border-[#d2d2d7] flex flex-col sm:flex-row gap-4">
             <button type="submit" disabled={isSubmittingBlog || !blogCoverImage} className="flex-1 px-8 py-4 rounded-full bg-[#0071e3] text-white font-semibold flex items-center justify-center transition-all hover:bg-[#005acc] disabled:bg-black/50">
               {isSubmittingBlog && <Loader2 className="w-5 h-5 mr-3 animate-spin" />} {isSubmittingBlog ? "Saving..." : editingBlogId ? "Update Post" : "Publish Post"}

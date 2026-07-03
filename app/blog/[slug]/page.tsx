@@ -145,6 +145,41 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               dangerouslySetInnerHTML={{ __html: contentHtml }} 
             />
 
+            {/* FAQ Accordion Section */}
+            {blog.faqs && blog.faqs.length > 0 && (
+              <div className="mt-20 pt-12 border-t border-[#d2d2d7]">
+                <h2 className="apple-title-lg mb-8 tracking-tight">Frequently Asked Questions</h2>
+                <div className="space-y-4">
+                  {blog.faqs.map((faq: any, idx: number) => (
+                    <details 
+                      key={idx} 
+                      className="group border-b border-[#d2d2d7] last:border-b-0 pb-6 [&_summary::-webkit-details-marker]:hidden"
+                    >
+                      <summary className="flex justify-between items-center cursor-pointer list-none outline-none py-2 select-none">
+                        <h3 className="apple-title-md !mb-0 !text-[20px] font-semibold text-[#1d1d1f] group-hover:text-[#0071e3] transition-colors pr-6">
+                          {faq.question}
+                        </h3>
+                        <span className="w-6 h-6 rounded-full bg-[#f5f5f7] flex items-center justify-center text-[#86868b] group-hover:bg-[#0071e3] group-hover:text-white transition-all duration-300">
+                          <svg 
+                            className="w-4 h-4 transform transition-transform duration-300 group-open:rotate-180" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke="currentColor"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </span>
+                      </summary>
+                      <div className="mt-4 pl-1 pr-6 text-[#86868b] apple-body text-[17px] leading-relaxed max-w-3xl animate-in fade-in slide-in-from-top-2 duration-300">
+                        {faq.answer}
+                      </div>
+                    </details>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Post Footer */}
             <div className="mt-20 pt-12 border-t border-[#d2d2d7]">
               <div className="bg-[#f5f5f7] p-10 rounded-[40px] flex flex-col md:flex-row items-center gap-8">
@@ -201,6 +236,27 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           })
         }}
       />
+
+      {/* FAQ Schema for AI SEO */}
+      {blog.faqs && blog.faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": blog.faqs.map((faq: any) => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": faq.answer
+                }
+              }))
+            })
+          }}
+        />
+      )}
     </main>
   );
 }

@@ -1,8 +1,8 @@
 import Image from "next/image";
 import ChatButton from "../ui/button"; 
-export default function ContactUs() {
+export default function ContactUs({ isHero = false }: { isHero?: boolean }) {
   return (
-    <div className="max-w-[1050px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 px-6 sm:px-4 mt-20 mb-16">
+    <div className={`max-w-[1050px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 px-6 sm:px-4 mb-16 ${isHero ? 'mt-0' : 'mt-20'}`}>
       <div className="col-span-1 flex flex-col">
         <h3 className="text-2xl heroDisplayL">
           Let’s Design Your Healthy Smile <br />

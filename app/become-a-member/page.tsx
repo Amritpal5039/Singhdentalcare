@@ -53,7 +53,7 @@ export default function BecomeAMember() {
   return (
     <main className="bg-white selection:bg-apple-blue selection:text-white">
       {/* 1. Hero: Pure Typography */}
-      <section className="apple-hero relative overflow-hidden pt-32">
+      <section className="apple-hero relative overflow-hidden pt-12 md:pt-20">
         <div className="apple-container flex flex-col items-center text-center">
           <div className="max-w-[800px] animate-enter">
             <p className="apple-eyebrow text-apple-blue font-medium mb-6 tracking-[0.2em]">Membership Experience</p>

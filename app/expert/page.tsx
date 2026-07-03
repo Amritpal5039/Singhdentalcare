@@ -1,9 +1,9 @@
-import MeetTheDentists from "../components/actualcomponent/MeetTheDentist";
+import DoctorGrid from "../components/actualcomponent/DoctorGrid";
 
 export default function ExpertPage() {
     return (
         <div>
-            <MeetTheDentists/>
+            <DoctorGrid isHero={true} />
         </div>
     );
 }

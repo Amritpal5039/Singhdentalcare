@@ -1,0 +1,57 @@
+# Singh Dental Care
+
+Singh Dental Care is the leading super-specialty dental clinic chain in Amritsar, Punjab, India. We deliver world-class dental care by experienced specialists with complete transparency, honesty, and affordable pricing.
+
+## Core Information
+- **Industry**: Healthcare, Dentistry, Dental Services
+- **Locations**: Amritsar, Punjab, India (3 physical clinics)
+- **Primary Phone**: +91 9056190567
+- **Primary Website**: [https://singhdentalcare.com](https://singhdentalcare.com)
+- **Sitemap**: [https://singhdentalcare.com/sitemap.xml](https://singhdentalcare.com/sitemap.xml)
+
+## Clinic Locations
+We operate three state-of-the-art dental centers in Amritsar:
+
+### 1. 100 Feet Road Branch (Flagship Center)
+- **Address**: 279, Main, 100 Feet Rd, East Mohan Nagar, Amritsar, Punjab, India
+- **Phone**: +91 9056190567
+- **Timings**: Monday - Sunday: 10:00 AM - 8:00 PM
+- **Google Maps**: [View Location](https://www.google.com/maps/place/Singh+Dental+Care/@31.6215178,74.8977264)
+- **Patient Guide**: [/locations/100feet/guide](https://singhdentalcare.com/locations/100feet/guide)
+
+### 2. Circular Road Branch
+- **Address**: 5 AB, First floor, Circular Rd, Opposite print & gift gallery, near Gupta Hospital, Beauty Avenue, Amritsar, Punjab, India
+- **Phone**: +91 9056190567
+- **Timings**: Monday - Saturday: 10:00 AM - 7:00 PM
+- **Google Maps**: [View Location](https://www.google.com/maps/place/Singh+Dental+Care/@31.6538864,74.8816863)
+- **Patient Guide**: [/locations/CircularRoad/guide](https://singhdentalcare.com/locations/CircularRoad/guide)
+
+### 3. Khalsa College Road Branch
+- **Address**: 48, Dasmesh Avenue Main GT Road, Khalsa College Rd, Opposite Gate no 2, adjoining Indian Oil Petrol Pump, Amritsar, Punjab 143001, India
+- **Phone**: +91 9056190567
+- **Timings**: Monday - Sunday: 10:00 AM - 7:00 PM
+- **Google Maps**: [View Location](https://www.google.com/maps/place/Singh+Dental+Care/@31.6315675,74.8344733)
+- **Patient Guide**: [/locations/janakpuri/guide](https://singhdentalcare.com/locations/janakpuri/guide)
+
+## Key Dental Services & Specialities
+We offer a comprehensive range of professional dental treatments:
+- **Dental Implants**: Permanent, natural-looking replacement of missing teeth.
+- **Orthodontics (Braces & Clear Aligners)**: Tailored treatments to straighten teeth and fix misalignments.
+- **Root Canal Therapy (RCT)**: Painless, advanced endodontic treatment to save natural teeth.
+- **Pediatric Dentistry**: Fun, child-friendly dental care to build lasting oral habits.
+- **Cosmetic Dentistry**: Teeth whitening, veneers, smile design, and smile makeovers.
+- **Gum Treatments (Periodontics)**: Treatment and management of gum diseases.
+- **Oral & Maxillofacial Surgery**: Surgical extractions, wisdom teeth removal, corrective jaw surgery.
+- **Prosthodontics**: Premium custom dentures, crowns, and dental bridges.
+
+## Navigation & Resources
+- **Home**: [https://singhdentalcare.com/](https://singhdentalcare.com/)
+- **Locations**: [https://singhdentalcare.com/locations](https://singhdentalcare.com/locations)
+- **Our Services**: [https://singhdentalcare.com/Our-services](https://singhdentalcare.com/Our-services)
+- **Detailed Services Info**: [https://singhdentalcare.com/services.txt](https://singhdentalcare.com/services.txt)
+- **About Us**: [https://singhdentalcare.com/about](https://singhdentalcare.com/about)
+- **Contact Us**: [https://singhdentalcare.com/contact](https://singhdentalcare.com/contact)
+- **Dental Blog**: [https://singhdentalcare.com/blog](https://singhdentalcare.com/blog)
+- **Oral Disease & Symptoms Directory**: [https://singhdentalcare.com/disease](https://singhdentalcare.com/disease)
+- **Become a Member**: [https://singhdentalcare.com/become-a-member](https://singhdentalcare.com/become-a-member)
+- **SDC League**: [https://singhdentalcare.com/sdc-league](https://singhdentalcare.com/sdc-league)

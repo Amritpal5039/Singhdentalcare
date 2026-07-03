@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,26 +27,23 @@ const NAV_COLUMNS: NavColumn[] = [
   {
     heading: "Learn",
     items: [
-      { label: "Blogs", href: "#" },
-      { label: "Singh Dental Super League", href: "#" },
-      { label: "Our Experts", href: "#" },
-      { label: "Franchise", href: "#" },
-      { label: "Our Locations", href: "#" },
-      { label: "Our Products", href: "#" },
-      { label: "Our Services", href: "#" },
+      { label: "Blogs", href: "/blog" },
+      { label: "SDC Culture", href: "/sdc-league" },
+      { label: "Our Experts", href: "/expert" },
+      { label: "Our Locations", href: "/locations" },
+      { label: "Our Services", href: "/Our-services" },
     ],
   },
   {
     heading: "About",
     items: [
-      { label: "About Us", href: "#" },
+      { label: "About Us", href: "/about" },
     ],
   },
   {
     heading: "Support",
     items: [
-      { label: "FAQ's", href: "#" },
-      { label: "Contact Us", href: "#" },
+      { label: "Contact Us", href: "/contact" },
     ],
   },
   {
@@ -64,7 +62,7 @@ function NietzscheLogo() {
     <img
       src="https://res.cloudinary.com/dkh75izoh/image/upload/v1777103371/with_less_space_krwfd4.png"
       alt="Nietzsche"
-      className="h-7 w-auto object-contain"
+      className="h-11 md:h-14 w-auto object-contain"
     />
   );
 }
@@ -122,13 +120,28 @@ export default function Footer() {
             <div key={col.heading} className="flex flex-col">
               <h4 className="apple-nav-text font-semibold text-[#1d1d1f] mb-4">{col.heading}</h4>
               <ul className="space-y-2">
-                {col.items.map((item) => (
-                  <li key={item.label}>
-                    <a href={item.href} className="apple-nav-text text-[#6e6e73] hover:text-[#1d1d1f] transition-colors">
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
+                {col.items.map((item) => {
+                  const isExternal = item.href.startsWith("http") || item.href === "#";
+                  return (
+                    <li key={item.label}>
+                      {isExternal ? (
+                        <a
+                          href={item.href}
+                          className="apple-nav-text text-[#6e6e73] hover:text-[#1d1d1f] transition-colors"
+                        >
+                          {item.label}
+                        </a>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className="apple-nav-text text-[#6e6e73] hover:text-[#1d1d1f] transition-colors"
+                        >
+                          {item.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

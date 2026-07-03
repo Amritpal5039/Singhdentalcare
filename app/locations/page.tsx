@@ -9,8 +9,8 @@ export default function LocationsPage() {
       subtitle: "Our Flagship State-of-the-Art Center",
       address: "279, Main, 100 Feet Rd, East Mohan Nagar, Amritsar, Punjab",
       phone: "+91 9056190567",
-      timing: "Mon-Sat: 10:00 AM - 8:00 PM",
-      mapUrl: "https://maps.google.com/?q=Sector+11+Rohini+New+Delhi",
+      timing: "Mon-Sun: 10:00 AM - 8:00 PM",
+      mapUrl: "https://www.google.com/maps/place/Singh+Dental+Care/@31.6377021,74.8897063,5940m/data=!3m1!1e3!4m6!3m5!1s0x39197cb93aaaaaab:0x1c718a343a92cf0d!8m2!3d31.6215178!4d74.8977264!16s%2Fg%2F11bw3drbtw?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
       guideUrl: "/locations/100feet/guide",
       images: [
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778238808/Untitled-1_sbf7hz.webp",
@@ -24,7 +24,7 @@ export default function LocationsPage() {
       address: "5 AB, First floor, Circular Rd, Opposite print & gift gallery, near Gupta Hospital, Beauty Avenue, Amritsar, Punjab",
       phone: "+91 9056190567",
       timing: "Mon-Sat: 10:00 AM - 7:00 PM",
-      mapUrl: "https://maps.google.com/?q=Pitampura+New+Delhi",
+      mapUrl: "https://www.google.com/maps/place/Singh+Dental+Care/@31.6538864,74.8466674,5939m/data=!3m1!1e3!4m6!3m5!1s0x39196388b63acbd1:0xb45a18f0ed83d067!8m2!3d31.6538864!4d74.8816863!16s%2Fg%2F11j_0jz7m1?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
       guideUrl: "/locations/CircularRoad/guide",
       images: [
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239149/l2_jusdzp.webp",
@@ -37,8 +37,8 @@ export default function LocationsPage() {
       subtitle: "Personalized Care with Advanced Technology",
       address: "48, Dasmesh Avenue Main GT Road, Khalsa College Rd, Opposite Gate no 2, adjoining Indian Oil Petrol Pump, Amritsar, Punjab 143001",
       phone: "+91 9056190567",
-      timing: "Mon-Sat: 10:00 AM - 7:00 PM",
-      mapUrl: "https://maps.google.com/?q=Janakpuri+New+Delhi",
+      timing: "Mon-Sun: 10:00 AM - 7:00 PM",
+      mapUrl: "https://www.google.com/maps/place/Singh+Dental+Care/@31.631572,74.8318984,743m/data=!3m2!1e3!4b1!4m6!3m5!1s0x391965dec2fc2b09:0xad3b488f532c6d71!8m2!3d31.6315675!4d74.8344733!16s%2Fg%2F11s7jsy_fr?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
       guideUrl: "/locations/janakpuri/guide",
       images: [
         "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239528/loc_3_lmsljy.webp",
@@ -51,7 +51,7 @@ export default function LocationsPage() {
   return (
     <main className="bg-[#ffffff]">
       {/* Hero Section - Minimalist & Elegant */}
-      <section className="pt-[140px] pb-[80px]">
+      <section className="pt-12 md:pt-20 pb-[80px]">
         <div className="apple-container text-center">
           <p className="apple-eyebrow text-[#1d1d1f] font-semibold tracking-[0.1em] mb-4">Our Presence</p>
           <h1 className="apple-display mb-6 tracking-tight">

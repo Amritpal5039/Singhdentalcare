@@ -6,7 +6,7 @@ export default function AboutPage() {
   return (
     <main className="bg-white">
       {/* Hero Section */}
-      <section className="apple-section pt-32 pb-20">
+      <section className="apple-section pt-12 md:pt-20 pb-20">
         <div className="apple-container-narrow text-center">
           <p className="apple-eyebrow mb-4">About Singh Dental Care</p>
           <h1 className="apple-hero-title mb-6">
@@ -73,10 +73,10 @@ export default function AboutPage() {
             </div>
             <div className="relative aspect-[4/3] rounded-[32px] overflow-hidden bg-[#f5f5f7]">
               <Image 
-                src="https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778407682/chnage_the_background_to_this_202605101535_v6v5fd.webp" 
-                alt="Singh Dental Care Interior"
+                src="https://res.cloudinary.com/ddrhe6ojc/image/upload/v1782998044/PHOTO_POHOTS_png_yd2btc.webp"
                 fill
                 className="object-cover"
+                alt="Singh Dental Care Team: Experts in 8 Specialities"
               />
             </div>
           </div>
@@ -98,21 +98,11 @@ export default function AboutPage() {
       </section>
 
       {/* Features & Video Section (Reusing Aboutus) */}
-      <Aboutus />
+      {/* <Aboutus /> */}
 
       {/* The Team Section */}
       <MeetTheDentists />
 
-      {/* Call to Action */}
-      <section className="apple-section py-32 bg-[#f5f5f7]">
-        <div className="apple-container-narrow text-center">
-          <h2 className="apple-title-xl mb-8">Ready for a better smile?</h2>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#book" className="apple-btn-primary px-10 py-4">Book an Appointment</a>
-            <a href="/locations" className="apple-btn-secondary">Find our locations ›</a>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

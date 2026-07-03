@@ -182,7 +182,7 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
                   style={{ width: isActive ? "260px" : "180px", height: isActive ? "360px" : "280px" }}
                 >
                   <div className="dc-label absolute top-0 left-0 right-0 z-10 px-4 pt-4 pb-2" style={{ opacity: isActive ? 1 : 0, transform: isActive ? "translateY(0px)" : "translateY(-8px)", pointerEvents: "none" }}>
-                    <p className="apple-nav-text font-semibold text-[#1d1d1f] truncate">{dentist.name}</p>
+                    <p className="apple-nav-text !text-[15px] !font-bold text-[#1d1d1f] truncate">{dentist.name}</p>
                     <p className="apple-caption !text-[11px] mt-0.5">{dentist.credentials}</p>
                   </div>
                   <div className="absolute inset-x-0 bottom-0 overflow-hidden rounded-2xl" style={{ top: isActive ? "60px" : "0", transition: "top 500ms cubic-bezier(0.28, 0.11, 0.32, 1)" }}>

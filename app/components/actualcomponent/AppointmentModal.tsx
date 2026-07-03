@@ -347,7 +347,7 @@ export default function AppointmentModal() {
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#0071e3] text-white py-3.5 rounded-full font-semibold apple-body hover:bg-[#0077ed] transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-6"
+                  className="w-full bg-[#0071e3] !text-white py-3.5 rounded-full font-semibold apple-body hover:bg-[#0077ed] transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-6"
                 >
                   {isSubmitting ? (
                     <>
@@ -356,10 +356,6 @@ export default function AppointmentModal() {
                     </>
                   ) : "Book Appointment Now"}
                 </button>
-                
-                <p className="text-center text-[12px] text-[#86868b] pt-2 px-8">
-                  By booking, you agree to our privacy policy and terms of service.
-                </p>
               </form>
             </>
           ) : (
@@ -386,7 +382,7 @@ export default function AppointmentModal() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <a 
-                  href="https://wa.me/919999999999" 
+                  href="https://wa.me/919056190567" 
                   target="_blank"
                   className="flex items-center justify-center gap-2.5 bg-[#25D366] text-white py-3.5 rounded-full font-semibold hover:opacity-90 transition-all"
                 >
@@ -394,7 +390,7 @@ export default function AppointmentModal() {
                   WhatsApp
                 </a>
                 <a 
-                  href="tel:+919999999999" 
+                  href="tel:+919056190567" 
                   className="flex items-center justify-center gap-2.5 bg-[#1d1d1f] text-white py-3.5 rounded-full font-semibold hover:opacity-90 transition-all"
                 >
                   <Phone className="w-5 h-5" />
@@ -404,7 +400,7 @@ export default function AppointmentModal() {
 
               <button 
                 onClick={closeModal}
-                className="mt-12 text-[14px] font-medium text-[#0071e3] hover:underline transition-colors"
+                className="mt-12 text-[14px] font-medium  hover:underline transition-colors"
               >
                 Back to Website
               </button>

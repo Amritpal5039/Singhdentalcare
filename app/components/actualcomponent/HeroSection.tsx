@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Award, Smile, Activity, UserCheck, MapPin } from 'lucide-react';
 
 interface HeroItem {
   _id: string;
@@ -32,6 +31,34 @@ const DEFAULT_ITEMS: HeroItem[] = [
 ];
 
 const POSTER_IMAGE = 'https://res.cloudinary.com/ddrhe6ojc/image/upload/f_auto,q_auto/v1777627548/edited_banner_of_21_size_afwbz7.png';
+
+const STATS = [
+  {
+    value: '13+ Years',
+    label: 'Clinical Excellence',
+    icon: Award,
+  },
+  {
+    value: '25,000+',
+    label: 'Happy Patients',
+    icon: Smile,
+  },
+  {
+    value: '1 lakh+',
+    label: 'Successful Treatments',
+    icon: Activity,
+  },
+  {
+    value: 'Treatment',
+    label: 'by the Specialist Only',
+    icon: UserCheck,
+  },
+  {
+    value: 'Multiple',
+    label: 'Convenient Locations',
+    icon: MapPin,
+  },
+];
 
 export default function HeroSection() {
   const [items, setItems] = useState<HeroItem[]>([]);
@@ -133,8 +160,19 @@ export default function HeroSection() {
   }, [currentIndex, items, isLowBandwidth]);
 
   return (
-    <section className="bg-white pt-[20px] md:pt-[100px] pb-12">
-      <div className="apple-container-wide">
+    <section className="bg-white pt-8 md:pt-14 pb-0">
+      {/* Intro Text Above Video */}
+      <div className="apple-container-narrow text-center mb-10 md:mb-14">
+        <h1 className="apple-title-lg mb-4 leading-tight">
+          Experience Advanced Dental Treatments in A Comfortable and Modern Environment.
+        </h1>
+        <p className="apple-subtitle mb-6 text-[#6e6e73]">
+          Honest | Transparent | Affordable | World Class Treatments
+        </p>
+      </div>
+
+      {/* Main Video/Slider */}
+      <div className="apple-container-wide mb-10 md:mb-14">
         <div className="relative aspect-video w-full overflow-hidden bg-black rounded-[24px] md:rounded-[40px] shadow-2xl">
           {/* Slider Items */}
           {isLoaded && items.map((item, index) => (
@@ -215,21 +253,34 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="apple-container-narrow text-center mt-12 mb-12">
-        <h1 className="apple-title-lg mb-6 ">
-          Experience Advanced Dental Treatments in A Comfortable and Modern Environment.
-        </h1>
-        <p className="apple-subtitle mb-8">
-          Honest | Transparent | Affordable | World Class Treatments
-        </p>
-        <div className="flex flex-wrap justify-center items-center gap-4">
-          <button 
-            onClick={() => window.dispatchEvent(new CustomEvent('open-appointment-modal'))}
-            className="apple-btn-primary "
-          >
-            Book Appointment
-          </button>
-          <Link href="/about" className="apple-btn-secondary">About us ›</Link>
+      {/* Trust & Clinical Excellence Stats Banner */}
+      <div className="w-full bg-[#006A7F] py-8 md:py-10 shadow-lg mt-10 md:mt-16 mb-12 md:mb-16">
+        <div className="max-w-[1200px] mx-auto px-[22px]">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4 divide-y-0 md:divide-x divide-white/10">
+            {STATS.map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <div 
+                  key={i} 
+                  className={`flex flex-col lg:flex-row items-center justify-center text-center lg:text-left gap-3 lg:px-4 ${
+                    i === 4 ? 'col-span-2 md:col-span-1' : ''
+                  }`}
+                >
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white flex-shrink-0">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-lg md:text-xl font-bold text-white tracking-tight block">
+                      {stat.value}
+                    </span>
+                    <span className="text-[11px] md:text-xs font-medium text-white/80 block leading-tight mt-0.5">
+                      {stat.label}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

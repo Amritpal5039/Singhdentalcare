@@ -1,5 +1,10 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+export interface IFaq {
+  question: string;
+  answer: string;
+}
+
 export interface IBlog extends Document {
   title: string;
   slug: string;
@@ -10,6 +15,7 @@ export interface IBlog extends Document {
   cloudinaryId: string;
   author: string;
   tags: string[];
+  faqs?: IFaq[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -25,6 +31,15 @@ const BlogSchema: Schema = new Schema(
     cloudinaryId: { type: String, required: true },
     author: { type: String, default: 'Singh Dental Care' },
     tags: [{ type: String }],
+    faqs: {
+      type: [
+        {
+          question: { type: String, required: true },
+          answer: { type: String, required: true },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: true }
 );

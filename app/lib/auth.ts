@@ -1,13 +1,18 @@
-import { MongoClient } from "mongodb";
 import dns from "dns";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 
-// Use Google DNS to resolve MongoDB Atlas SRV records
+// Use Google and Cloudflare DNS to resolve MongoDB Atlas SRV records
 // This fixes the querySrv ECONNREFUSED error in certain network environments like Vercel
 if (typeof window === "undefined") {
-  dns.setServers(["8.8.8.8", "8.8.4.4"]);
+  try {
+    dns.setServers(["8.8.8.8", "1.1.1.1", "8.8.4.4", "1.0.0.1"]);
+  } catch (err) {
+    console.warn("Failed to set DNS servers:", err);
+  }
 }
+
+import { MongoClient } from "mongodb";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 import fs from "fs";
 import path from "path";

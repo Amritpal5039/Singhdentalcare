@@ -8,6 +8,7 @@ import { generateHTML } from "@tiptap/html";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
 import { Metadata } from "next";
+import DiseaseCTA from "./_components/DiseaseCTA";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -90,7 +91,7 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
   return (
     <main className="min-h-screen bg-white">
       {/* Premium Hero Section for Disease */}
-      <section className="pt-[160px] pb-[80px] bg-[#f5f5f7]">
+      <section className="pt-12 md:pt-20 pb-[80px] bg-[#f5f5f7]">
         <div className="apple-container">
           {/* Breadcrumbs */}
           <nav className="flex items-center gap-2 text-sm text-[#86868b] mb-12 apple-body overflow-x-auto whitespace-nowrap pb-2">
@@ -168,20 +169,7 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
               </div>
 
               {/* Professional CTA */}
-              <div className="pt-10 border-t border-[#d2d2d7]">
-                 <h3 className="apple-title-md mb-4">Seek Professional Advice</h3>
-                 <p className="apple-body text-[#6e6e73] mb-8">
-                   Our specialists at Singh Dental Care are equipped with advanced technology to diagnose and treat {disease.name.toLowerCase()} with precision.
-                 </p>
-                 <div className="flex flex-wrap gap-4">
-                    <Link href="/contact" className="apple-btn-primary">
-                      Consult an Expert
-                    </Link>
-                    <Link href="/locations" className="apple-btn-secondary">
-                      Find a Clinic ›
-                    </Link>
-                 </div>
-              </div>
+              <DiseaseCTA diseaseName={disease.name} />
             </div>
 
           </div>

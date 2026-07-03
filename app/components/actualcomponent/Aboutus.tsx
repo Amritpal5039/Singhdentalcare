@@ -1,25 +1,6 @@
 import Image from "next/image";
 
 export default function Aboutus() {
-  const features = [
-    {
-      label: "8 Specialities. One Roof.",
-      desc: "Every treatment is performed by a dedicated specialist, not a generalist, ensuring expert care for every procedure."
-    },
-    {
-      label: "Transparent Pricing",
-      desc: "Upfront costs with no hidden charges. We believe trust is built on honesty and clear communication."
-    },
-    {
-      label: "Affordable Excellence",
-      desc: "World-class dental care at standardized, fair prices, making premium treatments accessible to everyone."
-    },
-    {
-      label: "Standardized Quality",
-      desc: "Consistent, protocol-driven care delivered by trained experts, ensuring the same high quality at every visit."
-    }
-  ];
-
   return (
     <section className="apple-section !pb-8 bg-white">
       <div className="apple-container-narrow">
@@ -27,7 +8,7 @@ export default function Aboutus() {
           Why Singh Dental Care.
         </h2>
         <p className="text-[19px] md:text-[21px] font-normal text-[#6e6e73] leading-[1.35] text-center mb-12">
-          Amritsar’s leading super-specialty dental chain, dedicated to providing high-quality, specialized treatments with full transparency. <br/> <span className="block mt-4 font-dancing-script text-3xl md:text-[2.2rem] font-semibold text-[#006A7F] leading-normal">“Jo ji aave, so raaji jaave—Aao bhi, Muskuraao bhi!”</span>
+          Amritsar's leading super-specialty dental chain, dedicated to providing world-class dental care by experienced specialists with complete transparency, honesty, and affordable pricing.
         </p>
       </div>
       
@@ -56,11 +37,11 @@ export default function Aboutus() {
           <div>
             <div className="aspect-video w-full rounded-[32px] overflow-hidden bg-[#f5f5f7] relative">
               <Image 
-                src="https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778407682/chnage_the_background_to_this_202605101535_v6v5fd.webp" 
-                alt="Singh Dental Care Team"
+                src="https://res.cloudinary.com/ddrhe6ojc/image/upload/v1782998044/PHOTO_POHOTS_png_yd2btc.webp"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
+                alt="Singh Dental Care Team: Experts in 8 Specialities"
               />
             </div>
             <p className="apple-body text-center mt-6 font-medium text-[#1d1d1f]">
@@ -70,22 +51,33 @@ export default function Aboutus() {
         </div>
       </div>
 
-      {/* Trust Grid / Feature Grid */}
-      <div className="apple-container mt-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, i) => (
-            <div 
-              key={i} 
-              className="bg-[#f5f5f7] p-8 rounded-[28px] flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.02] shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
-            >
-              <h3 className="apple-title-md mb-4">
-                {feature.label}
+      {/* Shark Tank Featured Section */}
+      <div className="apple-container-wide mt-16 lg:mt-24">
+        <div className="bg-[#f5f5f7] rounded-[32px] p-8 md:p-12 lg:p-16 transition-all duration-500 hover:shadow-xl hover:shadow-black/5">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Image Column */}
+            <div className="lg:col-span-6">
+              <div className="aspect-[4/3] w-full rounded-[24px] overflow-hidden bg-[#e8e8ed] relative group">
+                <Image
+                  src="https://res.cloudinary.com/ddrhe6ojc/image/upload/v1782990485/a2_mx28go.webp"
+                  alt="Dr. Bikram’s Vision: Singh Dental on Shark Tank India"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+            </div>
+
+            {/* Text Column */}
+            <div className="lg:col-span-6 flex flex-col justify-center">
+              <h3 className="text-2xl md:text-3xl lg:text-[36px] font-semibold tracking-tight text-[#1d1d1f] leading-[1.15] mb-6">
+                Dr. Bikram’s Vision: Singh Dental on Shark Tank India
               </h3>
-              <p className="apple-body !text-[#6e6e73]">
-                {feature.desc}
+              <p className="text-[17px] md:text-[19px] font-normal text-[#6e6e73] leading-[1.5]">
+                Dr. Bikram, a passionate dentist and visionary entrepreneur, took Singh Dental Care to Shark Tank India with an ambitious goal—establishing 100 clinics in the next 5 years. His mission is to provide world-class dental treatment at affordable costs, offering multi-specialty care under one roof. With this vision, Singh Dental Care is set to transform oral healthcare accessibility across India.
               </p>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

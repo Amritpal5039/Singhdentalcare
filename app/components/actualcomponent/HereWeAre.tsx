@@ -123,12 +123,13 @@ export default function HereWeAre() {
               <div className="relative w-full rounded-[24px] overflow-hidden bg-[#f5f5f7] aspect-video md:h-[400px] shadow-inner mb-6">
                 <iframe
                   src={currentBranch.mapUrl}
+                  title={`Google Map showing the location of Singh Dental Care ${currentBranch.name} branch`}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
+                  referrerPolicy="strict-origin-when-cross-origin"
                   className={`w-full h-full transition-all duration-300 ease-in-out ${
                     isTransitioning ? "opacity-0 scale-[0.98]" : "opacity-100 scale-100"
                   }`}

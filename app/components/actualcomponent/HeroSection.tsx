@@ -60,15 +60,20 @@ const STATS = [
   },
 ];
 
-export default function HeroSection() {
-  const [items, setItems] = useState<HeroItem[]>([]);
+interface HeroSectionProps {
+  initialHeroItems?: HeroItem[];
+}
+
+export default function HeroSection({ initialHeroItems = [] }: HeroSectionProps) {
+  const [items, setItems] = useState<HeroItem[]>(initialHeroItems.length > 0 ? initialHeroItems : []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLowBandwidth, setIsLowBandwidth] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(initialHeroItems.length > 0);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchItems = useCallback(async () => {
+    if (initialHeroItems.length > 0) return;
     try {
       const res = await fetch('/api/hero');
       const data = await res.json();
@@ -83,7 +88,7 @@ export default function HeroSection() {
     } finally {
       setIsLoaded(true);
     }
-  }, []);
+  }, [initialHeroItems]);
 
   useEffect(() => {
     const nav = navigator as NavigatorWithConnection;
@@ -99,8 +104,10 @@ export default function HeroSection() {
         setIsLowBandwidth(true);
       }
     }
-    fetchItems();
-  }, [fetchItems]);
+    if (initialHeroItems.length === 0) {
+      fetchItems();
+    }
+  }, [fetchItems, initialHeroItems]);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % items.length);
@@ -172,8 +179,8 @@ export default function HeroSection() {
       </div>
 
       {/* Main Video/Slider */}
-      <div className="apple-container-wide mb-10 md:mb-14">
-        <div className="relative aspect-video w-full overflow-hidden bg-black rounded-[24px] md:rounded-[40px] shadow-2xl">
+      <div className="w-screen mb-10 md:mb-14 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+        <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden bg-black">
           {/* Slider Items */}
           {isLoaded && items.map((item, index) => (
             <div 
@@ -226,6 +233,7 @@ export default function HeroSection() {
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     index === currentIndex ? 'w-8 bg-white' : 'w-1.5 bg-white/40'
                   }`}
+                  aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
             </div>

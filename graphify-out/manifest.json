@@ -75,13 +75,13 @@
     "semantic_hash": ""
   },
   "app/Our-services/page.tsx": {
-    "mtime": 1777896927.5619068,
-    "ast_hash": "75c9cc78f25298009dba72e2d15fa810",
+    "mtime": 1783073637.3985863,
+    "ast_hash": "81c4f78f9796988cba7257f5660c23be",
     "semantic_hash": ""
   },
   "app/about/page.tsx": {
-    "mtime": 1782994903.060402,
-    "ast_hash": "852ce314a201c71a50dd39d12b33d15a",
+    "mtime": 1783074045.7857466,
+    "ast_hash": "7e7068b5a16a52278cc6c2c540d950f9",
     "semantic_hash": ""
   },
   "app/api/admin/appointments/[id]/route.ts": {
@@ -235,12 +235,12 @@
     "semantic_hash": ""
   },
   "app/become-a-member/page.tsx": {
-    "mtime": 1778417907.989152,
-    "ast_hash": "88c86991279d8667fb96d6082572d711",
+    "mtime": 1783073625.3577273,
+    "ast_hash": "f7273e9f02cb53c529a585bd52b20037",
     "semantic_hash": ""
   },
   "app/blog/[slug]/page.tsx": {
-    "mtime": 1783070043.9488456,
+    "mtime": 1783077005.7338285,
     "ast_hash": "5b826ee3885a1e1c060ba2a818803b54",
     "semantic_hash": ""
   },
@@ -255,8 +255,8 @@
     "semantic_hash": ""
   },
   "app/blog/page.tsx": {
-    "mtime": 1778419879.2828326,
-    "ast_hash": "c1f61787ff3d437888c4611e2fa8b718",
+    "mtime": 1783080709.5169952,
+    "ast_hash": "eebac1691572ba3e34ca9a9df70833cb",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/Aboutus.tsx": {
@@ -265,38 +265,38 @@
     "semantic_hash": ""
   },
   "app/components/actualcomponent/AppointmentModal.tsx": {
-    "mtime": 1782891126.6833956,
-    "ast_hash": "9434f9d138e1a9607d1f711b948efcdd",
+    "mtime": 1783080703.0713553,
+    "ast_hash": "a0999f684203203c1a641d7f839e42cb",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/Contact.tsx": {
-    "mtime": 1778762172.3006763,
-    "ast_hash": "25c0dfd8fd42454228588e0ffd473685",
+    "mtime": 1783073647.6392632,
+    "ast_hash": "ddca38349464b3e408db2490c3caeac9",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/DoctorGrid.tsx": {
-    "mtime": 1782887732.4945433,
-    "ast_hash": "685ad6227347b6c3882be089b9fad3b6",
+    "mtime": 1783073655.698179,
+    "ast_hash": "c1e35e109eb83eeb62ac210a9bfbd8d4",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/Footer.tsx": {
-    "mtime": 1782994701.0241163,
-    "ast_hash": "7218b9ceef37f495cfc85760cd22bf3c",
+    "mtime": 1783080706.722157,
+    "ast_hash": "55c9c71892698fd035b68621674ad5a6",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/HereWeAre.tsx": {
-    "mtime": 1782995919.7640316,
-    "ast_hash": "fab834d7f45b1558fada5e2c2bc93da7",
+    "mtime": 1783080712.1801138,
+    "ast_hash": "fce97bb703b45d02e73fa7a67d77a098",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/HeroSection.tsx": {
-    "mtime": 1782989175.6514075,
-    "ast_hash": "b72db5026b9636125357a8d1e21dc7a6",
+    "mtime": 1783153893.3158925,
+    "ast_hash": "4aae65994ca0543c974395b1eaff1ecf",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/MeetTheDentist.tsx": {
-    "mtime": 1782887110.1584265,
-    "ast_hash": "1ea9c963e5e135321cb71b89337070dd",
+    "mtime": 1783080684.5047212,
+    "ast_hash": "d8549f1fbd86ba7abeb4b263a703d56f",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/Navbar.tsx": {
@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "app/components/actualcomponent/OurTreatments.tsx": {
-    "mtime": 1782885301.7656827,
-    "ast_hash": "afc7df049a593c02c87fec121a013461",
+    "mtime": 1783073634.0848913,
+    "ast_hash": "9b313136d71d7fea519bbc05f34fa2b3",
     "semantic_hash": ""
   },
   "app/components/actualcomponent/SharkTank.tsx": {
@@ -330,8 +330,8 @@
     "semantic_hash": ""
   },
   "app/components/actualcomponent/search.tsx": {
-    "mtime": 1778676718.2232642,
-    "ast_hash": "fbd3e406d3146adb4c31af2351e7b97b",
+    "mtime": 1783080696.0547652,
+    "ast_hash": "8d9272842ebbb639a4064641e59e0137",
     "semantic_hash": ""
   },
   "app/components/ui/HeroMediaUploader.tsx": {
@@ -370,13 +370,13 @@
     "semantic_hash": ""
   },
   "app/disease/[slug]/page.tsx": {
-    "mtime": 1782821886.3230329,
-    "ast_hash": "af350fff6d6db6397515d019d772c639",
+    "mtime": 1783073651.8588865,
+    "ast_hash": "5941c1420a3231ea14c06efeb6410de8",
     "semantic_hash": ""
   },
   "app/expert/page.tsx": {
-    "mtime": 1782887443.541772,
-    "ast_hash": "5191f53bd56983ae4d7b2e74e134d304",
+    "mtime": 1783073659.5570996,
+    "ast_hash": "439a85cd747f090c655b5f0854805b30",
     "semantic_hash": ""
   },
   "app/layout.tsx": {
@@ -395,8 +395,8 @@
     "semantic_hash": ""
   },
   "app/lib/db.ts": {
-    "mtime": 1783065763.7318757,
-    "ast_hash": "d59ffeffcf32aa8d025460fbcc8a34dc",
+    "mtime": 1783076414.2603347,
+    "ast_hash": "a301f09c4691bab8a485b1aead4254d8",
     "semantic_hash": ""
   },
   "app/lib/models/Appointment.ts": {
@@ -445,18 +445,18 @@
     "semantic_hash": ""
   },
   "app/locations/page.tsx": {
-    "mtime": 1782995924.132535,
-    "ast_hash": "54926df25e1d02ba07146abf35648b1b",
+    "mtime": 1783073663.3655732,
+    "ast_hash": "8cf3986f660cc29c91767516a9796255",
     "semantic_hash": ""
   },
   "app/page.tsx": {
-    "mtime": 1783066842.501851,
-    "ast_hash": "51b5f1d1ef6341f827e6573c5c931270",
+    "mtime": 1783080692.4973137,
+    "ast_hash": "2576676a49760bafff212aceff9f79fd",
     "semantic_hash": ""
   },
   "app/podcast/page.tsx": {
-    "mtime": 1782997602.870568,
-    "ast_hash": "1b104b69e921274bb04d976a8775f380",
+    "mtime": 1783073665.8922226,
+    "ast_hash": "e0d3df10b059c7ce357cb6e9db174476",
     "semantic_hash": ""
   },
   "app/sdc-league/page.tsx": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "next.config.ts": {
-    "mtime": 1779188077.4145863,
-    "ast_hash": "ed6361874db5b76df23a88f6d6c30045",
+    "mtime": 1783080680.750744,
+    "ast_hash": "8e5324f8351eb4ed29695f50e44bc9f1",
     "semantic_hash": ""
   },
   "package.json": {
@@ -690,8 +690,8 @@
     "semantic_hash": ""
   },
   "app/contact/page.tsx": {
-    "mtime": 1782994345.5221162,
-    "ast_hash": "4b3c362b5e454d626f2663802219f1c3",
+    "mtime": 1783073642.2347782,
+    "ast_hash": "92501a42dfbd4a986c099763a6c48ecb",
     "semantic_hash": ""
   },
   ".agents/skills/ai-seo/evals/evals.json": {

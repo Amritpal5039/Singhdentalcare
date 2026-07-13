@@ -100,6 +100,9 @@ export default function Footer() {
             ) : (
               <div className="flex bg-white rounded-full p-1 border border-[#d2d2d7] focus-within:ring-2 focus-within:ring-[#0071e3] transition-all">
                 <input
+                  id="newsletter-email"
+                  name="newsletterEmail"
+                  aria-label="Email address for newsletter"
                   type="email"
                   placeholder="Email address"
                   className="flex-1 bg-transparent px-4 py-2 outline-none apple-nav-text"

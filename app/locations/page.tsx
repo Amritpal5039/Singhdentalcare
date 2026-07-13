@@ -5,7 +5,7 @@ import Image from 'next/image';
 export default function LocationsPage() {
   const branches = [
     {
-      name: "100 Feet Branch",
+      name: "100 Feet Branch, Amritsar",
       subtitle: "Our Flagship State-of-the-Art Center",
       address: "279, Main, 100 Feet Rd, East Mohan Nagar, Amritsar, Punjab",
       phone: "+91 9056190567",
@@ -19,7 +19,7 @@ export default function LocationsPage() {
       ]
     },
     {
-      name: "Circular Road Branch",
+      name: "Circular Road Branch, Amritsar",
       subtitle: "Modern Dental Care in the Heart of the City",
       address: "5 AB, First floor, Circular Rd, Opposite print & gift gallery, near Gupta Hospital, Beauty Avenue, Amritsar, Punjab",
       phone: "+91 9056190567",
@@ -33,7 +33,7 @@ export default function LocationsPage() {
       ]
     },
     {
-      name: "Khalsa College Road Branch",
+      name: "Khalsa College Road Branch, Amritsar",
       subtitle: "Personalized Care with Advanced Technology",
       address: "48, Dasmesh Avenue Main GT Road, Khalsa College Rd, Opposite Gate no 2, adjoining Indian Oil Petrol Pump, Amritsar, Punjab 143001",
       phone: "+91 9056190567",

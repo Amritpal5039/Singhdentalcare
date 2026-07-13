@@ -177,6 +177,7 @@ export default function AppointmentModal() {
       <div className="relative w-full max-w-[540px] max-h-[90vh] bg-white rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] flex flex-col overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-4 duration-500">
         <button 
           onClick={closeModal}
+          aria-label="Close modal"
           className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors z-20 bg-white/80 backdrop-blur-sm shadow-sm"
         >
           <X className="w-5 h-5 text-gray-400" />
@@ -195,9 +196,11 @@ export default function AppointmentModal() {
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-1.5">
-                  <label className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Full Name</label>
+                  <label htmlFor="full-name" className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Full Name</label>
                   <input
                     required
+                    id="full-name"
+                    name="name"
                     type="text"
                     placeholder="Enter your name"
                     className="w-full px-5 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 focus:ring-[#0071e3] outline-none transition-all apple-body text-[16px]"
@@ -207,10 +210,13 @@ export default function AppointmentModal() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Phone Number</label>
+                  <label htmlFor="phone-number" className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Phone Number</label>
                   <div className="flex gap-2.5">
                     <div className="relative min-w-[100px]">
                       <select 
+                        id="country-code"
+                        name="countryCode"
+                        aria-label="Country Code"
                         className="w-full pl-3 pr-8 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 focus:ring-[#0071e3] outline-none transition-all apple-body appearance-none cursor-pointer text-[15px]"
                         value={formData.countryCode}
                         onChange={(e) => {
@@ -235,6 +241,8 @@ export default function AppointmentModal() {
                     </div>
                     <input
                       required
+                      id="phone-number"
+                      name="phoneNumber"
                       type="tel"
                       placeholder="Number"
                       className={`flex-1 min-w-0 px-5 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 outline-none transition-all apple-body text-[16px] ${
@@ -252,9 +260,11 @@ export default function AppointmentModal() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Location</label>
+                  <label htmlFor="location" className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Location</label>
                   <input
                     required
+                    id="location"
+                    name="location"
                     type="text"
                     placeholder="City / Area"
                     className="w-full px-5 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 focus:ring-[#0071e3] outline-none transition-all apple-body text-[16px]"
@@ -264,11 +274,13 @@ export default function AppointmentModal() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1 flex items-center gap-1.5">
+                  <label htmlFor="country" className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1 flex items-center gap-1.5">
                     <Globe className="w-3.5 h-3.5" /> Country
                   </label>
                   <div className="relative">
                     <select 
+                      id="country"
+                      name="country"
                       className="w-full pl-5 pr-10 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 focus:ring-[#0071e3] outline-none transition-all apple-body appearance-none cursor-pointer text-[16px]"
                       value={formData.country}
                       onChange={(e) => {
@@ -292,8 +304,10 @@ export default function AppointmentModal() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
-                    <label className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Medical History</label>
+                    <label htmlFor="medical-history" className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Medical History</label>
                     <input
+                      id="medical-history"
+                      name="medicalHistory"
                       type="text"
                       placeholder="Optional"
                       className="w-full px-5 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 focus:ring-[#0071e3] outline-none transition-all apple-body text-[16px]"
@@ -302,8 +316,10 @@ export default function AppointmentModal() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Medication</label>
+                    <label htmlFor="medication" className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Medication</label>
                     <input
+                      id="medication"
+                      name="medication"
                       type="text"
                       placeholder="Optional"
                       className="w-full px-5 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 focus:ring-[#0071e3] outline-none transition-all apple-body text-[16px]"
@@ -314,9 +330,11 @@ export default function AppointmentModal() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Treatment Required</label>
+                  <label htmlFor="treatment" className="apple-eyebrow text-[#1d1d1f] font-semibold ml-1">Treatment Required</label>
                   <div className="relative">
                     <select 
+                      id="treatment"
+                      name="treatment"
                       className="w-full pl-5 pr-10 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 focus:ring-[#0071e3] outline-none transition-all apple-body appearance-none cursor-pointer text-[16px]"
                       value={formData.treatment}
                       onChange={(e) => setFormData({...formData, treatment: e.target.value})}
@@ -335,6 +353,9 @@ export default function AppointmentModal() {
                   <div className="space-y-1.5 animate-in slide-in-from-top-2 duration-300">
                     <input
                       required
+                      id="other-treatment"
+                      name="otherTreatment"
+                      aria-label="Specify other treatment"
                       type="text"
                       placeholder="Please specify treatment"
                       className="w-full px-5 py-4 bg-[#f5f5f7] border-none rounded-2xl focus:ring-2 focus:ring-[#0071e3] outline-none transition-all apple-body text-[16px]"

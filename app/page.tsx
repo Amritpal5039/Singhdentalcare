@@ -10,6 +10,7 @@ import TestimonialSection from "./components/actualcomponent/TestimonialSection"
 import OurTreatments from "./components/actualcomponent/OurTreatments";
 import connectDB from "./lib/db";
 import Doctor from "./lib/models/Doctor";
+import HeroItem from "./lib/models/HeroItem";
 
 export const metadata: Metadata = {
   title: "Singh Dental Care | Best Dentist in Amritsar, Punjab",
@@ -204,6 +205,17 @@ const jsonLd = {
   ]
 };
 
+async function getHeroItems() {
+  try {
+    await connectDB();
+    const heroItems = await HeroItem.find({ isActive: true }).sort({ order: 1 }).lean();
+    return JSON.parse(JSON.stringify(heroItems));
+  } catch (e) {
+    console.error("Error fetching hero items on server:", e);
+    return [];
+  }
+}
+
 async function getDoctors() {
   try {
     await connectDB();
@@ -216,7 +228,10 @@ async function getDoctors() {
 }
 
 export default async function Home() {
-  const initialDoctors = await getDoctors();
+  const [initialDoctors, initialHeroItems] = await Promise.all([
+    getDoctors(),
+    getHeroItems(),
+  ]);
 
   return (
     <div className="overflow-x-hidden">
@@ -226,7 +241,7 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      <HeroSection/>
+      <HeroSection initialHeroItems={initialHeroItems} />
       <Search/>
       <About />
       <OurTreatments />

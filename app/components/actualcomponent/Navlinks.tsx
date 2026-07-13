@@ -47,7 +47,7 @@ const Ourservices = [
 ];
 
 const plainLinks = [
-  { label: "Our Expert", href: "/expert" },
+  { label: "Our Experts", href: "/expert" },
   { label: "Our Locations", href: "/locations" },
   { label: "Blog", href: "/blog" },
   { label: "Culture", href: "/sdc-league" },
@@ -94,7 +94,7 @@ export default function NavLinks() {
               </NavigationMenuLink>
             </NavigationMenuItem>
 
-            <NavigationMenuItem>
+            {/* <NavigationMenuItem>
               <NavigationMenuTrigger className="apple-nav-text opacity-80 hover:opacity-100 transition-opacity whitespace-nowrap px-2 xl:px-3">Services</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-1 p-3 lg:w-[500px] lg:grid-cols-2">
@@ -112,7 +112,7 @@ export default function NavLinks() {
                   ))}
                 </ul>
               </NavigationMenuContent>
-            </NavigationMenuItem>
+            </NavigationMenuItem> */}
 
             {plainLinks.map((link) => (
               <NavigationMenuItem key={link.href}>

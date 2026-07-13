@@ -165,8 +165,8 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
           <div className="flex items-center justify-between mb-10">
             <h2 className="apple-title-lg">Meet The Dentists</h2>
             <div className="hidden md:flex items-center gap-2">
-              <button onClick={() => navigate("prev")} disabled={activeIndex === 0} className="w-9 h-9 rounded-full border border-[#d2d2d7] flex items-center justify-center hover:bg-[#f5f5f7] disabled:opacity-25 transition-opacity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M15 19l-7-7 7-7" /></svg></button>
-              <button onClick={() => navigate("next")} disabled={activeIndex === dentists.length - 1} className="w-9 h-9 rounded-full border border-[#d2d2d7] flex items-center justify-center hover:bg-[#f5f5f7] disabled:opacity-25 transition-opacity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M9 5l7 7-7 7" /></svg></button>
+              <button aria-label="Previous dentist" onClick={() => navigate("prev")} disabled={activeIndex === 0} className="w-9 h-9 rounded-full border border-[#d2d2d7] flex items-center justify-center hover:bg-[#f5f5f7] disabled:opacity-25 transition-opacity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M15 19l-7-7 7-7" /></svg></button>
+              <button aria-label="Next dentist" onClick={() => navigate("next")} disabled={activeIndex === dentists.length - 1} className="w-9 h-9 rounded-full border border-[#d2d2d7] flex items-center justify-center hover:bg-[#f5f5f7] disabled:opacity-25 transition-opacity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-4 h-4"><path d="M9 5l7 7-7 7" /></svg></button>
             </div>
           </div>
 
@@ -226,7 +226,7 @@ export default function MeetTheDentists({ initialDoctors }: MeetTheDentistsProps
 
           <div className="flex justify-center items-center gap-2 mt-10">
             {dentists.map((_, i) => (
-              <button key={i} onClick={() => selectCard(i)} className="rounded-full transition-all duration-300" style={{ width: i === activeIndex ? "16px" : "6px", height: "6px", background: i === activeIndex ? "#1d1d1f" : "#d2d2d7" }} />
+              <button aria-label={`Go to dentist slide ${i + 1}`} key={i} onClick={() => selectCard(i)} className="rounded-full transition-all duration-300" style={{ width: i === activeIndex ? "16px" : "6px", height: "6px", background: i === activeIndex ? "#1d1d1f" : "#d2d2d7" }} />
             ))}
           </div>
         </div>

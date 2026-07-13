@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Play, VolumeX, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, VolumeX, Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Testimonial {
   _id: string;
@@ -17,6 +17,7 @@ const YouTubeShortCard = ({ testimonial }: { testimonial: Testimonial }) => {
   const [iframeReady, setIframeReady] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     // Preload sound effect
@@ -57,6 +58,15 @@ const YouTubeShortCard = ({ testimonial }: { testimonial: Testimonial }) => {
     setIsHovered(false);
   };
 
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      const func = isMuted ? 'unMute' : 'mute';
+      iframeRef.current.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: [] }), '*');
+      setIsMuted(!isMuted);
+    }
+  };
+
   const thumbnailUrl = `https://img.youtube.com/vi/${testimonial.videoId}/maxresdefault.jpg`;
 
   return (
@@ -94,6 +104,7 @@ const YouTubeShortCard = ({ testimonial }: { testimonial: Testimonial }) => {
           ) : (
             <div className="relative w-full h-full bg-black z-10">
               <iframe
+                ref={iframeRef}
                 src={`https://www.youtube-nocookie.com/embed/${testimonial.videoId}?autoplay=1&mute=1&loop=1&playlist=${testimonial.videoId}&controls=0&modestbranding=1&rel=0&iv_load_policy=3&enablejsapi=1`}
                 title={testimonial.title || "Best dental care Patient Testimonial"}
                 className="w-full h-full border-0 pointer-events-none"
@@ -101,9 +112,12 @@ const YouTubeShortCard = ({ testimonial }: { testimonial: Testimonial }) => {
                 allowFullScreen
                 onLoad={() => setIframeReady(true)}
               ></iframe>
-              <div className="absolute top-4 right-4 z-20 p-2 bg-black/40 backdrop-blur-md rounded-full text-white">
-                  <VolumeX size={16} />
-              </div>
+              <button 
+                onClick={toggleMute}
+                className="absolute top-4 right-4 z-20 p-2 bg-black/40 backdrop-blur-md hover:bg-black/60 rounded-full text-white transition-colors cursor-pointer"
+              >
+                  {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+              </button>
             </div>
           )}
         </div>

@@ -36,12 +36,12 @@ export default function PodcastPage() {
       <section className="apple-section !pt-12 md:!pt-20 pb-20">
         <div className="apple-container">
           <div className="apple-heading-group mb-16 text-center flex flex-col items-center justify-center">
-            <p className="apple-eyebrow tracking-widest text-[#006A7F] font-bold uppercase mb-2">SDC Presents</p>
+            <p className="tracking-widest text-[#006A7F] font-bold uppercase mb-2 text-3xl md:text-2xl">Singh Dental care Presents</p>
             <div className="relative mt-2">
               <img
                 src={healthHourLogo}
                 alt="Health Hour"
-                className="h-36 md:h-48 object-contain"
+                className="h-56 md:h-68 object-contain"
               />
             </div>
           </div>

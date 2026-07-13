@@ -143,7 +143,7 @@ export default function Search() {
               <h3 className="font-semibold text-gray-800">Results for "{selectedLetter}"</h3>
               <div className="flex items-center gap-3">
                 {isLetterLoading && <Loader2 className="w-4 h-4 text-[#006A7F] animate-spin" />}
-                <button onClick={() => setSelectedLetter(null)} className="text-gray-400 hover:text-gray-600">
+                <button aria-label="Close search results" onClick={() => setSelectedLetter(null)} className="text-gray-400 hover:text-gray-600">
                   <X size={18} />
                 </button>
               </div>
@@ -197,6 +197,9 @@ export default function Search() {
             )}
           </div>
           <input
+            id="disease-search-input"
+            name="disease-query"
+            aria-label="Search diseases and conditions"
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}

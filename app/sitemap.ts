@@ -6,7 +6,7 @@ import Disease from './lib/models/Disease';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   await connectDB();
 
-  const baseUrl = 'https://singhdentalcare.com';
+  const baseUrl = 'https://singhdentalcare.in';
 
   // Fetch all blogs
   const blogs = await Blog.find({}).select('slug updatedAt');

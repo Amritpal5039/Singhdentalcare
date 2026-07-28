@@ -179,8 +179,8 @@ export default function HeroSection({ initialHeroItems = [] }: HeroSectionProps)
       </div>
 
       {/* Main Video/Slider */}
-      <div className="w-screen mb-10 md:mb-14 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
-        <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden bg-black">
+      <div className="w-full max-w-[1400px] mx-auto px-4 md:px-8 mb-10 md:mb-14">
+        <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden bg-black rounded-2xl md:rounded-3xl shadow-xl">
           {/* Slider Items */}
           {isLoaded && items.map((item, index) => (
             <div 

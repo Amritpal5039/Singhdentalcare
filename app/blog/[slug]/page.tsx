@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${blog.title} | Singh Dental Care Blogs`,
     description: blog.excerpt,
     alternates: {
-      canonical: `https://singhdentalcare.com/blog/${slug}`,
+      canonical: `https://singhdentalcare.in/blog/${slug}`,
     },
     openGraph: {
       title: blog.title,
@@ -219,19 +219,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             "author": [{
               "@type": "Organization",
               "name": "Singh Dental Care",
-              "url": "https://singhdentalcare.com"
+              "url": "https://singhdentalcare.in"
             }],
             "publisher": {
               "@type": "Organization",
               "name": "Singh Dental Care",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://singhdentalcare.com/next.svg"
+                "url": "https://singhdentalcare.in/next.svg"
               }
             },
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://singhdentalcare.com/blog/${slug}`
+              "@id": `https://singhdentalcare.in/blog/${slug}`
             }
           })
         }}

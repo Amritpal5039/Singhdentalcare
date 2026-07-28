@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title,
     description,
     alternates: {
-      canonical: `https://singhdentalcare.com/disease/${slug}`,
+      canonical: `https://singhdentalcare.in/disease/${slug}`,
     },
     openGraph: {
       title,

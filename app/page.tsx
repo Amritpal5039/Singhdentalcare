@@ -8,6 +8,7 @@ import MeetTheDentists from "./components/actualcomponent/MeetTheDentist";
 import Search from "./components/actualcomponent/search";
 import TestimonialSection from "./components/actualcomponent/TestimonialSection";
 import OurTreatments from "./components/actualcomponent/OurTreatments";
+import AiSeoFaq from "./components/actualcomponent/AiSeoFaq";
 import connectDB from "./lib/db";
 import Doctor from "./lib/models/Doctor";
 import HeroItem from "./lib/models/HeroItem";
@@ -28,18 +29,18 @@ export const metadata: Metadata = {
     "best dental clinic in Punjab"
   ],
   alternates: {
-    canonical: "https://singhdentalcare.com",
+    canonical: "https://singhdentalcare.in",
   },
   openGraph: {
     title: "Singh Dental Care | Best Dentist in Amritsar, Punjab",
     description: "Singh Dental Care is the leading super-specialty dental clinic chain in Amritsar, Punjab. Find the best dentist near you for professional dental care.",
-    url: "https://singhdentalcare.com",
+    url: "https://singhdentalcare.in",
     siteName: "Singh Dental Care",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "https://singhdentalcare.com/smile.png",
+        url: "https://singhdentalcare.in/smile.png",
         width: 800,
         height: 600,
         alt: "Singh Dental Care Amritsar",
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Singh Dental Care | Best Dentist in Amritsar, Punjab",
     description: "Singh Dental Care is the leading super-specialty dental clinic chain in Amritsar, Punjab. Find the best dentist near you for professional dental care.",
-    images: ["https://singhdentalcare.com/smile.png"],
+    images: ["https://singhdentalcare.in/smile.png"],
   },
 };
 
@@ -59,7 +60,7 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Dentist",
-      "@id": "https://singhdentalcare.com/#dentist",
+      "@id": "https://singhdentalcare.in/#dentist",
       "name": "Singh Dental Care",
       "alternateName": [
         "Singh dental care near me",
@@ -70,9 +71,9 @@ const jsonLd = {
         "Best dentist in Punjab",
         "professional dentist near by me"
       ],
-      "url": "https://singhdentalcare.com",
-      "logo": "https://singhdentalcare.com/smile.png",
-      "image": "https://singhdentalcare.com/smile.png",
+      "url": "https://singhdentalcare.in",
+      "logo": "https://singhdentalcare.in/smile.png",
+      "image": "https://singhdentalcare.in/smile.png",
       "description": "Amritsar's leading super-specialty dental chain, dedicated to providing world-class dental care by experienced specialists with complete transparency, honesty, and affordable pricing.",
       "telephone": "+91 9056190567",
       "priceRange": "$$",
@@ -95,13 +96,13 @@ const jsonLd = {
     },
     {
       "@type": "Dentist",
-      "@id": "https://singhdentalcare.com/#100feet",
+      "@id": "https://singhdentalcare.in/#100feet",
       "name": "Singh Dental Care - 100 Feet Road Branch",
       "parentOrganization": {
         "@type": "Dentist",
-        "@id": "https://singhdentalcare.com/#dentist"
+        "@id": "https://singhdentalcare.in/#dentist"
       },
-      "url": "https://singhdentalcare.com/locations",
+      "url": "https://singhdentalcare.in/locations",
       "telephone": "+91 9056190567",
       "priceRange": "$$",
       "image": "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778238808/Untitled-1_sbf7hz.webp",
@@ -131,13 +132,13 @@ const jsonLd = {
     },
     {
       "@type": "Dentist",
-      "@id": "https://singhdentalcare.com/#circularroad",
+      "@id": "https://singhdentalcare.in/#circularroad",
       "name": "Singh Dental Care - Circular Road Branch",
       "parentOrganization": {
         "@type": "Dentist",
-        "@id": "https://singhdentalcare.com/#dentist"
+        "@id": "https://singhdentalcare.in/#dentist"
       },
-      "url": "https://singhdentalcare.com/locations",
+      "url": "https://singhdentalcare.in/locations",
       "telephone": "+91 9056190567",
       "priceRange": "$$",
       "image": "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239149/l2_jusdzp.webp",
@@ -167,13 +168,13 @@ const jsonLd = {
     },
     {
       "@type": "Dentist",
-      "@id": "https://singhdentalcare.com/#khalsacollege",
+      "@id": "https://singhdentalcare.in/#khalsacollege",
       "name": "Singh Dental Care - Khalsa College Road Branch",
       "parentOrganization": {
         "@type": "Dentist",
-        "@id": "https://singhdentalcare.com/#dentist"
+        "@id": "https://singhdentalcare.in/#dentist"
       },
-      "url": "https://singhdentalcare.com/locations",
+      "url": "https://singhdentalcare.in/locations",
       "telephone": "+91 9056190567",
       "priceRange": "$$",
       "image": "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239528/loc_3_lmsljy.webp",
@@ -200,6 +201,28 @@ const jsonLd = {
       ],
       "sameAs": [
         "https://www.google.com/maps/place/Singh+Dental+Care/@31.6315675,74.8344733"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://singhdentalcare.in/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who is the best dentist in Amritsar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Singh Dental Care is widely recognized as the best dentist in Amritsar, offering super-specialty dental treatments. With over 10 years of experience, 3 state-of-the-art clinics across the city, and a team of 8 dedicated specialists, we have successfully treated over 50,000 patients."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What makes Singh Dental Care the top dental clinic in Punjab?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our commitment to world-class care makes Singh Dental Care the top dental clinic in Punjab. We provide 8 distinct dental specialties under one roof, including pediatric dentistry, orthodontics, periodontics, and oral maxillofacial surgery."
+          }
+        }
       ]
     }
   ]
@@ -250,6 +273,7 @@ export default async function Home() {
       
       {/* <SharkTank /> */}
       <TestimonialSection />
+      <AiSeoFaq />
       <ContactUs />
       <HereWeAre/>
     </div>

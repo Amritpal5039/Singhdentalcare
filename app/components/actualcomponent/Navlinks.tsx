@@ -59,10 +59,9 @@ const plainLinks = [
 // Apple easing curve
 const APPLE_EASE = "cubic-bezier(0.28, 0.11, 0.32, 1)";
 
-// Structure of mobile menu (with collapsible dropdown for Services)
 const mobileMenuStructure = [
   { type: "link", label: "Home", href: "/" },
-  { type: "dropdown", label: "Services", href: "/services" },
+  // { type: "dropdown", label: "Services", href: "/services" },
   ...plainLinks.map(link => ({ type: "link", label: link.label, href: link.href })),
 ];
 

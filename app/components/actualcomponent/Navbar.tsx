@@ -3,6 +3,7 @@ import { Suspense} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 
 // Defer NavLinks hydration to after paint — Radix + useState not needed for initial render
 const NavLinks = dynamic(() => import("./Navlinks"), { 
@@ -17,6 +18,9 @@ const NavLinks = dynamic(() => import("./Navlinks"), {
 });
 
 export default function Navbar() {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/Admin")) return null;
+
   return (
     <nav className="sticky top-0 z-[100] w-full bg-white/85 backdrop-blur-[20px] border-b border-black/[0.05]">
       <div className="max-w-[1200px] mx-auto flex items-center justify-between px-[22px] h-[72px] lg:h-[80px] relative">

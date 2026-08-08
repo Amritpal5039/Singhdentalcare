@@ -54,6 +54,7 @@ const plainLinks = [
   { label: "Podcast", href: "/podcast" },
   { label: "Become A Member", href: "/become-a-member" },
   { label: "About", href: "/about" },
+  { label: "Careers", href: "/careers" },
 ];
 
 // Apple easing curve

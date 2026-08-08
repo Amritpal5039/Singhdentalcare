@@ -38,6 +38,7 @@ const NAV_COLUMNS: NavColumn[] = [
     heading: "About",
     items: [
       { label: "About Us", href: "/about" },
+      { label: "Careers", href: "/careers" },
     ],
   },
   {

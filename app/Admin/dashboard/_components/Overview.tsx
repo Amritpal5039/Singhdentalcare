@@ -124,6 +124,19 @@ export function Overview({ hasPermission, onNavigate }: OverviewProps) {
           </span>
         </div>
       )}
+
+      {hasPermission("all") && (
+        <div 
+          onClick={() => onNavigate("MANAGE_CAREERS")} 
+          className="bg-white p-8 rounded-[24px] border border-[#d2d2d7] hover:shadow-lg transition-all group cursor-pointer"
+        >
+          <h3 className="apple-title-md mb-2">Careers</h3>
+          <p className="apple-body text-[#6e6e73] mb-6">Manage job postings and applications.</p>
+          <span className="text-[#0071e3] apple-body flex items-center">
+            Manage Careers <span className="ml-1 group-hover:translate-x-1 transition-transform">›</span>
+          </span>
+        </div>
+      )}
     </div>
   );
 }

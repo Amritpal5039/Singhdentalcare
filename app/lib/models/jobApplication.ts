@@ -21,7 +21,7 @@ const JobApplicationSchema: Schema = new Schema(
         validator: function(v: string) {
           return /^\d{10}$/.test(v);
         },
-        message: props => `${props.value} is not a valid 10-digit phone number!`
+        message: (props: { value: string }) => `${props.value} is not a valid 10-digit phone number!`
       }
     },
     resumeUrl: { type: String, required: true },

@@ -14,7 +14,7 @@ export function UsersManager({ currentUserEmail }: UsersManagerProps) {
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserName, setNewUserName] = useState("");
   const [newUserPassword, setNewUserPassword] = useState("");
-  const [newUserPermissions, setNewUserPermissions] = useState<string[]>(["appointments", "doctors", "diseases", "testimonials"]);
+  const [newUserPermissions, setNewUserPermissions] = useState<string[]>(["appointments", "doctors", "diseases", "testimonials", "careers"]);
   const [userSubmitMessage, setUserSubmitMessage] = useState("");
   const [userSubmitError, setUserSubmitError] = useState("");
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
@@ -33,6 +33,7 @@ export function UsersManager({ currentUserEmail }: UsersManagerProps) {
     { id: "membership", label: "Membership Plans" },
     { id: "blogs", label: "Blogs" },
     { id: "users", label: "User Management" },
+    { id: "careers", label: "Careers & Jobs" },
   ];
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export function UsersManager({ currentUserEmail }: UsersManagerProps) {
         setNewUserEmail("");
         setNewUserName("");
         setNewUserPassword("");
-        setNewUserPermissions(["appointments", "doctors", "diseases", "testimonials"]);
+        setNewUserPermissions(["appointments", "doctors", "diseases", "testimonials", "careers"]);
         fetchUsers();
       } else {
         setUserSubmitError(data.error || "Failed to create user.");

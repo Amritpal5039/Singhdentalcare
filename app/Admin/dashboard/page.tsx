@@ -117,7 +117,7 @@ export default function AdminDashboard() {
           <HeroManager />
         )}
 
-        {currentView === "MANAGE_CAREERS" && hasPermission("all") && (
+        {currentView === "MANAGE_CAREERS" && hasPermission("careers") && (
           <CareersManager />
         )}
       </div>

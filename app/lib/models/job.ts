@@ -1,5 +1,10 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+export interface IJobQuestion {
+  question: string;
+  type: 'yes_no' | 'text';
+}
+
 export interface IJob extends Document {
   title: string;
   type: string;
@@ -7,7 +12,7 @@ export interface IJob extends Document {
   deadline: Date;
   openings: number;
   description: string;
-  questions: string[];
+  questions: IJobQuestion[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,7 +25,7 @@ const JobSchema: Schema = new Schema(
     deadline: { type: Date, required: true },
     openings: { type: Number, required: true },
     description: { type: String, required: true },
-    questions: [{ type: String }],
+    questions: [{ type: Schema.Types.Mixed }], // Mixed to allow backward compatibility with string arrays
   },
   { timestamps: true }
 );

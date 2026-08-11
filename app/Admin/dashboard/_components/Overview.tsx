@@ -125,7 +125,7 @@ export function Overview({ hasPermission, onNavigate }: OverviewProps) {
         </div>
       )}
 
-      {hasPermission("all") && (
+      {hasPermission("careers") && (
         <div 
           onClick={() => onNavigate("MANAGE_CAREERS")} 
           className="bg-white p-8 rounded-[24px] border border-[#d2d2d7] hover:shadow-lg transition-all group cursor-pointer"

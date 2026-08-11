@@ -10,7 +10,7 @@ interface Job {
   openings: number;
   deadline: string;
   description?: string;
-  questions?: string[];
+  questions?: any[];
 }
 
 interface Application {
@@ -35,7 +35,7 @@ export function CareersManager() {
   const [deadline, setDeadline] = useState('');
   const [openings, setOpenings] = useState(1);
   const [description, setDescription] = useState('');
-  const [questions, setQuestions] = useState<string[]>(['']);
+  const [questions, setQuestions] = useState<{question: string, type: 'yes_no' | 'text'}[]>([{question: '', type: 'yes_no'}]);
 
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState<'list' | 'create' | 'edit' | 'applications'>('list');
@@ -73,7 +73,7 @@ export function CareersManager() {
     e.preventDefault();
     setLoading(true);
     try {
-      const validQuestions = questions.filter(q => q.trim() !== '');
+      const validQuestions = questions.filter(q => q.question && q.question.trim() !== '');
       const url = view === 'edit' && editingJobId ? `/api/jobs/${editingJobId}` : '/api/jobs';
       const method = view === 'edit' ? 'PUT' : 'POST';
       
@@ -92,7 +92,7 @@ export function CareersManager() {
         setTitle('');
         setBranch('');
         setDescription('');
-        setQuestions(['']);
+        setQuestions([{question: '', type: 'yes_no'}]);
         setEditingJobId(null);
       } else {
         const data = await res.json();
@@ -112,7 +112,17 @@ export function CareersManager() {
     setDeadline(new Date(job.deadline).toISOString().split('T')[0]);
     setOpenings(job.openings);
     setDescription(job.description || '');
-    setQuestions(job.questions && job.questions.length > 0 ? job.questions : ['']);
+    
+    let formattedQuestions = [{question: '', type: 'yes_no' as const}];
+    if (job.questions && job.questions.length > 0) {
+      formattedQuestions = job.questions.map(q => {
+        if (typeof q === 'string') {
+          return { question: q, type: 'yes_no' as const };
+        }
+        return { question: q.question || '', type: q.type || 'yes_no' };
+      });
+    }
+    setQuestions(formattedQuestions);
     setEditingJobId(job._id);
     setView('edit');
   };
@@ -137,14 +147,19 @@ export function CareersManager() {
     }
   };
 
-  const handleQuestionChange = (index: number, value: string) => {
+  const handleQuestionChange = (index: number, field: 'question' | 'type', value: string) => {
     const newQuestions = [...questions];
-    newQuestions[index] = value;
-    setQuestions(newQuestions);
+    newQuestions[index] = { ...newQuestions[index], [field]: value };
+    setQuestions(newQuestions as any);
   };
 
   const addQuestionField = () => {
-    setQuestions([...questions, '']);
+    setQuestions([...questions, {question: '', type: 'yes_no'}]);
+  };
+
+  const removeQuestionField = (index: number) => {
+    const newQuestions = questions.filter((_, idx) => idx !== index);
+    setQuestions(newQuestions as any);
   };
 
   return (
@@ -254,16 +269,31 @@ export function CareersManager() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Checkbox Questions</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Questions</label>
               {questions.map((q, idx) => (
                 <div key={idx} className="flex gap-2 mb-2">
                   <input 
                     type="text" 
-                    value={q} 
-                    onChange={e => handleQuestionChange(idx, e.target.value)} 
+                    value={q.question} 
+                    onChange={e => handleQuestionChange(idx, 'question', e.target.value)} 
                     placeholder="E.g., I have 3+ years experience"
                     className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
+                  <select
+                    value={q.type}
+                    onChange={e => handleQuestionChange(idx, 'type', e.target.value)}
+                    className="block w-40 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="yes_no">Yes / No</option>
+                    <option value="text">Text Answer</option>
+                  </select>
+                  <button 
+                    type="button" 
+                    onClick={() => removeQuestionField(idx)}
+                    className="px-3 py-2 bg-red-50 text-red-600 rounded-md hover:bg-red-100 focus:outline-none border border-red-200"
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
               <button type="button" onClick={addQuestionField} className="mt-2 text-sm text-blue-600 hover:text-blue-800">

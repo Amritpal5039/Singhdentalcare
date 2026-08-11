@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import FileUploader from '@/app/components/ui/FileUploader';
 
 interface Job {
@@ -12,11 +12,13 @@ interface Job {
   deadline: string;
   openings: number;
   description: string;
-  questions: string[];
+  questions: any[];
 }
 
 export default function JobDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const shouldApply = searchParams.get('apply') === 'true';
   const unwrappedParams = React.use(params);
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,7 +31,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [resumeUrl, setResumeUrl] = useState('');
-  const [answerObj, setAnswerObj] = useState<Record<string, 'Yes' | 'No'>>({});
+  const [answerObj, setAnswerObj] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -38,6 +40,14 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
         if (res.ok) {
           const data = await res.json();
           setJob(data.job);
+          if (shouldApply) {
+            if (data.job.questions && data.job.questions.length > 0) {
+              setFormStep(1);
+            } else {
+              setFormStep(2);
+            }
+            setTimeout(() => scrollToForm(), 100);
+          }
         } else {
           router.push('/careers');
         }
@@ -60,7 +70,10 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
   };
 
   const handleNextClick = () => {
-    const allAnswered = job?.questions.every(q => answerObj[q]);
+    const allAnswered = job?.questions.every(qItem => {
+      const qText = typeof qItem === 'string' ? qItem : qItem.question;
+      return answerObj[qText] && answerObj[qText].trim() !== '';
+    });
     if (!allAnswered) {
       alert("Please answer all questions before proceeding.");
       return;
@@ -68,7 +81,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
     setFormStep(2);
   };
 
-  const handleRadioChange = (question: string, value: 'Yes' | 'No') => {
+  const handleAnswerChange = (question: string, value: string) => {
     setAnswerObj(prev => ({ ...prev, [question]: value }));
   };
 
@@ -184,35 +197,50 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
                     </button>
                   </div>
                   <div className="space-y-6">
-                    {job.questions.map((q, idx) => (
+                    {job.questions.map((qItem, idx) => {
+                      const qText = typeof qItem === 'string' ? qItem : qItem.question;
+                      const qType = typeof qItem === 'string' ? 'yes_no' : (qItem.type || 'yes_no');
+                      
+                      return (
                       <div key={idx} className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                        <p className="font-medium text-gray-800 mb-3">{q}</p>
-                        <div className="flex gap-4">
-                          <label className="flex items-center gap-2 cursor-pointer">
-                            <input 
-                              type="radio" 
-                              name={`question-${idx}`} 
-                              value="Yes"
-                              checked={answerObj[q] === 'Yes'}
-                              onChange={() => handleRadioChange(q, 'Yes')}
-                              className="text-[#0071e3] focus:ring-[#0071e3]"
-                            />
-                            <span>Yes</span>
-                          </label>
-                          <label className="flex items-center gap-2 cursor-pointer">
-                            <input 
-                              type="radio" 
-                              name={`question-${idx}`} 
-                              value="No"
-                              checked={answerObj[q] === 'No'}
-                              onChange={() => handleRadioChange(q, 'No')}
-                              className="text-[#0071e3] focus:ring-[#0071e3]"
-                            />
-                            <span>No</span>
-                          </label>
-                        </div>
+                        <p className="font-medium text-gray-800 mb-3">{qText}</p>
+                        {qType === 'yes_no' ? (
+                          <div className="flex gap-4">
+                            <label className="flex items-center gap-2 cursor-pointer">
+                              <input 
+                                type="radio" 
+                                name={`question-${idx}`} 
+                                value="Yes"
+                                checked={answerObj[qText] === 'Yes'}
+                                onChange={() => handleAnswerChange(qText, 'Yes')}
+                                className="text-[#0071e3] focus:ring-[#0071e3]"
+                              />
+                              <span>Yes</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer">
+                              <input 
+                                type="radio" 
+                                name={`question-${idx}`} 
+                                value="No"
+                                checked={answerObj[qText] === 'No'}
+                                onChange={() => handleAnswerChange(qText, 'No')}
+                                className="text-[#0071e3] focus:ring-[#0071e3]"
+                              />
+                              <span>No</span>
+                            </label>
+                          </div>
+                        ) : (
+                          <textarea
+                            rows={3}
+                            value={answerObj[qText] || ''}
+                            onChange={(e) => handleAnswerChange(qText, e.target.value)}
+                            placeholder="Type your answer here..."
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:ring-2 focus:ring-[#0071e3] focus:border-transparent outline-none transition-all duration-300 apple-body"
+                          />
+                        )}
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                   <div className="pt-8 flex justify-end">
                     <button

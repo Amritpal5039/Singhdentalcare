@@ -17,8 +17,11 @@ export default function CareersPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 10;
 
   useEffect(() => {
+    setCurrentPage(1);
     fetchJobs();
   }, [search]);
 
@@ -41,13 +44,24 @@ export default function CareersPage() {
     <div className="bg-white min-h-screen">
       <section className="apple-hero">
         <div className="apple-container-narrow flex flex-col items-center text-center">
-          <p className="apple-eyebrow apple-hero-eyebrow">Join Our Team</p>
+          <p className="apple-eyebrow apple-hero-eyebrow mt-16">Join Our Team</p>
           <h1 className="apple-hero-title">
             Careers.
           </h1>
           <p className="apple-subtitle mt-4 mb-10">
             Help us create beautiful smiles.
           </p>
+
+          <div className="w-full max-w-4xl mx-auto mb-12 aspect-video rounded-[20px] overflow-hidden shadow-xl">
+            <iframe 
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/dhfnEtNZKvI?autoplay=1&mute=1&controls=1" 
+              title="Join Our Team" 
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowFullScreen>
+            </iframe>
+          </div>
           
           <div className="w-full max-w-lg mx-auto relative">
             <input
@@ -57,6 +71,11 @@ export default function CareersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            {!loading && (
+              <p className="apple-body text-[--apple-text-secondary] mt-4">
+                {jobs.length} {jobs.length === 1 ? 'open position' : 'open positions'} available
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -74,31 +93,59 @@ export default function CareersPage() {
               <p className="apple-subtitle">No open positions found. Please check back later!</p>
             </div>
           ) : (
-            <div className="apple-card-grid">
-              {jobs.map((job, index) => {
-                const isDark = index % 3 === 2;
-                const isBlue = index % 4 === 3;
+            <>
+              <div className="apple-card-grid">
+                {jobs.slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage).map((job, index) => {
+                  const isDark = index % 3 === 2;
+                  const isBlue = index % 4 === 3;
 
-                let cardClass = "apple-card";
-                if (isDark) cardClass += " apple-card-dark";
-                if (isBlue && !isDark) cardClass += " apple-card-blue";
+                  let cardClass = "apple-card";
+                  if (isDark) cardClass += " apple-card-dark";
+                  if (isBlue && !isDark) cardClass += " apple-card-blue";
 
-                return (
-                  <div key={job._id} className={cardClass}>
-                    <div className="apple-card-spacer"></div>
-                    <p className="apple-card-eyebrow">{job.branch} &middot; {job.type}</p>
-                    <h3 className="apple-card-title">{job.title}</h3>
-                    <p className="apple-card-desc line-clamp-2 mb-3">{job.description}</p>
-                    <p className="apple-caption opacity-70 mb-5">
-                      {job.openings} Opening{job.openings !== 1 ? 's' : ''} &middot; By {new Date(job.deadline).toLocaleDateString()}
-                    </p>
-                    <Link href={`/careers/${job._id}`} className="apple-card-link">
-                      View Details ›
-                    </Link>
-                  </div>
-                );
-              })}
-            </div>
+                  return (
+                    <div key={job._id} className={cardClass}>
+                      <div className="apple-card-spacer"></div>
+                      <p className="apple-card-eyebrow">{job.branch} &middot; {job.type}</p>
+                      <h3 className="apple-card-title">{job.title}</h3>
+                      <p className="apple-card-desc line-clamp-2 mb-3">{job.description}</p>
+                      <p className="apple-caption opacity-70 mb-5">
+                        {job.openings} Opening{job.openings !== 1 ? 's' : ''} &middot; By {new Date(job.deadline).toLocaleDateString()}
+                      </p>
+                      <div className="flex gap-4 items-center">
+                        <Link href={`/careers/${job._id}`} className="apple-card-link flex-1">
+                          View Details ›
+                        </Link>
+                        <Link href={`/careers/${job._id}?apply=true`} className="apple-btn-primary py-2 px-4 text-sm rounded-full bg-[#0071e3] text-white hover:bg-[#0077ED] transition-colors whitespace-nowrap text-center">
+                          Apply Now
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {Math.ceil(jobs.length / jobsPerPage) > 1 && (
+                <div className="flex justify-center items-center mt-12 gap-6">
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className="apple-btn-secondary px-6 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    &larr; Previous
+                  </button>
+                  <span className="apple-body font-medium">
+                    Page {currentPage} of {Math.ceil(jobs.length / jobsPerPage)}
+                  </span>
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(jobs.length / jobsPerPage)))}
+                    disabled={currentPage === Math.ceil(jobs.length / jobsPerPage)}
+                    className="apple-btn-secondary px-6 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Next &rarr;
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>

@@ -49,13 +49,13 @@ export default function CareersPage() {
             Careers.
           </h1>
           <p className="apple-subtitle mt-4 mb-10">
-            Help us create beautiful smiles.
+            What makes Singh dental Care different? Hear it from Dr. Bikram, our Founder &amp; CEO.
           </p>
 
           <div className="w-full max-w-4xl mx-auto mb-12 aspect-video rounded-[20px] overflow-hidden shadow-xl">
             <iframe 
               className="w-full h-full"
-              src="https://www.youtube.com/embed/dhfnEtNZKvI?autoplay=1&mute=1&controls=1" 
+              src="https://www.youtube.com/embed/vvayRz30q6Q?autoplay=1&mute=1&controls=1" 
               title="Join Our Team" 
               frameBorder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 

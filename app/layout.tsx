@@ -6,7 +6,21 @@ import localFont from 'next/font/local'
 
 export const metadata: Metadata = {
   title: "Singh Dental Care",
-  description: "Singh dental care",
+  description: "Your trusted best dentist near by you. We provide a wide range of dental services, from routine check-ups to advanced procedures, ensuring your smile stays healthy and beautiful.",
+  openGraph: {
+    images: [
+      {
+        url: "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1783944660/qgrmieqtkpqombmojegj.webp",
+        width: 1200,
+        height: 630,
+        alt: "Singh Dental Care",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["https://res.cloudinary.com/ddrhe6ojc/image/upload/v1783944660/qgrmieqtkpqombmojegj.webp"],
+  },
 };
 // Configure the local font
 const sfPro = localFont({

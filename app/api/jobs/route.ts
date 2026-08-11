@@ -56,7 +56,17 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    // Optionally filter out expired jobs here if needed, e.g. deadline: { $gte: new Date() }
+    // Check if user is admin
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
+
+    if (!session) {
+      // Public view: only show non-hidden jobs with deadline in the future
+      query.isHidden = { $ne: true };
+      query.deadline = { $gte: new Date() };
+    }
+
     const jobs = await Job.find(query).sort({ createdAt: -1 });
     
     return NextResponse.json({ jobs }, { status: 200 });

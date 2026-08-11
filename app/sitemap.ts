@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/Our-services',
     '/become-a-member',
     '/sdc-league',
+    '/careers',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

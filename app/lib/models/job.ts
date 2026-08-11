@@ -13,6 +13,7 @@ export interface IJob extends Document {
   openings: number;
   description: string;
   questions: IJobQuestion[];
+  isHidden: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,6 +27,7 @@ const JobSchema: Schema = new Schema(
     openings: { type: Number, required: true },
     description: { type: String, required: true },
     questions: [{ type: Schema.Types.Mixed }], // Mixed to allow backward compatibility with string arrays
+    isHidden: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

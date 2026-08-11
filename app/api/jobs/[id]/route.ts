@@ -16,6 +16,16 @@ export async function GET(
       return NextResponse.json({ error: "Job not found" }, { status: 404 });
     }
 
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
+
+    if (!session) {
+      if (job.isHidden || new Date(job.deadline) < new Date()) {
+        return NextResponse.json({ error: "Job not found" }, { status: 404 });
+      }
+    }
+
     return NextResponse.json({ job }, { status: 200 });
   } catch (error: any) {
     console.error("Error fetching job:", error);
@@ -75,7 +85,11 @@ export async function DELETE(
       return NextResponse.json({ error: "Job not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ message: "Job deleted successfully" }, { status: 200 });
+    // Delete associated applications
+    const { default: JobApplication } = await import("@/app/lib/models/jobApplication");
+    await JobApplication.deleteMany({ jobId: unwrappedParams.id });
+
+    return NextResponse.json({ message: "Job and its applications deleted successfully" }, { status: 200 });
   } catch (error: any) {
     console.error("Error deleting job:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

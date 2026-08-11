@@ -1,3 +1,25 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Locations | Singh Dental Care",
+  description: "Find a Singh Dental Care clinic near you. We have multiple locations to serve you better.",
+  keywords: ["Singh Dental Care", "dentist", "dental clinic locations", "dentist near me", "Singh Dental Care branches"],
+  openGraph: {
+    images: [
+      {
+        url: "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1783944660/qgrmieqtkpqombmojegj.webp",
+        width: 1200,
+        height: 630,
+        alt: "Singh Dental Care - Locations",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["https://res.cloudinary.com/ddrhe6ojc/image/upload/v1783944660/qgrmieqtkpqombmojegj.webp"],
+  },
+};
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';

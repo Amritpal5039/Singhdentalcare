@@ -1,3 +1,25 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us | Singh Dental Care",
+  description: "Learn more about Singh Dental Care, our experienced team of dentists, and our commitment to providing the best dental care.",
+  keywords: ["Singh Dental Care", "dentist", "about Singh Dental Care", "best dentists", "dental clinic team", "experienced dentists"],
+  openGraph: {
+    images: [
+      {
+        url: "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1783944660/qgrmieqtkpqombmojegj.webp",
+        width: 1200,
+        height: 630,
+        alt: "Singh Dental Care - About Us",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["https://res.cloudinary.com/ddrhe6ojc/image/upload/v1783944660/qgrmieqtkpqombmojegj.webp"],
+  },
+};
+
 import Image from "next/image";
 import Aboutus from "../components/actualcomponent/Aboutus";
 import MeetTheDentists from "../components/actualcomponent/MeetTheDentist";

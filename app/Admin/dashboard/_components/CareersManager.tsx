@@ -11,6 +11,7 @@ interface Job {
   deadline: string;
   description?: string;
   questions?: any[];
+  isHidden?: boolean;
 }
 
 interface Application {
@@ -147,6 +148,25 @@ export function CareersManager() {
     }
   };
 
+  const handleToggleVisibility = async (job: Job) => {
+    try {
+      const res = await fetch(`/api/jobs/${job._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isHidden: !job.isHidden })
+      });
+      if (res.ok) {
+        fetchJobs();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to update visibility');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred while updating the job');
+    }
+  };
+
   const handleQuestionChange = (index: number, field: 'question' | 'type', value: string) => {
     const newQuestions = [...questions];
     newQuestions[index] = { ...newQuestions[index], [field]: value };
@@ -197,7 +217,10 @@ export function CareersManager() {
             <tbody className="bg-white divide-y divide-gray-200">
               {jobs.map((job) => (
                 <tr key={job._id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.title}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {job.title}
+                    {job.isHidden && <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">Hidden</span>}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.type} - {job.branch}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(job.deadline) > new Date() ? 'Open' : 'Closed'}
@@ -208,6 +231,12 @@ export function CareersManager() {
                       className="text-indigo-600 hover:text-indigo-900 mr-4"
                     >
                       Edit
+                    </button>
+                    <button 
+                      onClick={() => handleToggleVisibility(job)}
+                      className="text-gray-600 hover:text-gray-900 mr-4"
+                    >
+                      {job.isHidden ? 'Unhide' : 'Hide'}
                     </button>
                     <button 
                       onClick={() => handleDeleteClick(job._id)}

@@ -49,7 +49,7 @@ export default function CareersPage() {
             Careers.
           </h1>
           <p className="apple-subtitle mt-4 mb-10">
-            What makes Singh dental Care different? Hear it from Dr. Bikram, our Founder &amp; CEO.
+            What makes Singh dental Care different?<br/> Hear it from Dr. Bikram, our Founder &amp; CEO.
           </p>
 
           <div className="w-full max-w-4xl mx-auto mb-12 aspect-video rounded-[20px] overflow-hidden shadow-xl">
@@ -94,17 +94,10 @@ export default function CareersPage() {
             </div>
           ) : (
             <>
-              <div className="apple-card-grid">
+              <div className="flex flex-col gap-4">
                 {jobs.slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage).map((job, index) => {
-                  const isDark = index % 3 === 2;
-                  const isBlue = index % 4 === 3;
-
-                  let cardClass = "apple-card";
-                  if (isDark) cardClass += " apple-card-dark";
-                  if (isBlue && !isDark) cardClass += " apple-card-blue";
-
                   return (
-                    <div key={job._id} className={cardClass}>
+                    <div key={job._id} className="apple-card">
                       <div className="apple-card-spacer"></div>
                       <p className="apple-card-eyebrow">{job.branch} &middot; {job.type}</p>
                       <h3 className="apple-card-title">{job.title}</h3>

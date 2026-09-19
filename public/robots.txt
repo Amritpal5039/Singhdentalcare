@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /Admin/
+Disallow: /api/
 
-Sitemap: https://singhdentalcare.in/sitemap.xml
+Sitemap: https://www.singhdentalcare.in/sitemap.xml

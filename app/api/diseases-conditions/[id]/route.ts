@@ -2,6 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import connectDB from "@/app/lib/db";
 import Disease from "@/app/lib/models/Disease";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/app/lib/auth";
 
 cloudinary.config({
@@ -80,6 +81,18 @@ export async function PUT(
 
     const updatedDisease = await Disease.findByIdAndUpdate(id, updateData, { new: true });
 
+    try {
+      revalidatePath("/sitemap.xml");
+      revalidatePath("/disease");
+      if (existingDisease.slug) revalidatePath(`/disease/${existingDisease.slug}`);
+      if (updatedDisease?.slug && updatedDisease.slug !== existingDisease.slug) {
+        revalidatePath(`/disease/${updatedDisease.slug}`);
+      }
+      revalidatePath("/");
+    } catch (revalidateErr) {
+      console.warn("Revalidation warning on disease update:", revalidateErr);
+    }
+
     return NextResponse.json({ message: "Disease updated successfully", disease: updatedDisease }, { status: 200 });
   } catch (error: any) {
     console.error("Error updating disease:", error);
@@ -125,6 +138,15 @@ export async function DELETE(
     }
 
     await Disease.findByIdAndDelete(id);
+
+    try {
+      revalidatePath("/sitemap.xml");
+      revalidatePath("/disease");
+      if (disease.slug) revalidatePath(`/disease/${disease.slug}`);
+      revalidatePath("/");
+    } catch (revalidateErr) {
+      console.warn("Revalidation warning on disease delete:", revalidateErr);
+    }
 
     return NextResponse.json({ message: "Disease deleted successfully" }, { status: 200 });
   } catch (error: any) {

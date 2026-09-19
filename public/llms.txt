@@ -6,8 +6,8 @@ Singh Dental Care is the leading super-specialty dental clinic chain in Amritsar
 - **Industry**: Healthcare, Dentistry, Dental Services
 - **Locations**: Amritsar, Punjab, India (3 physical clinics)
 - **Primary Phone**: +91 9056190567
-- **Primary Website**: [https://singhdentalcare.in](https://singhdentalcare.in)
-- **Sitemap**: [https://singhdentalcare.in/sitemap.xml](https://singhdentalcare.in/sitemap.xml)
+- **Primary Website**: [https://www.singhdentalcare.in](https://www.singhdentalcare.in)
+- **Sitemap**: [https://www.singhdentalcare.in/sitemap.xml](https://www.singhdentalcare.in/sitemap.xml)
 
 ## Clinic Locations
 We operate three state-of-the-art dental centers in Amritsar:
@@ -17,21 +17,21 @@ We operate three state-of-the-art dental centers in Amritsar:
 - **Phone**: +91 9056190567
 - **Timings**: Monday - Sunday: 10:00 AM - 8:00 PM
 - **Google Maps**: [View Location](https://www.google.com/maps/place/Singh+Dental+Care/@31.6215178,74.8977264)
-- **Patient Guide**: [/locations/100feet/guide](https://singhdentalcare.in/locations/100feet/guide)
+- **Patient Guide**: [/locations/100feet/guide](https://www.singhdentalcare.in/locations/100feet/guide)
 
 ### 2. Circular Road Branch
 - **Address**: 5 AB, First floor, Circular Rd, Opposite print & gift gallery, near Gupta Hospital, Beauty Avenue, Amritsar, Punjab, India
 - **Phone**: +91 9056190567
 - **Timings**: Monday - Saturday: 10:00 AM - 7:00 PM
 - **Google Maps**: [View Location](https://www.google.com/maps/place/Singh+Dental+Care/@31.6538864,74.8816863)
-- **Patient Guide**: [/locations/CircularRoad/guide](https://singhdentalcare.in/locations/CircularRoad/guide)
+- **Patient Guide**: [/locations/CircularRoad/guide](https://www.singhdentalcare.in/locations/CircularRoad/guide)
 
 ### 3. Khalsa College Road Branch
 - **Address**: 48, Dasmesh Avenue Main GT Road, Khalsa College Rd, Opposite Gate no 2, adjoining Indian Oil Petrol Pump, Amritsar, Punjab 143001, India
 - **Phone**: +91 9056190567
 - **Timings**: Monday - Sunday: 10:00 AM - 7:00 PM
 - **Google Maps**: [View Location](https://www.google.com/maps/place/Singh+Dental+Care/@31.6315675,74.8344733)
-- **Patient Guide**: [/locations/janakpuri/guide](https://singhdentalcare.in/locations/janakpuri/guide)
+- **Patient Guide**: [/locations/janakpuri/guide](https://www.singhdentalcare.in/locations/janakpuri/guide)
 
 ## Key Dental Services & Specialities
 We offer a comprehensive range of professional dental treatments:
@@ -45,13 +45,14 @@ We offer a comprehensive range of professional dental treatments:
 - **Prosthodontics**: Premium custom dentures, crowns, and dental bridges.
 
 ## Navigation & Resources
-- **Home**: [https://singhdentalcare.in/](https://singhdentalcare.in/)
-- **Locations**: [https://singhdentalcare.in/locations](https://singhdentalcare.in/locations)
-- **Our Services**: [https://singhdentalcare.in/Our-services](https://singhdentalcare.in/Our-services)
-- **Detailed Services Info**: [https://singhdentalcare.in/services.txt](https://singhdentalcare.in/services.txt)
-- **About Us**: [https://singhdentalcare.in/about](https://singhdentalcare.in/about)
-- **Contact Us**: [https://singhdentalcare.in/contact](https://singhdentalcare.in/contact)
-- **Dental Blog**: [https://singhdentalcare.in/blog](https://singhdentalcare.in/blog)
-- **Oral Disease & Symptoms Directory**: [https://singhdentalcare.in/disease](https://singhdentalcare.in/disease)
-- **Become a Member**: [https://singhdentalcare.in/become-a-member](https://singhdentalcare.in/become-a-member)
-- **SDC League**: [https://singhdentalcare.in/sdc-league](https://singhdentalcare.in/sdc-league)
+- **Home**: [https://www.singhdentalcare.in/](https://www.singhdentalcare.in/)
+- **Locations**: [https://www.singhdentalcare.in/locations](https://www.singhdentalcare.in/locations)
+- **Our Services**: [https://www.singhdentalcare.in/Our-services](https://www.singhdentalcare.in/Our-services)
+- **Detailed Services Info**: [https://www.singhdentalcare.in/services.txt](https://www.singhdentalcare.in/services.txt)
+- **About Us**: [https://www.singhdentalcare.in/about](https://www.singhdentalcare.in/about)
+- **Contact Us**: [https://www.singhdentalcare.in/contact](https://www.singhdentalcare.in/contact)
+- **Dental Blog**: [https://www.singhdentalcare.in/blog](https://www.singhdentalcare.in/blog)
+- **RSS Feed (Latest Articles)**: [https://www.singhdentalcare.in/feed.xml](https://www.singhdentalcare.in/feed.xml)
+- **Oral Disease & Symptoms Directory**: [https://www.singhdentalcare.in/disease](https://www.singhdentalcare.in/disease)
+- **Become a Member**: [https://www.singhdentalcare.in/become-a-member](https://www.singhdentalcare.in/become-a-member)
+- **SDC League**: [https://www.singhdentalcare.in/sdc-league](https://www.singhdentalcare.in/sdc-league)

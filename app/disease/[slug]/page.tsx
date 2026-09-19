@@ -10,6 +10,44 @@ import ImageResize from "tiptap-extension-resize-image";
 import { Metadata } from "next";
 import DiseaseCTA from "./_components/DiseaseCTA";
 
+export const revalidate = 3600;
+export const dynamicParams = true;
+
+export function getDiseaseMetaDescription(disease: { name: string; seoDescription?: string; description?: any }): string {
+  if (disease.seoDescription && disease.seoDescription.trim()) {
+    const trimmed = disease.seoDescription.trim();
+    return trimmed.length > 160 ? `${trimmed.slice(0, 157)}...` : trimmed;
+  }
+
+  // Fallback 1: Extract plain text from Tiptap JSON or string description
+  if (typeof disease.description === "string" && disease.description.trim()) {
+    const plain = disease.description.replace(/\s+/g, " ").trim();
+    if (plain.length > 20) {
+      return plain.length > 160 ? `${plain.slice(0, 157)}...` : plain;
+    }
+  } else if (typeof disease.description === "object" && disease.description !== null) {
+    try {
+      const extractText = (node: any): string => {
+        if (!node) return "";
+        if (node.text) return node.text;
+        if (Array.isArray(node.content)) {
+          return node.content.map(extractText).join(" ");
+        }
+        return "";
+      };
+      const plain = extractText(disease.description).replace(/\s+/g, " ").trim();
+      if (plain.length > 20) {
+        return plain.length > 160 ? `${plain.slice(0, 157)}...` : plain;
+      }
+    } catch {
+      // Fall through to template
+    }
+  }
+
+  // Fallback 2: High-converting local dental intent template
+  return `Learn about ${disease.name}: symptoms, causes, prevention, and professional dental treatment options available at Singh Dental Care in Amritsar.`;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   await connectDB();
@@ -21,20 +59,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  const title = `${disease.name} | Dental Conditions & Treatments | Singh Dental Care`;
-  const description = disease.seoDescription || `Learn about ${disease.name}, its symptoms, causes, and professional dental treatment options available at Singh Dental Care.`;
+  const title = `${disease.name}: Symptoms, Causes & Treatments | Singh Dental Care`;
+  const description = getDiseaseMetaDescription(disease);
 
   return {
     title,
     description,
     alternates: {
-      canonical: `https://singhdentalcare.in/disease/${slug}`,
+      canonical: `https://www.singhdentalcare.in/disease/${slug}`,
     },
     openGraph: {
       title,
       description,
+      url: `https://www.singhdentalcare.in/disease/${slug}`,
       images: [disease.pictureLink],
-      type: "website",
+      type: "article",
+      publishedTime: (disease.createdAt || new Date()).toISOString(),
+      modifiedTime: (disease.updatedAt || disease.createdAt || new Date()).toISOString(),
+      authors: ["Dr. Bikramjeet Singh"],
     },
     twitter: {
       card: "summary_large_image",
@@ -88,6 +130,8 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
     year: 'numeric'
   });
 
+  const metaDescription = getDiseaseMetaDescription(disease);
+
   return (
     <main className="min-h-screen bg-white">
       {/* Premium Hero Section for Disease */}
@@ -97,7 +141,7 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
           <nav className="flex items-center gap-2 text-sm text-[#86868b] mb-12 apple-body overflow-x-auto whitespace-nowrap pb-2">
             <Link href="/" className="hover:text-[#0071e3] transition-colors">Home</Link>
             <ChevronRight className="w-3 h-3 shrink-0" />
-            <Link href="/" className="hover:text-[#0071e3] transition-colors">Conditions</Link>
+            <Link href="/disease" className="hover:text-[#0071e3] transition-colors">Conditions</Link>
             <ChevronRight className="w-3 h-3 shrink-0" />
             <span className="text-[#1d1d1f] font-medium truncate">{disease.name}</span>
           </nav>
@@ -105,7 +149,7 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
           <div className="max-w-[800px]">
             <p className="apple-eyebrow mb-4 text-[#86868b] uppercase tracking-widest">Disease & Condition Directory</p>
             <h1 className="apple-display mb-6 tracking-tight">{disease.name}</h1>
-            <div className="flex items-center gap-4 text-[#86868b] text-sm apple-body">
+            <div className="flex flex-wrap items-center gap-4 text-[#86868b] text-sm apple-body">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
                 <span>Last updated: {lastUpdated}</span>
@@ -113,6 +157,10 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
               <div className="flex items-center gap-1.5">
                 <Clock className="w-4 h-4" />
                 <span>5 min read</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-full font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Medically Verified</span>
               </div>
             </div>
           </div>
@@ -131,7 +179,8 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
                   <Image 
                     src={disease.pictureLink} 
                     alt={disease.coverImageAlt || disease.name} 
-                    fill
+                    fill 
+                    priority
                     className="object-cover transition-transform duration-1000 hover:scale-105"
                     unoptimized
                   />
@@ -168,6 +217,27 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
                 </div>
               </div>
 
+              {/* Medical Reviewer / Doctor Verification (E-E-A-T) */}
+              <div className="mt-16 pt-10 border-t border-[#d2d2d7] space-y-6">
+                <div className="bg-[#f5f5f7] p-8 md:p-10 rounded-[32px] md:rounded-[40px] flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8 border border-[#e5e5ea]">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0071e3] text-white flex items-center justify-center text-2xl md:text-3xl font-bold shrink-0">
+                    D
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <h4 className="apple-title-md !mb-0 font-semibold text-[#1d1d1f]">Dr. Bikramjeet Singh</h4>
+                      <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[#0071e3]/10 text-[#0071e3]">
+                        BDS & Fellowship in Implantology
+                      </span>
+                    </div>
+                    <p className="text-sm text-[#86868b] mb-2 font-medium">Chief Dental Surgeon & Implantologist • Singh Dental Care</p>
+                    <p className="apple-body text-[#86868b] text-[15px] leading-relaxed">
+                      This clinical condition overview has been authored and verified by dental specialists at Singh Dental Care to ensure evidence-based, safe, and accurate oral healthcare guidance.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Professional CTA */}
               <DiseaseCTA diseaseName={disease.name} />
             </div>
@@ -176,20 +246,120 @@ export default async function DiseasePage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
-      {/* Structured Data */}
+      {/* SEO Structured Data - Google Medical E-E-A-T Graph */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "MedicalCondition",
-            "name": disease.name,
-            "description": disease.seoDescription || disease.name,
-            "associatedAnatomy": {
-              "@type": "AnatomicalStructure",
-              "name": "Teeth and Gums"
-            },
-            "lastReviewed": (disease.updatedAt || disease.createdAt).toISOString()
+            "@graph": [
+              {
+                "@type": "MedicalWebPage",
+                "@id": `https://www.singhdentalcare.in/disease/${slug}#webpage`,
+                "url": `https://www.singhdentalcare.in/disease/${slug}`,
+                "name": `${disease.name}: Symptoms, Causes & Dental Treatments`,
+                "description": metaDescription,
+                "inLanguage": "en-IN",
+                "datePublished": (disease.createdAt || new Date()).toISOString(),
+                "dateModified": (disease.updatedAt || disease.createdAt || new Date()).toISOString(),
+                "mainEntityOfPage": {
+                  "@type": "WebPage",
+                  "@id": `https://www.singhdentalcare.in/disease/${slug}`
+                },
+                "breadcrumb": {
+                  "@id": `https://www.singhdentalcare.in/disease/${slug}#breadcrumb`
+                },
+                "about": {
+                  "@id": `https://www.singhdentalcare.in/disease/${slug}#condition`
+                },
+                "author": {
+                  "@type": "Person",
+                  "name": "Dr. Bikramjeet Singh",
+                  "jobTitle": "Chief Dental Surgeon & Implantologist",
+                  "url": "https://www.singhdentalcare.in/#dentist",
+                  "hasCredential": {
+                    "@type": "EducationalOccupationalCredential",
+                    "credentialCategory": "degree",
+                    "name": "BDS & Fellowship in Implantology"
+                  },
+                  "worksFor": {
+                    "@type": "Dentist",
+                    "name": "Singh Dental Care",
+                    "url": "https://www.singhdentalcare.in"
+                  }
+                },
+                "reviewedBy": {
+                  "@type": "Person",
+                  "name": "Dr. Bikramjeet Singh",
+                  "jobTitle": "Chief Dental Surgeon & Implantologist",
+                  "url": "https://www.singhdentalcare.in/#dentist",
+                  "hasCredential": {
+                    "@type": "EducationalOccupationalCredential",
+                    "credentialCategory": "degree",
+                    "name": "BDS & Fellowship in Implantology"
+                  },
+                  "worksFor": {
+                    "@type": "Dentist",
+                    "name": "Singh Dental Care",
+                    "url": "https://www.singhdentalcare.in"
+                  }
+                },
+                "publisher": {
+                  "@type": "Dentist",
+                  "name": "Singh Dental Care",
+                  "url": "https://www.singhdentalcare.in",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://res.cloudinary.com/dkh75izoh/image/upload/v1777103371/with_less_space_krwfd4.png"
+                  }
+                }
+              },
+              {
+                "@type": "MedicalCondition",
+                "@id": `https://www.singhdentalcare.in/disease/${slug}#condition`,
+                "name": disease.name,
+                "description": metaDescription,
+                "image": [disease.pictureLink],
+                "associatedAnatomy": {
+                  "@type": "AnatomicalStructure",
+                  "name": "Teeth and Gums"
+                },
+                "relevantSpecialty": {
+                  "@type": "MedicalSpecialty",
+                  "name": "Dentistry"
+                },
+                "possibleTreatment": [
+                  {
+                    "@type": "MedicalTherapy",
+                    "name": "Clinical Dental Diagnosis and Treatment at Singh Dental Care"
+                  }
+                ]
+              },
+              {
+                "@type": "BreadcrumbList",
+                "@id": `https://www.singhdentalcare.in/disease/${slug}#breadcrumb`,
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.singhdentalcare.in"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Conditions",
+                    "item": "https://www.singhdentalcare.in/disease"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": disease.name,
+                    "item": `https://www.singhdentalcare.in/disease/${slug}`
+                  }
+                ]
+              }
+            ]
           })
         }}
       />

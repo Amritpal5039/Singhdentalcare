@@ -177,6 +177,11 @@ export default function Search() {
                     </button>
                   </div>
                 )}
+                <div className="mt-3 text-center border-t pt-2.5">
+                  <Link href="/disease" className="text-[13px] text-[#006A7F] hover:underline font-medium">
+                    View full conditions directory ›
+                  </Link>
+                </div>
               </div>
             )}
           </div>

@@ -15,7 +15,7 @@ import {
   Redo,
   Loader2
 } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface TiptapEditorProps {
   value: any;
@@ -131,6 +131,28 @@ export default function TiptapEditor({ value, onChange, placeholder }: TiptapEdi
     },
     immediatelyRender: false,
   });
+
+  useEffect(() => {
+    if (!editor) return;
+
+    if (!value) {
+      if (!editor.isEmpty) {
+        editor.commands.clearContent();
+      }
+      return;
+    }
+
+    try {
+      const currentJson = JSON.stringify(editor.getJSON());
+      const incomingJson = typeof value === "string" ? value : JSON.stringify(value);
+
+      if (currentJson !== incomingJson) {
+        editor.commands.setContent(value);
+      }
+    } catch (e) {
+      editor.commands.setContent(value);
+    }
+  }, [value, editor]);
 
   const convertToWebP = (file: File): Promise<Blob> => {
     return new Promise((resolve, reject) => {

@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Our Services | Singh Dental Care",
   description: "Explore the wide range of dental services provided by Singh Dental Care including routine check-ups, cosmetic dentistry, and advanced procedures.",
   keywords: ["Singh Dental Care", "dentist", "dental services", "teeth whitening", "cosmetic dentistry", "orthodontics", "dental implants"],
+  alternates: {
+    canonical: "https://www.singhdentalcare.in/Our-services",
+  },
   openGraph: {
     images: [
       {

@@ -28,6 +28,7 @@ const NAV_COLUMNS: NavColumn[] = [
     heading: "Learn",
     items: [
       { label: "Blogs", href: "/blog" },
+      { label: "Conditions Directory", href: "/disease" },
       { label: "SDC Culture", href: "/sdc-league" },
       { label: "Our Experts", href: "/expert" },
       { label: "Our Locations", href: "/locations" },

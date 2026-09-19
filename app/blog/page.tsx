@@ -7,12 +7,18 @@ import { Metadata } from "next";
 
 import BlogCTA from "./_components/BlogCTA";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Insights & Oral Health Blogs | Singh Dental Care",
   description: "Read the latest blogs on dental care, oral hygiene tips, and advanced treatments from the experts at Singh Dental Care.",
+  alternates: {
+    canonical: "https://www.singhdentalcare.in/blog",
+  },
   openGraph: {
     title: "Singh Dental Care Blogs",
     description: "Expert dental advice and oral health insights.",
+    url: "https://www.singhdentalcare.in/blog",
     type: "website",
   },
 };
@@ -52,7 +58,7 @@ async function getBlogs(search?: string, page: number = 1) {
 export default async function BlogListingPage({
   searchParams,
 }: {
-  searchParams: { search?: string; page?: string };
+  searchParams: Promise<{ search?: string; page?: string }>;
 }) {
   const query = (await searchParams).search || "";
   const page = parseInt((await searchParams).page || "1");

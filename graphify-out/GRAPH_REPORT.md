@@ -1,16 +1,16 @@
-# Graph Report - mainwebsite  (2026-07-04)
+# Graph Report - mainwebsite  (2026-09-19)
 
 ## Corpus Check
-- 135 files · ~121,566 words
+- 154 files · ~133,913 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 653 nodes · 830 edges · 77 communities (56 shown, 21 thin omitted)
+- 758 nodes · 968 edges · 87 communities (60 shown, 27 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a1d783dd`
+- Built from commit: `8ebd9fb3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -51,6 +51,8 @@
 - [[_COMMUNITY_Community 33|Community 33]]
 - [[_COMMUNITY_Community 34|Community 34]]
 - [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 41|Community 41]]
 - [[_COMMUNITY_Community 42|Community 42]]
 - [[_COMMUNITY_Community 43|Community 43]]
 - [[_COMMUNITY_Community 44|Community 44]]
@@ -60,6 +62,7 @@
 - [[_COMMUNITY_Community 48|Community 48]]
 - [[_COMMUNITY_Community 49|Community 49]]
 - [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 55|Community 55]]
 - [[_COMMUNITY_Community 60|Community 60]]
 - [[_COMMUNITY_Community 61|Community 61]]
 - [[_COMMUNITY_Community 62|Community 62]]
@@ -73,14 +76,23 @@
 - [[_COMMUNITY_Community 70|Community 70]]
 - [[_COMMUNITY_Community 71|Community 71]]
 - [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
 - [[_COMMUNITY_Community 74|Community 74]]
 - [[_COMMUNITY_Community 75|Community 75]]
 - [[_COMMUNITY_Community 76|Community 76]]
 - [[_COMMUNITY_Community 77|Community 77]]
+- [[_COMMUNITY_Community 78|Community 78]]
+- [[_COMMUNITY_Community 80|Community 80]]
+- [[_COMMUNITY_Community 81|Community 81]]
+- [[_COMMUNITY_Community 82|Community 82]]
+- [[_COMMUNITY_Community 83|Community 83]]
+- [[_COMMUNITY_Community 84|Community 84]]
+- [[_COMMUNITY_Community 85|Community 85]]
+- [[_COMMUNITY_Community 87|Community 87]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `connectDB()` - 81 edges
-2. `auth` - 22 edges
+1. `connectDB()` - 96 edges
+2. `auth` - 25 edges
 3. `Apple Design System — Complete Reference Guide` - 21 edges
 4. `compilerOptions` - 16 edges
 5. `AI SEO` - 14 edges
@@ -93,55 +105,55 @@
 ## Surprising Connections (you probably didn't know these)
 - `main()` --calls--> `getDbName()`  [INFERRED]
   scripts/create-it-admin.ts → app/lib/auth.ts
-- `PATCH()` --calls--> `connectDB()`  [EXTRACTED]
-  app/api/admin/appointments/[id]/route.ts → app/lib/db.ts
 - `DELETE()` --calls--> `connectDB()`  [EXTRACTED]
-  app/api/admin/appointments/[id]/route.ts → app/lib/db.ts
-- `GET()` --calls--> `connectDB()`  [EXTRACTED]
-  app/api/admin/appointments/route.ts → app/lib/db.ts
+  app/api/admin/membership-plans/[id]/route.ts → app/lib/db.ts
 - `PATCH()` --calls--> `connectDB()`  [EXTRACTED]
-  app/api/admin/hero/[id]/route.ts → app/lib/db.ts
+  app/api/admin/membership-plans/[id]/route.ts → app/lib/db.ts
+- `GET()` --calls--> `connectDB()`  [EXTRACTED]
+  app/api/admin/membership-plans/route.ts → app/lib/db.ts
+- `POST()` --calls--> `connectDB()`  [EXTRACTED]
+  app/api/admin/membership-plans/route.ts → app/lib/db.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (77 total, 21 thin omitted)
+## Communities (87 total, 27 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.19
-Nodes (9): DELETE(), PATCH(), GET(), POST(), PUT(), GET(), HeroItem, HeroItemSchema (+1 more)
+Cohesion: 0.40
+Nodes (4): GET(), HeroItem, HeroItemSchema, IHeroItem
 
 ### Community 1 - "Community 1"
-Cohesion: 0.06
-Nodes (24): AppointmentsManager(), BlogsManager(), BlogsManagerProps, DashboardNav(), DashboardNavProps, DiseasesManager(), DiseasesManagerProps, DoctorsManager() (+16 more)
+Cohesion: 0.05
+Nodes (28): AppointmentsManager(), BlogsManager(), BlogsManagerProps, DoctorOption, Application, CareersManager(), Job, DashboardNav() (+20 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.24
 Nodes (4): ContactUs(), ChatButton(), ChatButtonProps, metadata
 
 ### Community 3 - "Community 3"
-Cohesion: 0.21
-Nodes (11): DELETE(), GET(), PUT(), GET(), POST(), GET(), ScheduleButton(), BlogPostPage() (+3 more)
+Cohesion: 0.20
+Nodes (9): 1. 🧠 High-Level Mental Map (The Mindmap), 2. 🍌 The "Monkey Analogy": How to Understand It in 30 Seconds, 3. 🔄 Before vs. After Visual Comparison, 4. 🧭 Step-by-Step Lifecycle Flowchart, 5. 📂 File-by-File Blueprint (What changed & why), 6. 🏆 The Golden Rules for Your Memory, The Fix (The Live Digital Screen):, 🐵 The "Monkey Map": Next.js Dynamic Sitemap & Canonical Fix (+1 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.04
-Nodes (45): dependencies, axios, bcryptjs, class-variance-authority, cloudinary, clsx, jsonwebtoken, lucide-react (+37 more)
+Cohesion: 0.07
+Nodes (27): dependencies, axios, bcryptjs, class-variance-authority, cloudinary, clsx, jsonwebtoken, lucide-react (+19 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.08
 Nodes (24): For /graphify add and --watch, For /graphify query, For the commit hook and native CLAUDE.md integration, For --update and --cluster-only, /graphify, Honesty Rules, Interpreter guard for subcommands, Part A - Structural extraction for code files (+16 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.15
-Nodes (13): DELETE(), GET(), PUT(), slugify(), GET(), POST(), slugify(), GET() (+5 more)
+Cohesion: 0.18
+Nodes (10): GET(), POST(), slugify(), GET(), GET(), Blog, BlogSchema, IBlog (+2 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.09
 Nodes (21): aliases, components, hooks, lib, ui, utils, iconLibrary, menuAccent (+13 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.20
-Nodes (8): DELETE(), getYouTubeId(), PATCH(), GET(), getYouTubeId(), POST(), GET(), TestimonialSchema
+Cohesion: 0.10
+Nodes (19): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/bcryptjs, @types/jsonwebtoken, @types/node (+11 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.10
@@ -183,6 +195,10 @@ Nodes (7): Implementation Log, Phase 1: Database & API Updates, Phase 2: Admin D
 Cohesion: 0.33
 Nodes (5): For /graphify explain, For /graphify path, graphify reference: query, path, explain, Step 0 — Constrained query expansion (REQUIRED before traversal), Step 1 — Traversal
 
+### Community 19 - "Community 19"
+Cohesion: 0.29
+Nodes (3): Doctor, DoctorGridProps, metadata
+
 ### Community 20 - "Community 20"
 Cohesion: 0.40
 Nodes (5): 6. Color System, Background colors, Brand color, Text colors, Usage rules
@@ -223,21 +239,25 @@ Nodes (3): 7. Container Widths, Always add horizontal padding, The math behind t
 Cohesion: 0.06
 Nodes (36): 1. Current AI Visibility, 2. Content & Domain, 3. Goals, 4. Competitive Landscape, Agentic Experiences, AI SEO, AI SEO by Content Type, AI Visibility Audit (+28 more)
 
+### Community 55 - "Community 55"
+Cohesion: 0.24
+Nodes (7): DELETE(), getYouTubeId(), PATCH(), GET(), getYouTubeId(), POST(), TestimonialSchema
+
 ### Community 60 - "Community 60"
-Cohesion: 0.12
-Nodes (16): DELETE(), GET(), PUT(), slugify(), GET(), POST(), slugify(), GET() (+8 more)
+Cohesion: 0.10
+Nodes (21): DELETE(), GET(), PUT(), slugify(), GET(), POST(), slugify(), GET() (+13 more)
 
 ### Community 61 - "Community 61"
 Cohesion: 0.15
-Nodes (4): db, getDB(), getDbName(), main()
+Nodes (17): DELETE(), PATCH(), GET(), DELETE(), PATCH(), GET(), POST(), PUT() (+9 more)
 
 ### Community 62 - "Community 62"
 Cohesion: 0.21
 Nodes (8): DELETE(), PATCH(), GET(), POST(), GET(), IMembershipPlan, MembershipPlan, MembershipPlanSchema
 
 ### Community 63 - "Community 63"
-Cohesion: 0.24
-Nodes (5): DELETE(), PATCH(), GET(), POST(), AppointmentSchema
+Cohesion: 0.13
+Nodes (14): GET(), POST(), DELETE(), GET(), PUT(), GET(), POST(), IJob (+6 more)
 
 ### Community 64 - "Community 64"
 Cohesion: 0.24
@@ -248,47 +268,63 @@ Cohesion: 0.06
 Nodes (28): AI SEO by Content Type, Blog Content, Comparison / Alternative Pages, Documentation / Help Content, Local Business / Ecom (Google emphasis), SaaS Product Pages, 1. Suganthan's free web tool (recommended for most sites), 2. WordPress plugin (pending wp.org approval) (+20 more)
 
 ### Community 66 - "Community 66"
-Cohesion: 0.47
-Nodes (4): BlogCTA(), BlogListingPage(), getBlogs(), metadata
+Cohesion: 0.08
+Nodes (24): 1. Enhanced BlogPosting & MedicalWebPage Schema, 1. Fix Canonical Domain Everywhere, 1. Restore SSR in Navbar, 1. Shift from Pure Generic to Local + Transactional Intent, 1. The 308 Permanent Canonical Redirect Loop (Critical Severity), 2. Fix Blog Index Metadata, 2. Make Sitemap Dynamic, 2. Stale / Frozen Sitemap: 7 Out of 9 Blogs Are Invisible to Google (+16 more)
 
 ### Community 67 - "Community 67"
 Cohesion: 0.08
 Nodes (24): AEO and GEO Content Patterns, Answer Engine Optimization (AEO) Patterns, Authoritative Claim Block, Business/Marketing Content, Comparison Table Block, Contents, Definition Block, Domain-Specific GEO Tactics (+16 more)
 
 ### Community 68 - "Community 68"
-Cohesion: 0.23
-Nodes (3): auth, dbName, MONGODB_URI
+Cohesion: 0.17
+Nodes (5): auth, db, dbName, getDB(), MONGODB_URI
+
+### Community 69 - "Community 69"
+Cohesion: 0.22
+Nodes (4): metadata, Aboutus(), Dentist, MeetTheDentistsProps
 
 ### Community 70 - "Community 70"
-Cohesion: 0.50
-Nodes (3): Doctor, DoctorSchema, IDoctor
+Cohesion: 0.15
+Nodes (12): DELETE(), GET(), PUT(), GET(), POST(), ScheduleButton(), BlogPostPage(), generateMetadata() (+4 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.25
 Nodes (6): DEFAULT_ITEMS, HeroItem, HeroSectionProps, NavigatorWithConnection, NetworkInformation, STATS
 
 ### Community 72 - "Community 72"
-Cohesion: 0.24
-Nodes (7): Aboutus(), SharkTank(), getDoctors(), getHeroItems(), Home(), jsonLd, metadata
+Cohesion: 0.29
+Nodes (7): AiSeoFaq(), SharkTank(), getDoctors(), getHeroItems(), Home(), jsonLd, metadata
+
+### Community 73 - "Community 73"
+Cohesion: 0.29
+Nodes (6): Cosmetic Dentistry (Teeth Whitening), Dental Implants, General Consultations, Orthodontics (Braces & Clear Aligners), Pricing & Treatments — Singh Dental Care, Root Canal Therapy (RCT)
+
+### Community 77 - "Community 77"
+Cohesion: 0.47
+Nodes (4): BlogCTA(), BlogListingPage(), getBlogs(), metadata
+
+### Community 80 - "Community 80"
+Cohesion: 0.40
+Nodes (4): basePath, fs, pages, path
 
 ## Knowledge Gaps
-- **316 isolated node(s):** `BlogsManagerProps`, `DashboardNavProps`, `DiseasesManagerProps`, `HeroItem`, `OverviewProps` (+311 more)
+- **369 isolated node(s):** `DoctorOption`, `BlogsManagerProps`, `Job`, `Application`, `DashboardNavProps` (+364 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `connectDB()` connect `Community 3` to `Community 0`, `Community 64`, `Community 66`, `Community 6`, `Community 8`, `Community 72`, `Community 60`, `Community 62`, `Community 63`?**
-  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `connectDB()` connect `Community 61` to `Community 64`, `Community 0`, `Community 6`, `Community 70`, `Community 72`, `Community 77`, `Community 55`, `Community 60`, `Community 62`, `Community 63`?**
+  _High betweenness centrality (0.052) - this node is a cross-community bridge._
 - **Why does `AI SEO` connect `Community 43` to `Community 65`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
-- **What connects `BlogsManagerProps`, `DashboardNavProps`, `DiseasesManagerProps` to the rest of the system?**
-  _316 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **What connects `DoctorOption`, `BlogsManagerProps`, `Job` to the rest of the system?**
+  _369 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.05714285714285714 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05117845117845118 - nodes in this community are weakly interconnected._
 - **Should `Community 4` be split into smaller, more focused modules?**
-  _Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected._
 - **Should `Community 5` be split into smaller, more focused modules?**
   _Cohesion score 0.08 - nodes in this community are weakly interconnected._
 - **Should `Community 7` be split into smaller, more focused modules?**

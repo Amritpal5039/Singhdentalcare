@@ -6,6 +6,13 @@ import Link from "next/link";
 import ImageUploader from "@/app/components/ui/ImageUploader";
 import TiptapEditor from "@/app/components/ui/TiptapEditor";
 
+interface DoctorOption {
+  _id: string;
+  name: string;
+  credentials?: string;
+  specialty?: string;
+}
+
 interface BlogsManagerProps {
   currentView: "MANAGE_BLOGS" | "CREATE_BLOG" | "EDIT_BLOG";
   onViewChange: (view: any) => void;
@@ -27,6 +34,28 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
   const [blogSearchQuery, setBlogSearchQuery] = useState("");
   const [blogPage, setBlogPage] = useState(1);
   const [blogTotalPages, setBlogTotalPages] = useState(1);
+
+  // Doctor / Author Selection State
+  const [doctorsList, setDoctorsList] = useState<DoctorOption[]>([]);
+  const [selectedDoctorMode, setSelectedDoctorMode] = useState<string>("default");
+  const [blogAuthor, setBlogAuthor] = useState("Dr. Bikramjeet Singh");
+  const [blogAuthorCredentials, setBlogAuthorCredentials] = useState("BDS & Fellowship in Implantology");
+  const [blogAuthorSpecialty, setBlogAuthorSpecialty] = useState("Chief Dental Surgeon & Implantologist");
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const res = await fetch("/api/doctors");
+        const data = await res.json();
+        if (res.ok && data.doctors) {
+          setDoctorsList(data.doctors);
+        }
+      } catch (err) {
+        console.error("Failed to fetch doctors in BlogsManager:", err);
+      }
+    };
+    fetchDoctors();
+  }, []);
 
   useEffect(() => {
     if (currentView === "MANAGE_BLOGS") {
@@ -50,6 +79,26 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
     }
   };
 
+  const handleDoctorSelect = (val: string) => {
+    setSelectedDoctorMode(val);
+    if (val === "default") {
+      setBlogAuthor("Dr. Bikramjeet Singh");
+      setBlogAuthorCredentials("BDS & Fellowship in Implantology");
+      setBlogAuthorSpecialty("Chief Dental Surgeon & Implantologist");
+    } else if (val === "custom") {
+      setBlogAuthor("");
+      setBlogAuthorCredentials("");
+      setBlogAuthorSpecialty("");
+    } else {
+      const doc = doctorsList.find((d) => d._id === val);
+      if (doc) {
+        setBlogAuthor(doc.name);
+        setBlogAuthorCredentials(doc.credentials || "");
+        setBlogAuthorSpecialty(doc.specialty || "");
+      }
+    }
+  };
+
   const resetBlogForm = () => {
     setBlogTitle("");
     setBlogExcerpt("");
@@ -59,6 +108,10 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
     setBlogCloudinaryId("");
     setBlogFaqs([]);
     setEditingBlogId(null);
+    setSelectedDoctorMode("default");
+    setBlogAuthor("Dr. Bikramjeet Singh");
+    setBlogAuthorCredentials("BDS & Fellowship in Implantology");
+    setBlogAuthorSpecialty("Chief Dental Surgeon & Implantologist");
   };
 
   const handleBlogSubmit = async (e: React.FormEvent) => {
@@ -79,6 +132,9 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
           coverImage: blogCoverImage,
           coverImageAlt: blogCoverImageAlt,
           cloudinaryId: blogCloudinaryId,
+          author: blogAuthor.trim() || "Dr. Bikramjeet Singh",
+          authorCredentials: blogAuthorCredentials.trim(),
+          authorSpecialty: blogAuthorSpecialty.trim(),
           faqs: blogFaqs,
         }),
       });
@@ -94,15 +150,49 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
     }
   };
 
-  const handleEditBlog = (blog: any) => {
+  const handleEditBlog = async (blog: any) => {
     setEditingBlogId(blog._id);
     setBlogTitle(blog.title);
     setBlogExcerpt(blog.excerpt);
-    setBlogContent(blog.content);
     setBlogCoverImage(blog.coverImage);
     setBlogCoverImageAlt(blog.coverImageAlt || "");
     setBlogCloudinaryId(blog.cloudinaryId);
     setBlogFaqs(blog.faqs || []);
+
+    const author = blog.author || "Dr. Bikramjeet Singh";
+    const creds = blog.authorCredentials || "";
+    const spec = blog.authorSpecialty || "";
+    setBlogAuthor(author);
+    setBlogAuthorCredentials(creds);
+    setBlogAuthorSpecialty(spec);
+
+    const matched = doctorsList.find(
+      (d) => d.name.toLowerCase().trim() === author.toLowerCase().trim()
+    );
+    if (matched) {
+      setSelectedDoctorMode(matched._id);
+    } else if (author === "Dr. Bikramjeet Singh" || author === "Singh Dental Care" || !author) {
+      setSelectedDoctorMode("default");
+      if (!creds) setBlogAuthorCredentials("BDS & Fellowship in Implantology");
+      if (!spec) setBlogAuthorSpecialty("Chief Dental Surgeon & Implantologist");
+    } else {
+      setSelectedDoctorMode("custom");
+    }
+
+    if (blog.content) {
+      setBlogContent(blog.content);
+    } else {
+      try {
+        const res = await fetch(`/api/blogs/${blog._id}`);
+        const data = await res.json();
+        if (res.ok && data.blog?.content) {
+          setBlogContent(data.blog.content);
+        }
+      } catch (err) {
+        console.error("Failed to load blog content for edit:", err);
+      }
+    }
+
     onViewChange("EDIT_BLOG");
   };
 
@@ -157,9 +247,90 @@ export function BlogsManager({ currentView, onViewChange }: BlogsManagerProps) {
               </div>
             </div>
           </div>
+
+          {/* Author & Medical Credential Section (E-E-A-T) */}
+          <div className="border-t border-[#d2d2d7] pt-8 space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Author & Medical Reviewer (E-E-A-T)</h3>
+              <p className="text-xs text-[#6e6e73]">
+                Select the doctor who authored or clinically verified this blog to satisfy Google's medical E-E-A-T standards.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Select Clinic Doctor</label>
+                <select
+                  value={selectedDoctorMode}
+                  onChange={(e) => handleDoctorSelect(e.target.value)}
+                  className="w-full px-5 py-3 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] transition-all bg-white text-sm"
+                >
+                  <option value="default">Dr. Bikramjeet Singh (Chief Dental Surgeon & Implantologist - Default)</option>
+                  {doctorsList.length > 0 && (
+                    <optgroup label="Clinic Doctors">
+                      {doctorsList.map((doc) => (
+                        <option key={doc._id} value={doc._id}>
+                          {doc.name} {doc.specialty ? `— ${doc.specialty}` : ""} {doc.credentials ? `(${doc.credentials})` : ""}
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                  <option value="custom">+ Other / Custom Doctor (Enter Details Manually)</option>
+                </select>
+              </div>
+
+              {selectedDoctorMode === "custom" ? (
+                <div className="p-5 border border-[#0071e3]/30 bg-[#0071e3]/5 rounded-2xl space-y-4 animate-in fade-in duration-200">
+                  <p className="text-xs font-semibold text-[#0071e3] uppercase tracking-wider">Custom Doctor Details</p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Doctor Name *</label>
+                      <input
+                        type="text"
+                        required={selectedDoctorMode === "custom"}
+                        value={blogAuthor}
+                        onChange={(e) => setBlogAuthor(e.target.value)}
+                        placeholder="e.g. Dr. Preeti Sharma"
+                        className="w-full px-4 py-2.5 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] bg-white text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Degrees / Credentials</label>
+                      <input
+                        type="text"
+                        value={blogAuthorCredentials}
+                        onChange={(e) => setBlogAuthorCredentials(e.target.value)}
+                        placeholder="e.g. BDS, MDS (Pedodontics)"
+                        className="w-full px-4 py-2.5 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] bg-white text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Specialty / Role</label>
+                      <input
+                        type="text"
+                        value={blogAuthorSpecialty}
+                        onChange={(e) => setBlogAuthorSpecialty(e.target.value)}
+                        placeholder="e.g. Pediatric Dental Specialist"
+                        className="w-full px-4 py-2.5 border border-[#d2d2d7] rounded-xl outline-none focus:ring-2 focus:ring-[#0071e3] bg-white text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-wrap items-center gap-2 p-3.5 bg-gray-50 rounded-xl border border-[#d2d2d7]/60 text-xs text-gray-600">
+                  <span className="font-semibold text-gray-900">{blogAuthor || "Dr. Bikramjeet Singh"}</span>
+                  <span>•</span>
+                  <span>{blogAuthorCredentials || "BDS & Fellowship in Implantology"}</span>
+                  <span>•</span>
+                  <span className="text-gray-500">{blogAuthorSpecialty || "Chief Dental Surgeon & Implantologist"}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">Blog Content</label>
-            <TiptapEditor value={blogContent} onChange={(val) => setBlogContent(val)} placeholder="Write your blog post here..." />
+            <TiptapEditor key={editingBlogId || "new"} value={blogContent} onChange={(val) => setBlogContent(val)} placeholder="Write your blog post here..." />
           </div>
 
           {/* Blog FAQs Section */}

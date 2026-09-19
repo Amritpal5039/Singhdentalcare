@@ -46,20 +46,72 @@ export default function SDCLeaguePage() {
           <span className="text-[#1d1d1f]">Super League.</span>
         </h1>
         
-        <p className="apple-subtitle mb-10 max-w-[600px] mx-auto text-[#6e6e73]">
-          Precision on the pitch, just like in our practice. 
-          The most awaited dental community sports event is warming up.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-          <div className="px-8 py-4 bg-[#f5f5f7] rounded-full">
-            <span className="apple-body !font-semibold text-[#1d1d1f]">Coming Soon — Summer 2026</span>
+        <div className="flex flex-col sm:flex items-center justify-center gap-6">
+          <div className="relative w-full aspect-video rounded-[32px] overflow-hidden shadow-2xl border-4 border-[#f5f5f7]">
+            <iframe
+              src="https://www.youtube.com/embed/1kGi9SXwkXA?autoplay=1&mute=1&controls=1&rel=0"
+              title="Main Podcast Video"
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+            
           </div>
-          <Link href="/contact" className="apple-btn-primary">
-            Stay Notified
-          </Link>
+          <h2 className="apple-title-md text-[#1d1d1f] text-base md:text-lg lg:text-[18px] leading-relaxed">
+            At Singh Dental Care, we don't believe that work should be something you simply finish at the end of the day.
+
+We believe you should be able to enjoy the people you work with…</h2>
         </div>
       </div>
+
+      {/* Culture & Celebrations Section */}
+      <section className="apple-container-wide w-full relative z-10 pb-24">
+        <div className="flex flex-col gap-16 md:gap-24">
+          {/* Row 1: Diwali Celebration - Video on Left, Text on Right */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 lg:gap-16">
+            <div className="w-full max-w-[300px] sm:w-72 aspect-[9/16] rounded-[24px] overflow-hidden shadow-xl border-2 border-[#f5f5f7] bg-black shrink-0">
+              <iframe
+                src="https://www.youtube.com/embed/GDEcLegxnxY?rel=0"
+                title="Diwali Celebration Short"
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+
+            <div className="w-full md:max-w-[643px] flex flex-col justify-center text-left">
+              <h3 className="apple-title-md md:apple-title-lg text-[#1d1d1f] mb-3 font-semibold">
+                Diwali celebration
+              </h3>
+              <p className="apple-body text-[#1d1d1f] text-base md:text-lg lg:text-[18px] leading-relaxed">
+                We celebrate Diwali with people who make this place feel like home, the entire Singh Dental Care Team came together for a day of pure celebration—kicking things off with traditional decor, followed by competitive party games, impromptu dance-offs, and lots of festive treats. Here’s a peek into our office culture, where teamwork and fun go hand in hand.
+              </p>
+            </div>
+          </div>
+
+          {/* Row 2: Republic Day Celebration - Text on Left, Video on Right */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 lg:gap-16">
+            <div className="w-full md:max-w-[643px] flex flex-col justify-center text-left order-2 md:order-1">
+              <h3 className="apple-title-md md:apple-title-lg text-[#1d1d1f] mb-3 font-semibold">                  
+                Republic Day celebration                                                                                 
+              </h3> 
+              <p className="apple-body text-[#1d1d1f] text-base md:text-lg lg:text-[18px] leading-relaxed">
+                We honor the dedication that drives us forward. Our 26th January celebrations brought the whole team together in tri-color spirit—unfurling the national flag, sharing inspiring moments of teamwork, and carrying that patriotic energy straight into the care we deliver every single day.
+              </p>
+            </div>
+
+            <div className="w-full max-w-[300px] sm:w-72 aspect-[9/16] rounded-[24px] overflow-hidden shadow-xl border-2 border-[#f5f5f7] bg-black shrink-0 order-1 md:order-2">
+              <iframe
+                src="https://www.youtube.com/embed/h-zhGAL2-Rc?rel=0"
+                title="Republic Day Celebration Short"
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

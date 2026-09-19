@@ -11,9 +11,9 @@ export default function ContactUs({ isHero = false }: { isHero?: boolean }) {
           </span>
         </h3>
         <div className="flex flex-col items-start mt-6 gap-2">
-          <ChatButton text="Talk With Our Expert" link="/onboarding" />
-          <ChatButton text="Whatsapp us" link="/onboarding" />
-          <ChatButton text="Mail us" link="/onboarding" />
+          <ChatButton text="Talk With Our Expert" link="tel:+919056190567" />
+          <ChatButton text="Whatsapp us" link="https://wa.me/919056190567??text=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services." />
+          <ChatButton text="Mail us" link="mailto:it@singhdentalcare.in" />
         </div>
       </div>
       <div className="col-span-2">

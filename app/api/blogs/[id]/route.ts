@@ -1,6 +1,7 @@
 import connectDB from "@/app/lib/db";
 import Blog from "@/app/lib/models/Blog";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/app/lib/auth";
 
 function slugify(text: string) {
@@ -63,6 +64,17 @@ export async function PUT(
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
+    try {
+      revalidatePath("/sitemap.xml");
+      revalidatePath("/feed.xml");
+      revalidatePath("/blog");
+      if (blog.slug) {
+        revalidatePath(`/blog/${blog.slug}`);
+      }
+    } catch (revalidateErr) {
+      console.warn("Revalidation warning on blog update:", revalidateErr);
+    }
+
     return NextResponse.json({ message: "Blog updated successfully", blog }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
@@ -93,6 +105,17 @@ export async function DELETE(
     
     if (!blog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+    }
+
+    try {
+      revalidatePath("/sitemap.xml");
+      revalidatePath("/feed.xml");
+      revalidatePath("/blog");
+      if (blog.slug) {
+        revalidatePath(`/blog/${blog.slug}`);
+      }
+    } catch (revalidateErr) {
+      console.warn("Revalidation warning on blog delete:", revalidateErr);
     }
 
     return NextResponse.json({ message: "Blog deleted successfully" }, { status: 200 });

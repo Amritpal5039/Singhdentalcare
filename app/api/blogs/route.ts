@@ -1,6 +1,7 @@
 import connectDB from "@/app/lib/db";
 import Blog from "@/app/lib/models/Blog";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/app/lib/auth";
 
 function slugify(text: string) {
@@ -33,7 +34,19 @@ export async function POST(request: NextRequest) {
     }
 
     await connectDB();
-    const { title, content, excerpt, coverImage, coverImageAlt, cloudinaryId, author, tags, faqs } = await request.json();
+    const { 
+      title, 
+      content, 
+      excerpt, 
+      coverImage, 
+      coverImageAlt, 
+      cloudinaryId, 
+      author, 
+      authorCredentials,
+      authorSpecialty,
+      tags, 
+      faqs 
+    } = await request.json();
 
     if (!title || !content || !excerpt || !coverImage || !cloudinaryId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -55,9 +68,20 @@ export async function POST(request: NextRequest) {
       coverImageAlt: coverImageAlt || '',
       cloudinaryId,
       author: author || 'Singh Dental Care',
+      authorCredentials: authorCredentials || '',
+      authorSpecialty: authorSpecialty || '',
       tags: tags || [],
       faqs: faqs || [],
     });
+
+    try {
+      revalidatePath("/sitemap.xml");
+      revalidatePath("/feed.xml");
+      revalidatePath("/blog");
+      revalidatePath(`/blog/${slug}`);
+    } catch (revalidateErr) {
+      console.warn("Revalidation warning on blog create:", revalidateErr);
+    }
 
     return NextResponse.json({ message: "Blog created successfully", blog }, { status: 201 });
   } catch (error: any) {
@@ -91,8 +115,7 @@ export async function GET(request: NextRequest) {
     const blogs = await Blog.find(query)
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit)
-      .select("-content"); // Don't send full content for listing
+      .limit(limit);
     
     return NextResponse.json({ 
       blogs,

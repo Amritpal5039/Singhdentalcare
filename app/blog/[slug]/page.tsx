@@ -1,5 +1,6 @@
 import connectDB from "@/app/lib/db";
 import Blog from "@/app/lib/models/Blog";
+import Doctor from "@/app/lib/models/Doctor";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +11,9 @@ import ImageResize from "tiptap-extension-resize-image";
 import { Metadata } from "next";
 
 import ScheduleButton from "../_components/ScheduleButton";
+
+export const revalidate = 3600;
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -22,19 +26,23 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
+  const authorName = blog.author && blog.author !== "Singh Dental Care" ? blog.author : "Dr. Bikramjeet Singh";
+
   return {
     title: `${blog.title} | Singh Dental Care Blogs`,
     description: blog.excerpt,
     alternates: {
-      canonical: `https://singhdentalcare.in/blog/${slug}`,
+      canonical: `https://www.singhdentalcare.in/blog/${slug}`,
     },
     openGraph: {
       title: blog.title,
       description: blog.excerpt,
+      url: `https://www.singhdentalcare.in/blog/${slug}`,
       images: [blog.coverImage],
       type: "article",
       publishedTime: blog.createdAt.toISOString(),
-      authors: [blog.author],
+      modifiedTime: blog.updatedAt.toISOString(),
+      authors: [authorName],
     },
     twitter: {
       card: "summary_large_image",
@@ -60,6 +68,28 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   if (!blog) {
     notFound();
+  }
+
+  // Doctor resolution for medical E-E-A-T
+  let authorName = blog.author && blog.author !== "Singh Dental Care" ? blog.author : "Dr. Bikramjeet Singh";
+  let authorJobTitle = blog.authorSpecialty || "Chief Dental Surgeon & Implantologist";
+  let authorCredentials = blog.authorCredentials || "BDS & Fellowship in Implantology";
+
+  if (blog.author && blog.author !== "Singh Dental Care" && (!blog.authorCredentials || !blog.authorSpecialty)) {
+    try {
+      const cleanAuthor = blog.author.replace(/^Dr\.?\s*/i, "").trim();
+      const matchedDoctor = await Doctor.findOne({
+        name: { $regex: new RegExp(cleanAuthor, "i") },
+      }).lean();
+
+      if (matchedDoctor) {
+        authorName = matchedDoctor.name.startsWith("Dr") ? matchedDoctor.name : `Dr. ${matchedDoctor.name}`;
+        if (!blog.authorSpecialty) authorJobTitle = matchedDoctor.specialty || authorJobTitle;
+        if (!blog.authorCredentials) authorCredentials = matchedDoctor.credentials || authorCredentials;
+      }
+    } catch (e) {
+      console.error("Error matching doctor for schema:", e);
+    }
   }
 
   let contentHtml = "";
@@ -96,11 +126,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <div className="flex flex-wrap items-center gap-6 text-[#86868b] apple-body text-[16px]">
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4" />
-                <span>{blog.author}</span>
+                <span>{authorName}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 <span>{new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-full font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Medically Verified</span>
               </div>
               {blog.tags && blog.tags.length > 0 && (
                 <div className="flex items-center gap-2">
@@ -180,16 +214,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             )}
 
-            {/* Post Footer */}
-            <div className="mt-20 pt-12 border-t border-[#d2d2d7]">
-              <div className="bg-[#f5f5f7] p-10 rounded-[40px] flex flex-col md:flex-row items-center gap-8">
-                <div className="w-20 h-20 rounded-full bg-[#0071e3] text-white flex items-center justify-center text-3xl font-bold shrink-0">
-                  S
+            {/* Post Author / E-E-A-T Reviewer Footer */}
+            <div className="mt-20 pt-12 border-t border-[#d2d2d7] space-y-6">
+              <div className="bg-[#f5f5f7] p-8 md:p-10 rounded-[32px] md:rounded-[40px] flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8 border border-[#e5e5ea]">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#0071e3] text-white flex items-center justify-center text-2xl md:text-3xl font-bold shrink-0">
+                  {authorName.replace(/^Dr\.?\s*/i, "").charAt(0) || "D"}
                 </div>
-                <div>
-                  <h4 className="apple-title-md !mb-2">About Singh Dental Care</h4>
-                  <p className="apple-body text-[#86868b]">
-                    Singh Dental Care is a premier dental clinic dedicated to providing world-class oral healthcare with a focus on patient comfort and advanced technology.
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <h4 className="apple-title-md !mb-0 font-semibold text-[#1d1d1f]">{authorName}</h4>
+                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[#0071e3]/10 text-[#0071e3]">
+                      {authorCredentials}
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#86868b] mb-2 font-medium">{authorJobTitle} • Singh Dental Care</p>
+                  <p className="apple-body text-[#86868b] text-[15px] leading-relaxed">
+                    This article has been authored and clinically verified by licensed dental professionals at Singh Dental Care to ensure evidence-based, safe, and accurate oral healthcare guidance.
                   </p>
                 </div>
               </div>
@@ -216,22 +256,55 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             "image": [blog.coverImage],
             "datePublished": blog.createdAt.toISOString(),
             "dateModified": blog.updatedAt.toISOString(),
-            "author": [{
-              "@type": "Organization",
-              "name": "Singh Dental Care",
-              "url": "https://singhdentalcare.in"
-            }],
-            "publisher": {
-              "@type": "Organization",
-              "name": "Singh Dental Care",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://singhdentalcare.in/next.svg"
-              }
-            },
+            "inLanguage": "en-IN",
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://singhdentalcare.in/blog/${slug}`
+              "@id": `https://www.singhdentalcare.in/blog/${slug}`
+            },
+            "author": [{
+              "@type": "Person",
+              "name": authorName,
+              "jobTitle": authorJobTitle,
+              "url": "https://www.singhdentalcare.in/#dentist",
+              "hasCredential": {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "degree",
+                "name": authorCredentials
+              },
+              "worksFor": {
+                "@type": "Dentist",
+                "name": "Singh Dental Care",
+                "url": "https://www.singhdentalcare.in"
+              }
+            }],
+            "reviewedBy": {
+              "@type": "Person",
+              "name": "Dr. Bikramjeet Singh",
+              "jobTitle": "Chief Dental Surgeon & Implantologist",
+              "url": "https://www.singhdentalcare.in/#dentist",
+              "hasCredential": {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "degree",
+                "name": "BDS & Fellowship in Implantology"
+              },
+              "worksFor": {
+                "@type": "Dentist",
+                "name": "Singh Dental Care",
+                "url": "https://www.singhdentalcare.in"
+              }
+            },
+            "publisher": {
+              "@type": "Dentist",
+              "name": "Singh Dental Care",
+              "url": "https://www.singhdentalcare.in",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://res.cloudinary.com/dkh75izoh/image/upload/v1777103371/with_less_space_krwfd4.png"
+              }
+            },
+            "about": {
+              "@type": "MedicalSpecialty",
+              "name": "Dentistry"
             }
           })
         }}

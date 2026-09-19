@@ -5,6 +5,7 @@ import localFont from 'next/font/local'
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.singhdentalcare.in"),
   title: "Singh Dental Care",
   description: "Your trusted best dentist near by you. We provide a wide range of dental services, from routine check-ups to advanced procedures, ensuring your smile stays healthy and beautiful.",
   openGraph: {

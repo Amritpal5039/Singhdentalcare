@@ -1,6 +1,7 @@
 import connectDB from "@/app/lib/db";
 import Disease from "@/app/lib/models/Disease";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/app/lib/auth";
 
 function slugify(text: string) {
@@ -54,6 +55,15 @@ export async function POST(request: NextRequest) {
       slug,
       startsWithLetter,
     });
+
+    try {
+      revalidatePath("/sitemap.xml");
+      revalidatePath("/disease");
+      revalidatePath(`/disease/${slug}`);
+      revalidatePath("/");
+    } catch (revalidateErr) {
+      console.warn("Revalidation warning on disease create:", revalidateErr);
+    }
 
     return NextResponse.json({ message: "Disease created successfully", disease }, { status: 201 });
   } catch (error: any) {

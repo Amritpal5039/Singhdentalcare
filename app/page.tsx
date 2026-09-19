@@ -29,18 +29,18 @@ export const metadata: Metadata = {
     "best dental clinic in Punjab"
   ],
   alternates: {
-    canonical: "https://singhdentalcare.in",
+    canonical: "https://www.singhdentalcare.in",
   },
   openGraph: {
     title: "Singh Dental Care | Best Dentist in Amritsar, Punjab",
     description: "Singh Dental Care is the leading super-specialty dental clinic chain in Amritsar, Punjab. Find the best dentist near you for professional dental care.",
-    url: "https://singhdentalcare.in",
+    url: "https://www.singhdentalcare.in",
     siteName: "Singh Dental Care",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "https://singhdentalcare.in/smile.png",
+        url: "https://www.singhdentalcare.in/smile.png",
         width: 800,
         height: 600,
         alt: "Singh Dental Care Amritsar",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Singh Dental Care | Best Dentist in Amritsar, Punjab",
     description: "Singh Dental Care is the leading super-specialty dental clinic chain in Amritsar, Punjab. Find the best dentist near you for professional dental care.",
-    images: ["https://singhdentalcare.in/smile.png"],
+    images: ["https://www.singhdentalcare.in/smile.png"],
   },
 };
 
@@ -60,7 +60,7 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Dentist",
-      "@id": "https://singhdentalcare.in/#dentist",
+      "@id": "https://www.singhdentalcare.in/#dentist",
       "name": "Singh Dental Care",
       "alternateName": [
         "Singh dental care near me",
@@ -71,9 +71,9 @@ const jsonLd = {
         "Best dentist in Punjab",
         "professional dentist near by me"
       ],
-      "url": "https://singhdentalcare.in",
-      "logo": "https://singhdentalcare.in/smile.png",
-      "image": "https://singhdentalcare.in/smile.png",
+      "url": "https://www.singhdentalcare.in",
+      "logo": "https://www.singhdentalcare.in/smile.png",
+      "image": "https://www.singhdentalcare.in/smile.png",
       "description": "Amritsar's leading super-specialty dental chain, dedicated to providing world-class dental care by experienced specialists with complete transparency, honesty, and affordable pricing.",
       "telephone": "+91 9056190567",
       "priceRange": "$$",
@@ -96,13 +96,13 @@ const jsonLd = {
     },
     {
       "@type": "Dentist",
-      "@id": "https://singhdentalcare.in/#100feet",
+      "@id": "https://www.singhdentalcare.in/#100feet",
       "name": "Singh Dental Care - 100 Feet Road Branch",
       "parentOrganization": {
         "@type": "Dentist",
-        "@id": "https://singhdentalcare.in/#dentist"
+        "@id": "https://www.singhdentalcare.in/#dentist"
       },
-      "url": "https://singhdentalcare.in/locations",
+      "url": "https://www.singhdentalcare.in/locations",
       "telephone": "+91 9056190567",
       "priceRange": "$$",
       "image": "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778238808/Untitled-1_sbf7hz.webp",
@@ -132,13 +132,13 @@ const jsonLd = {
     },
     {
       "@type": "Dentist",
-      "@id": "https://singhdentalcare.in/#circularroad",
+      "@id": "https://www.singhdentalcare.in/#circularroad",
       "name": "Singh Dental Care - Circular Road Branch",
       "parentOrganization": {
         "@type": "Dentist",
-        "@id": "https://singhdentalcare.in/#dentist"
+        "@id": "https://www.singhdentalcare.in/#dentist"
       },
-      "url": "https://singhdentalcare.in/locations",
+      "url": "https://www.singhdentalcare.in/locations",
       "telephone": "+91 9056190567",
       "priceRange": "$$",
       "image": "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239149/l2_jusdzp.webp",
@@ -168,13 +168,13 @@ const jsonLd = {
     },
     {
       "@type": "Dentist",
-      "@id": "https://singhdentalcare.in/#khalsacollege",
+      "@id": "https://www.singhdentalcare.in/#khalsacollege",
       "name": "Singh Dental Care - Khalsa College Road Branch",
       "parentOrganization": {
         "@type": "Dentist",
-        "@id": "https://singhdentalcare.in/#dentist"
+        "@id": "https://www.singhdentalcare.in/#dentist"
       },
-      "url": "https://singhdentalcare.in/locations",
+      "url": "https://www.singhdentalcare.in/locations",
       "telephone": "+91 9056190567",
       "priceRange": "$$",
       "image": "https://res.cloudinary.com/ddrhe6ojc/image/upload/v1778239528/loc_3_lmsljy.webp",
@@ -205,7 +205,7 @@ const jsonLd = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://singhdentalcare.in/#faq",
+      "@id": "https://www.singhdentalcare.in/#faq",
       "mainEntity": [
         {
           "@type": "Question",

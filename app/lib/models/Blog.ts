@@ -14,6 +14,8 @@ export interface IBlog extends Document {
   coverImageAlt: string;
   cloudinaryId: string;
   author: string;
+  authorCredentials?: string;
+  authorSpecialty?: string;
   tags: string[];
   faqs?: IFaq[];
   createdAt: Date;
@@ -30,6 +32,8 @@ const BlogSchema: Schema = new Schema(
     coverImageAlt: { type: String, default: '' },
     cloudinaryId: { type: String, required: true },
     author: { type: String, default: 'Singh Dental Care' },
+    authorCredentials: { type: String, default: '' },
+    authorSpecialty: { type: String, default: '' },
     tags: [{ type: String }],
     faqs: {
       type: [
